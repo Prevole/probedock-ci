@@ -4,5 +4,5 @@ node {
     stage 'Checkout Probe Dock'
     checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:probedock/probedock.git']]]
     stage 'Create database'
-    sh 'docker-compose run db'
+    sh 'docker-compose -p $PROBEDOCK_ENV -f ../../workspace/${JOB_NAME}@script/docker-compose.yml run db'
 }
