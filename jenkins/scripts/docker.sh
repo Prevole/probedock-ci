@@ -9,4 +9,4 @@ export DOCKER_MACHINE_NAME="default"
 
 echo "Docker ready"
 
-/usr/local/bin/docker ps
+docker ps
