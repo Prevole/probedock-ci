@@ -3,6 +3,6 @@ node {
     sh '"../../workspace/${JOB_NAME}@script/jenkins/scripts/docker.sh"'
     stage 'Checkout Probe Dock'
     checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:probedock/probedock.git']]]
-    stage '2'
-    echo 'Hello 2'
+    stage 'Create database'
+    sh 'docker-compose run db'
 }
