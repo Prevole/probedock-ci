@@ -1,5 +1,5 @@
 node {
-    dir('"../../workspace/${JOB_NAME}@script"') {
+    dir('../../workspace/${JOB_NAME}@script') {
         stage 'Start docker'
         sh 'jenkins/scripts/docker.sh'
         stage 'Checkout Probe Dock'
