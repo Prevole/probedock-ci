@@ -1,6 +1,8 @@
+env.BASE_PATH='${WORKSPACE}'
+
 node {
     stage 'Start docker'
-    sh '$WORKSPACE/jenkins/scripts/docker.sh'
+    sh '$BASE_PATH/jenkins/scripts/docker.sh'
     stage 'Checkout Probe Dock'
     checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:probedock/probedock.git']]]
     stage '2'
