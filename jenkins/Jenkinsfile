@@ -1,4 +1,7 @@
 node {
+    env.PROBEDOCK_ENV = PROBEDOCK_ENV
+    env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
+
     dir('../../workspace/Probe Dock@script') {
         stage 'Start docker'
         sh 'jenkins/scripts/docker.sh'
