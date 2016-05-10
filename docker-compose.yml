@@ -1,10 +1,14 @@
-db:
-  image: postgres:9.4
-  volumes:
-    - "scripts/postgres-init.sh:/docker-entrypoint-initdb.d"
-    - "${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/postgresql/data:/var/lib/postgresql/data"
-  environment:
-    POSTGRES_PASSWORD:
-    PROBEDOCK_DATABASE_NAME: probedock
-    PROBEDOCK_DATABASE_USERNAME: probedock
-    PROBEDOCK_DATABASE_PASSWORD:
+version: '2'
+
+services:
+  db:
+    image: postgres:9.4
+    volumes:
+      - "scripts/postgres-init.sh:/docker-entrypoint-initdb.d"
+      - "${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/postgresql/data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD:
+      PROBEDOCK_DATABASE_NAME: probedock
+      PROBEDOCK_DATABASE_USERNAME: probedock
+      PROBEDOCK_DATABASE_PASSWORD:
+
