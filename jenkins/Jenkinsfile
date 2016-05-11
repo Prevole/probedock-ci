@@ -2,7 +2,7 @@ node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
 
-    git 'https://github.com/probedock/probedock.git'
+    git 'https://github.com/Prevole/probedock-ci'
 
     stage 'Start docker'
     sh 'jenkins/scripts/docker.sh'
