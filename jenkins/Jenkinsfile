@@ -10,7 +10,7 @@ node {
 //    stage 'Checkout Probe Dock'
 //    checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:probedock/probedock.git']]]
 
-    state 'Make sure databases are running'
+    stage 'Make sure databases are running'
     sh 'jenkins/scripts/databases.sh'
 
 }
