@@ -2,19 +2,20 @@ node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
 
-    dir('../../workspace/Probe Dock@script') {
-        stage 'Start docker'
-        sh 'jenkins/scripts/docker.sh'
-//        stage 'Checkout Probe Dock'
-//        checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:probedock/probedock.git']]]
+    git 'https://github.com/probedock/probedock.git'
 
-        stage 'Check database exists'
-        echo PROBEDOCK_DATA_PATH + '/' + PROBEDOCK_ENV + '/postgresql: ' + fileExists(PROBEDOCK_DATA_PATH + '/' + PROBEDOCK_ENV + '/postgresql')
-        if (!fileExists(PROBEDOCK_DATA_PATH + '/' + PROBEDOCK_ENV + '/postgresql')) {
-            sh 'docker-compose -p ' + PROBEDOCK_ENV + ' run db'
-        }
-        else {
-            echo 'The database already exists.'
-        }
+    stage 'Start docker'
+    sh 'jenkins/scripts/docker.sh'
+
+//    stage 'Checkout Probe Dock'
+//    checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:probedock/probedock.git']]]
+
+    stage 'Check database exists'
+    echo PROBEDOCK_DATA_PATH + '/' + PROBEDOCK_ENV + '/postgresql: ' + fileExists(PROBEDOCK_DATA_PATH + '/' + PROBEDOCK_ENV + '/postgresql')
+    if (!fileExists(PROBEDOCK_DATA_PATH + '/' + PROBEDOCK_ENV + '/postgresql')) {
+        sh 'docker-compose -p ' + PROBEDOCK_ENV + ' run db'
+    }
+    else {
+        echo 'The database already exists.'
     }
 }

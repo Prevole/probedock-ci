@@ -6,8 +6,9 @@ USER root
 
 RUN apt-get update ; apt-get install docker.io -y \
     && curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose \
-    && chmod +x /usr/local/bin/docker-compose \
-    && gpasswd -a jenkins users
+    && chmod +x /usr/local/bin/docker-compose
+
+RUN usermod -u 2000 jenkins
 
 USER jenkins
 

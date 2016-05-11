@@ -32,7 +32,3 @@ For simplicity, no password was given
 `cat /Users/Shared/Jenkins/.ssh/id_rsa.pub`
 
 5. Go to GitHub and add the public key as a deploy key
-
-## Make sure the jenkins user is in the same group as Docker (gid on host and container should be the same)
-
-`gpasswd -a jenkins users`
