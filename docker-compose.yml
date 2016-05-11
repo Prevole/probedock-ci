@@ -12,3 +12,8 @@ services:
       PROBEDOCK_DATABASE_USERNAME: probedock
       PROBEDOCK_DATABASE_PASSWORD:
 
+  cache:
+    image: redis:2.8
+    command: redis-server --appendonly yes
+    volumes:
+      - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/redis/data:/data"
