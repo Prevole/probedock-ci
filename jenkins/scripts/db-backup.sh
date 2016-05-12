@@ -18,6 +18,6 @@ if [ -f /var/lib/$PROBEDOCK_ENV/current/docker-compose.yml ]; then
     set -x
 
     echo "Dumping user registration data to /var/lib/probedock-trial/backup/probedock_trial_${DATE}_registrations.json.gz..."
-    sudo docker-compose -p probedocktrial run --rm task rake registrations:dump | gzip > /var/lib/probedock-trial/backup/probedock_trial_${DATE}_registrations.json.gz || exit 2
+    docker-compose -p probedocktrial run --rm task rake registrations:dump | gzip > /var/lib/probedock-trial/backup/probedock_trial_${DATE}_registrations.json.gz || exit 2
   fi
 fi

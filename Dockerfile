@@ -18,7 +18,8 @@ RUN echo 2.0 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
 
 COPY jobs /usr/share/jenkins/ref/jobs/
 
-RUN usermod -u 2000 jenkins
+RUN usermod -u 2000 jenkins \
+    && gpasswd -a jenkins users
 
 USER jenkins
 
