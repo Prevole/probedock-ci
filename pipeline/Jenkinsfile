@@ -7,6 +7,7 @@ node {
     env.PROBEDOCK_DATE = readFile 'date'
 
     git 'https://github.com/Prevole/probedock-ci'
+    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock'], [$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[]]]
 
     stage 'Start docker'
     sh 'pipeline/scripts/docker.sh'
@@ -14,6 +15,9 @@ node {
     stage 'Start PostgresSQL and Redis'
     sh 'pipeline/scripts/postgres.sh'
     sh 'pipeline/scripts/redis.sh'
+
+    stage 'Building task image'
+    sh 'docker-compose build task'
 
     stage 'Backup the PostgresSQL database'
     sh 'pipeline/scripts/postgres-backup.sh'
