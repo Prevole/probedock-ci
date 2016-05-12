@@ -22,5 +22,12 @@ services:
     networks:
       - probenet
 
+  wait-db:
+    image: aanand/wait
+    networks:
+      - probenet
+    links:
+      - db:db
+
 networks:
   probenet:
