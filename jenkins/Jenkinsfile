@@ -11,6 +11,8 @@ node {
 //    checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:probedock/probedock.git']]]
 
     stage 'Make sure databases are running'
-    sh 'jenkins/scripts/databases.sh'
-
+//    sh 'jenkins/scripts/databases.sh'
+    sh 'sudo -E docker-compose -p $PROBEDOCK_ENV up --no-recreate -d db'
+    sh 'FIRST_CONTAINER=$(sudo -E docker-compose -p $PROBEDOCK_ENV ps -q db | head -n 1)'
+    sh 'sudo -E docker-compose -p $PROBEDOCK_ENV run waitdb'
 }
