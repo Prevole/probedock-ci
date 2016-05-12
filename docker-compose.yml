@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:9.4
     volumes:
-      - ./scripts/postgres-init.sh:/docker-entrypoint-initdb.d
+      - ./pipeline/docker/scripts/postgres-init.sh:/docker-entrypoint-initdb.d
       - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/postgresql/data:/var/lib/postgresql/data
     networks:
       - probenet
