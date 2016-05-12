@@ -45,7 +45,7 @@
                 <hudson.plugins.git.extensions.impl.WipeWorkspace/>
             </extensions>
         </scm>
-        <scriptPath>jenkins/Jenkinsfile</scriptPath>
+        <scriptPath>pipeline/Jenkinsfile</scriptPath>
     </definition>
     <triggers/>
 </flow-definition>
