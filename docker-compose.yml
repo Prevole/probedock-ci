@@ -23,16 +23,18 @@ services:
       - probenet
 
   waitdb:
-    image: aanand/wait
+    image: probedock/jenkins
     networks:
       - probenet
+    entrypoint: ./wait-for-it.sh db:5432
     links:
       - db:db
 
   waitcache:
-    image: aanand/wait
+    image: probedock/jenkins
     networks:
       - probenet
+    entrypoint: ./wait-for-it.sh cache:6379
     links:
       - cache:cache
 
