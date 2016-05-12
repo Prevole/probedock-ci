@@ -1,6 +1,21 @@
 version: '2'
 
 services:
+  bakdb:
+    image: postgres:9.4
+    volumes:
+      - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/backups/postgresql:/backups
+    networks:
+      - probenet
+    links:
+      - db:db
+    environment:
+      POSTGRES_PASSWORD:
+      PROBEDOCK_DATABASE_NAME: probedock
+      PROBEDOCK_DATABASE_USERNAME: probedock
+      PROBEDOCK_DATABASE_PASSWORD:
+    entrypoint: sh -c 'exec pg_dump -h db -p 5432 -U postgres probedock' | gzip > /backups/postgres/${PROBEDOCK_ENV}_${PROBEDOCK_DATE}_db.sql.gz || exit 1
+
   db:
     image: postgres:9.4
     volumes:
