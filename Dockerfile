@@ -14,6 +14,8 @@ COPY plugins.txt /usr/share/jenkins/plugins.txt
 
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
+RUN echo 2.0 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
+
 COPY jobs /usr/share/jenkins/ref/jobs/
 
 RUN usermod -u 2000 jenkins
