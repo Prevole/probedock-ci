@@ -29,5 +29,12 @@ services:
     links:
       - db:db
 
+  waitcache:
+    image: aanand/wait
+    networks:
+      - probenet
+    links:
+      - cache:cache
+
 networks:
   probenet:
