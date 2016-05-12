@@ -22,7 +22,7 @@ services:
     networks:
       - probenet
 
-  wait-db:
+  waitdb:
     image: aanand/wait
     networks:
       - probenet
