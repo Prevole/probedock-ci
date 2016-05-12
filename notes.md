@@ -32,3 +32,24 @@ For simplicity, no password was given
 `cat /Users/Shared/Jenkins/.ssh/id_rsa.pub`
 
 5. Go to GitHub and add the public key as a deploy key
+
+## Add the user and group jenkins on boot2docker VM (after each reboot)
+
+```
+sudo addgroup -g 1000 jenkins
+sudo adduser -G jenkins -D -H -u 2000 jenkins
+```
+
+And create the jenkins directory
+
+```
+sudo mkdir /jenkins
+sudo chown jenkins:jenkins /jenkins
+```
+
+## Get the list of plugins with the versions to update the plugins.txt
+
+```
+JENKINS_HOST=host:port
+curl -sSL "http://$JENKINS_HOST/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/version&wrapper=plugins" | perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/'
+```

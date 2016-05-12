@@ -14,10 +14,10 @@ if [ -f /var/lib/$PROBEDOCK_ENV/current/docker-compose.yml ]; then
 
     echo "Dumping database to /var/lib/probedock-trial/backup/probedock_trial_${DATE}_db.sql.gz..."
     set +x
-    docker run --rm --link $FIRST_DB_CONTAINER:postgres -e "PGPASSWORD=$POSTGRES_PASSWORD" "$DB_IMAGE" sh -c 'exec pg_dump -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U postgres probedock' | gzip > /var/lib/probedock-trial/backup/probedock_trial_${DATE}_db.sql.gz || exit 1
+    sudo docker run --rm --link $FIRST_DB_CONTAINER:postgres -e "PGPASSWORD=$POSTGRES_PASSWORD" "$DB_IMAGE" sh -c 'exec pg_dump -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U postgres probedock' | gzip > /var/lib/probedock-trial/backup/probedock_trial_${DATE}_db.sql.gz || exit 1
     set -x
 
     echo "Dumping user registration data to /var/lib/probedock-trial/backup/probedock_trial_${DATE}_registrations.json.gz..."
-    docker-compose -p probedocktrial run --rm task rake registrations:dump | gzip > /var/lib/probedock-trial/backup/probedock_trial_${DATE}_registrations.json.gz || exit 2
+    sudo docker-compose -p probedocktrial run --rm task rake registrations:dump | gzip > /var/lib/probedock-trial/backup/probedock_trial_${DATE}_registrations.json.gz || exit 2
   fi
 fi

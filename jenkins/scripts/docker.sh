@@ -9,4 +9,4 @@ echo "Docker environment setup"
 
 echo "Docker ready"
 
-docker ps
+sudo docker ps
