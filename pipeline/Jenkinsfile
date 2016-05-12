@@ -5,11 +5,11 @@ node {
     git 'https://github.com/Prevole/probedock-ci'
 
     stage 'Start docker'
-    sh 'jenkins/scripts/docker.sh'
+    sh 'pipeline/scripts/docker.sh'
 
 //    stage 'Checkout Probe Dock'
 //    checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock']], submoduleCfg: [], userRemoteConfigs: [[url: 'git@github.com:probedock/probedock.git']]]
 
     stage 'Make sure databases are running'
-    sh 'jenkins/scripts/databases.sh'
+    sh 'pipeline/scripts/databases.sh'
 }
