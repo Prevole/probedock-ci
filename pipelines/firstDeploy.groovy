@@ -8,7 +8,6 @@ import org.jenkinsci.plugins.plaincredentials.*
 import org.jenkinsci.plugins.plaincredentials.impl.*
 import hudson.util.Secret
 import hudson.plugins.sshslaves.*
-import java.util.ArrayList
 
 node {
     domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', new ArrayList<DomainSpecification>())
