@@ -11,6 +11,7 @@ import hudson.plugins.sshslaves.*
 
 node {
     domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.')
+    store.addDomain(domain)
     store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
 
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
