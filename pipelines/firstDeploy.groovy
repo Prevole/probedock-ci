@@ -27,6 +27,7 @@ node {
     store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
     //store.addDomain(domain)
     storePassword('postgresroot', env.POSTGRESQL_ROOT_PASSWORD, 'The password for the PostgreSQL root user.')
+    store = null
 
     stage 'Build Probe Dock docker image'
     sh 'pipelines/scripts/probedock-docker-image.sh'
