@@ -12,7 +12,8 @@ import java.util.Collections
 
 node {
     domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
-    store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
+    stores = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')
+    store = stores[0].getStore()
     store.addDomain(domain)
 
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
