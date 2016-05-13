@@ -40,7 +40,7 @@ services:
   task:
     image: probedock/probedock
     networks:
-      -probenet
+      - probenet
 
   waitdb:
     image: probedock/jenkins
