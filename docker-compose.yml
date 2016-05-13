@@ -24,7 +24,7 @@ services:
     image: postgres:9.5.2
     extends:
       service: _common
-    container_name: db
+    container_name: ${PROBEDOCK_ENV}_db
     volumes:
       - ./pipeline/docker/scripts/postgres-init.sh:/docker-entrypoint-initdb.d
       - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/postgresql/data:/var/lib/postgresql/data
@@ -33,7 +33,7 @@ services:
 
   cache:
     image: redis:3.2.0
-    container_name: cache
+    container_name: ${PROBEDOCK_ENV}_cache
     command: redis-server --appendonly yes
     volumes:
       - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/redis/data:/data
@@ -51,13 +51,13 @@ services:
     image: probedock/jenkins
     networks:
       - probenet
-    entrypoint: ./wait-for-it.sh db:5432
+    entrypoint: ./wait-for-it.sh ${PROBEDOCK_ENV}_db:5432
 
   waitcache:
     image: probedock/jenkins
     networks:
       - probenet
-    entrypoint: ./wait-for-it.sh cache:6379
+    entrypoint: ./wait-for-it.sh ${PROBEDOCK_ENV}_cache:6379
 
 networks:
   probenet:
