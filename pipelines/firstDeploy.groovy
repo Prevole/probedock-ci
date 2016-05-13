@@ -26,7 +26,7 @@ node {
     domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
     store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
     //store.addDomain(domain)
-    storePassword('postgresroot', POSTGRESQL_ROOT_PASSWORD, 'The password for the PostgreSQL root user.')
+    storePassword('postgresroot', env.POSTGRESQL_ROOT_PASSWORD, 'The password for the PostgreSQL root user.')
 
     stage 'Build Probe Dock docker image'
     sh 'pipelines/scripts/probedock-docker-image.sh'
