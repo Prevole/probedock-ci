@@ -55,5 +55,5 @@ def storePassword(name, description, password) {
         Secret.fromString(password)
     )
 
-    store.addCredentials(domain, secretText)
+    //store.addCredentials(domain, secretText)
 }
