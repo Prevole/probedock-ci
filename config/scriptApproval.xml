@@ -2,6 +2,7 @@
 <scriptApproval plugin="script-security@1.19">
     <approvedScriptHashes/>
     <approvedSignatures>
+        <string>new com.cloudbees.plugins.credentials.domains.Domain java.lang.String java.lang.String java.util.List</string>
         <string>staticMethod java.util.Collections emptyList</string>
     </approvedSignatures>
     <aclApprovedSignatures/>
