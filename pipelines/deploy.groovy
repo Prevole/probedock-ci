@@ -16,9 +16,6 @@ node {
     sh 'pipeline/scripts/postgres.sh'
     sh 'pipeline/scripts/redis.sh'
 
-    stage 'Building task image'
-    sh 'docker-compose build task'
-
     stage 'Backup the PostgresSQL database'
     sh 'pipeline/scripts/postgres-backup.sh'
 
