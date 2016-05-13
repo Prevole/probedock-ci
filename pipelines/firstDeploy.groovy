@@ -9,6 +9,9 @@ node {
     git 'https://github.com/Prevole/probedock-ci'
     checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/probedock/probedock.git']]]
 
+    stage 'Definition of few passwords'
+    input message: 'Set the password for the PostgreSQL root user', parameters: [[$class: 'StringParameterDefinition', defaultValue: '', description: '', name: 'POSTGRESQL_ROOT_PASSWORD']]
+
     stage 'Build Probe Dock docker image'
     sh 'pipelines/scripts/probedock-docker-image.sh'
 
