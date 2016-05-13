@@ -2,6 +2,7 @@ version: '2'
 
 services:
   _common:
+    image: jenkinsci/jenkins:2.3
     environment:
       POSTGRES_PASSWORD:
       PROBEDOCK_DATABASE_NAME: probedock
