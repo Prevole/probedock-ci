@@ -44,12 +44,12 @@ node {
     /**
      * Define the password names
      */
-    def POSTGRESSQL_PASSWORD_NAME = env.PROBEDOCK_ENV = '-PostgreSQLRoot'
+    POSTGRESSQL_PASSWORD_NAME = env.PROBEDOCK_ENV = '-PostgreSQLRoot'
 
     /**
      * Define the password names in Docker Compose env vars
      */
-    def DOCKER_POSTGRESQL_PASSWORD = 'POSTGRES_PASSWORD'
+    DOCKER_POSTGRESQL_PASSWORD = 'POSTGRES_PASSWORD'
 
     sh "echo -n \$(date '+%Y_%m_%d_%H_%M_%S') > date"
 
