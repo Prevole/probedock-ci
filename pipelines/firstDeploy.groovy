@@ -46,9 +46,13 @@ node {
 
     def passwordParameters = []
 
-    passwordDefinitions.collect(passwordDefinitions) {
-        [ $class: 'StringParameterDefinition', defaultValue: '', description: it.description, name: it.name ]
+    passwordDefinitions.collect(passwordParameters) {
+        test = [ $class: 'StringParameterDefinition', defaultValue: '', description: it.description, name: it.name ]
+        echo test
+        test
     }
+
+    echo passwordParameters
 
     // Ask the user for initial passwords
     passwords = input message: 'Define passwords', parameters: passwordParameters
