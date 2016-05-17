@@ -140,7 +140,6 @@ node {
 
     stage 'Start PostgresSQL'
     withCredentials([[$class: 'StringBinding', credentialsId: POSTGRESSQL_PASSWORD_NAME, variable: DOCKER_POSTGRESQL_PASSWORD]]) {
-        println POSTGRES_PASSWORD
         println env.POSTGRES_PASSWORD
         sh 'pipelines/scripts/postgres.sh'
     }
