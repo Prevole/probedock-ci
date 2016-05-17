@@ -50,8 +50,10 @@ node {
         [ $class: 'StringParameterDefinition', defaultValue: '', description: it.description, name: it.name ]
     }
 
+    println(passwordParameters)
+
     // Ask the user for initial passwords
-    passwords = input message: 'Define passwords', parameters: passwordParameters
+    def passwords = input message: 'Define passwords', parameters: passwordParameters
 
     // Store each passwords
 //    passwordDefinitions.each {
