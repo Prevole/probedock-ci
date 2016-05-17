@@ -40,7 +40,8 @@ def strGenerator(String alphabet, int n) {
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
-    env.WORKSPACE = pwd()
+
+    def DOCKER_VOLUME = pwd().replaceAll('.*' + env.JOB_NAME, env.JOB_NAME)
 
     println 'Current working directory: ' + env.WORKSPACE
 

@@ -29,7 +29,7 @@ services:
       PROBEDOCK_UNICORN_USER: root
       PROBEDOCK_UNICORN_WORKERS:
 
-  bakdb:
+  bakDb:
     image: postgres:9.5.2
     extends:
       service: _common
@@ -45,7 +45,7 @@ services:
       service: _common
     container_name: ${PROBEDOCK_ENV}_db
     volumes:
-      - ${WORKSPACE}/pipelines/docker/scripts/postgres:/docker-entrypoint-initdb.d
+      - ./pipelines/docker/scripts/postgres:/docker-entrypoint-initdb.d
       - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/postgresql/data:/var/lib/postgresql/data
     networks:
       - probenet
@@ -59,6 +59,23 @@ services:
     networks:
       - probenet
 
+  jenkins:
+    image: probedock/jenkins
+    container_name: jenkins
+    volumes_from:
+      - jenkinsData
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8080:8080
+
+  jenkinsData:
+    image: probedock/jenkins
+    container_name: jenkins_data
+    entrypoint: /bin/bash
+    volumes:
+      - /jenkins:/var/jenkins_home
+
   task:
     image: probedock/probedock
     extends:
@@ -66,13 +83,13 @@ services:
     networks:
       - probenet
 
-  waitdb:
+  waitDb:
     image: probedock/jenkins
     networks:
       - probenet
     entrypoint: ./wait-for-it.sh ${PROBEDOCK_ENV}_db:5432
 
-  waitcache:
+  waitCache:
     image: probedock/jenkins
     networks:
       - probenet
