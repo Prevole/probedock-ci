@@ -24,7 +24,7 @@ def join = { List lst ->
 /**
  * Generate a random string base on an alphabet and the number wanted
  */
-def strGenerator = { String alphabet, int n ->
+def strGenerator(String alphabet, int n) {
     def rnd = new Random()
     def sb = new StringBuilder()
 
