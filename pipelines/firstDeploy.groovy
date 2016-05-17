@@ -45,6 +45,7 @@ node {
     passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.'])
 
     println(passwordDefinitions)
+    println(passwordDefinitions.size())
 
     def passwordParameters = []
 
@@ -54,6 +55,7 @@ node {
     }
 
     println(passwordParameters)
+    println(passwordParameters.size())
 
     // Ask the user for initial passwords
     def passwords = input message: 'Define passwords', parameters: passwordParameters
