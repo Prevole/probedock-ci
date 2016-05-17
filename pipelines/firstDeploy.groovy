@@ -50,20 +50,20 @@ node {
     stage 'Setup Probe Dock passwords'
 
     // Definitions
-    def passwordAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
-    def keysAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
-    def passwordLength = 32
-    def keysLength = 128
+//    def passwordAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
+//    def keysAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
+//    def passwordLength = 32
+//    def keysLength = 128
 
     // Retrieve the store
     def passwordDefinitions = [
-        [name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
-        [name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
-        [name: env.PROBEDOCK_ENV + '-SecretKeyBase', description: 'The secret key base', default: strGenerator(keysAlphabet, keysLength)],
-        [name: env.PROBEDOCK_ENV + '-JWTSecret', description: 'The JWT secret', default: strGenerator(keysAlphabet, keysLength)],
-        [name: env.PROBEDOCK_ENV + '-ProbeDockSmtpUser', description: 'The SMTP user used to send emails from Probe Dock', default: ''],
-        [name: env.PROBEDOCK_ENV + '-ProbeDockSmtpPassword', description: 'The SMTP password', default: ''],
-        [name: env.PROBEDOCK_ENV + '-ProbeDockAdminPassword', description: 'The Probe Dock admin password', default: strGenerator(passwordAlphabet, passwordLength)]
+//        [name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
+//        [name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
+//        [name: env.PROBEDOCK_ENV + '-SecretKeyBase', description: 'The secret key base', default: strGenerator(keysAlphabet, keysLength)],
+//        [name: env.PROBEDOCK_ENV + '-JWTSecret', description: 'The JWT secret', default: strGenerator(keysAlphabet, keysLength)],
+//        [name: env.PROBEDOCK_ENV + '-ProbeDockSmtpUser', description: 'The SMTP user used to send emails from Probe Dock', default: ''],
+//        [name: env.PROBEDOCK_ENV + '-ProbeDockSmtpPassword', description: 'The SMTP password', default: ''],
+//        [name: env.PROBEDOCK_ENV + '-ProbeDockAdminPassword', description: 'The Probe Dock admin password', default: strGenerator(passwordAlphabet, passwordLength)]
     ]
 
     def passwordParameters = []
