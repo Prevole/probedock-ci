@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set +x
+
 echo $POSTGRES_PASSWORD
 
 # Make sure PostgreSQL is running
