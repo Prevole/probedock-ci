@@ -30,28 +30,28 @@ node {
     stage 'Definition of few passwords'
 
     // Retrieve the store
-    def store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
+    store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
 
     // Keep these lines of code to replace the global storage of password by dedicated storage by environment
     // domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
     // store.addDomain(domain)
 
     // Replace this line by the two above once the Groovy sandboxing will allow to use SystemCredentialsProvider$StoreImpl.addDomain
-    def domain = Domain.global()
+    domain = Domain.global()
 
-    def passwordDefinitions = []
+    passwordDefinitions = []
 
     passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL'])
     passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.'])
 
-    def passwordParameters = []
+    passwordParameters = []
 
     passwordDefinitions.collect(passwordDefinitions) {
         [ $class: 'StringParameterDefinition', defaultValue: '', description: it.description, name: it.name ]
     }
 
     // Ask the user for initial passwords
-    def passwords = input message: 'Define passwords', parameters: passwordParameters
+    passwords = input message: 'Define passwords', parameters: passwordParameters
 
     // Store each passwords
     passwordDefinitions.each {
