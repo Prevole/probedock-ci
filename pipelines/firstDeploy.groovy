@@ -149,5 +149,9 @@ node {
     }
 
     stage 'Create the database'
-    sh 'pipelines/scripts/probedock-create-database.sh'
+    withCredentials([
+        [$class: 'StringBinding', credentialsId: PROBEDOCK_DB_PASSWORD_NAME, variable: DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
+    ]) {
+        sh 'pipelines/scripts/probedock-create-database.sh'
+    }
 }
