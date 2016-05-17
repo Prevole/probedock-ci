@@ -135,9 +135,6 @@ node {
     store = null
     domain = null
 
-    stage 'Build Probe Dock docker image'
-    sh 'pipelines/scripts/probedock-docker-image.sh'
-
     stage 'Start PostgresSQL'
     withCredentials([
         [$class: 'StringBinding', credentialsId: POSTGRESSQL_PASSWORD_NAME, variable: DOCKER_POSTGRESQL_PASSWORD_VARNAME],
@@ -145,6 +142,9 @@ node {
     ]) {
         sh 'pipelines/scripts/postgres.sh'
     }
+
+    stage 'Build Probe Dock docker image'
+    sh 'pipelines/scripts/probedock-docker-image.sh'
 
     stage 'Create the database'
     withCredentials([
