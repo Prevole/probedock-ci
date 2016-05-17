@@ -42,6 +42,8 @@ node {
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
     env.WORKSPACE = pwd()
 
+    println 'Current working directory: ' + env.WORKSPACE
+
     /**
      * Define the password names
      */
