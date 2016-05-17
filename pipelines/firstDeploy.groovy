@@ -15,8 +15,8 @@ import java.util.Collections
  */
 def join = { List lst ->
     def sb = new StringBuilder()
-    for (int i = 0; i < lst.size(); i++) {
-        sb.append(lst[i])
+    for (Object o : lst) {
+        sb.append(o)
     }
     return sb.toString()
 }
