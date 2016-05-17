@@ -29,21 +29,40 @@ node {
      */
     stage 'Setup Probe Dock passwords'
 
+    // Definitions
+    def passwordAlphabet = (('A'..'Z')+('a'..'z')+('0'..'9')).join()
+    def keysAlphabet = (('A'..'Z')+('a'..'z')+('0'..'9')).join()
+    def passwordLength = 32
+    def keysLength = 128
+
     // Retrieve the store
     def passwordDefinitions = [
-        [name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL'],
-        [name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.']
+        [name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
+        [name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
+        [name: env.PROBEDOCK_ENV + '-SecretKeyBase', description: 'The secret key base', default: strGenerator(keysAlphabet, keysLength)],
+        [name: env.PROBEDOCK_ENV + '-JWTSecret', description: 'The JWT secret', default: strGenerator(keysAlphabet, keysLength)],
+        [name: env.PROBEDOCK_ENV + '-ProbeDockSmtpUser', description: 'The SMTP user used to send emails from Probe Dock', default: ''],
+        [name: env.PROBEDOCK_ENV + '-ProbeDockSmtpPassword', description: 'The SMTP password', default: ''],
+        [name: env.PROBEDOCK_ENV + '-ProbeDockAdminPassword', description: 'The Probe Dock admin password', default: strGenerator(passwordAlphabet, passwordLength)]
     ]
 
     def passwordParameters = []
 
     // WORKAROUND: Seems the pipeline plugin is buggy with .each, ... See: https://issues.jenkins-ci.org/browse/JENKINS-26481
     for (int i = 0; i < passwordDefinitions.size(); i++) {
-        passwordParameters.add([ $class: 'StringParameterDefinition', defaultValue: '', description: passwordDefinitions[i].description, name: passwordDefinitions[i].name ])
+        passwordParameters.add([
+            $class: 'StringParameterDefinition',
+            defaultValue: passwordDefinitions[i].default,
+            description: passwordDefinitions[i].description,
+            name: passwordDefinitions[i].name
+        ])
     }
 
     // Ask the user for initial passwords
-    def passwords = input message: 'Define passwords', parameters: passwordParameters
+    def passwords = input(
+        message: '<p>Define passwords.</p><p><strong style="color: red; font-size: 2em;">Attention: You MUST store the credentials information in a secure way.</strong></p>',
+        parameters: passwordParameters
+    )
 
     /**
      * The storage of the password must be done after the passwords input retrieval to avoid serialization issue. In fact,
@@ -91,9 +110,11 @@ def StringCredentialsImpl createPassword(name, description, password) {
     return
 }
 
-@com.cloudbees.groovy.cps.NonCPS
-def foo1() {
-    [1, 2, 3].each {
-        println it
+/**
+ * Generate a random string base on an alphabet and the number wanted
+ */
+def strGenerator = { String alphabet, int n ->
+    new Random().with {
+        (1..n).collect { alphabet[ nextInt( alphabet.length() ) ] }.join()
     }
 }
