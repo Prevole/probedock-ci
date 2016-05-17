@@ -71,6 +71,8 @@ node {
     def passwordLength = 32
     def keysLength = 128
 
+    println POSTGRESSQL_PASSWORD_NAME
+
     // Retrieve the store
     def passwordDefinitions = [
         [name: POSTGRESSQL_PASSWORD_NAME, description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
@@ -115,6 +117,7 @@ node {
 
     // Store each passwords
     for (int i = 0; i < passwordDefinitions.size(); i++) {
+        println passwordDefinitions[i]
         def result = store.addCredentials(
             domain,
             new StringCredentialsImpl(CredentialsScope.GLOBAL, passwordDefinitions[i].name, passwordDefinitions[i].description, Secret.fromString(passwords[passwordDefinitions[i].name]))
