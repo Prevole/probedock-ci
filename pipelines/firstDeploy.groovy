@@ -45,11 +45,13 @@ node {
      * Define the password names
      */
     def POSTGRESSQL_PASSWORD_NAME = env.PROBEDOCK_ENV + '-PostgreSQLRoot'
+    def PROBEDOCK_DB_PASSWORD_NAME = env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL'
 
     /**
      * Define the password names in Docker Compose env vars
      */
-    def DOCKER_POSTGRESQL_PASSWORD = 'POSTGRES_PASSWORD'
+    def DOCKER_POSTGRESQL_PASSWORD_VARNAME = 'POSTGRES_PASSWORD'
+    def DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME = 'PROBEDOCK_DATABASE_PASSWORD'
 
     sh "echo -n \$(date '+%Y_%m_%d_%H_%M_%S') > date"
 
@@ -76,7 +78,7 @@ node {
     // Retrieve the store
     def passwordDefinitions = [
         [name: POSTGRESSQL_PASSWORD_NAME, description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
-        [name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
+        [name: PROBEDOCK_DB_PASSWORD_NAME, description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
         [name: env.PROBEDOCK_ENV + '-SecretKeyBase', description: 'The secret key base', default: strGenerator(keysAlphabet, keysLength)],
         [name: env.PROBEDOCK_ENV + '-JWTSecret', description: 'The JWT secret', default: strGenerator(keysAlphabet, keysLength)],
         [name: env.PROBEDOCK_ENV + '-ProbeDockSmtpUser', description: 'The SMTP user used to send emails from Probe Dock', default: ''],
@@ -139,7 +141,10 @@ node {
     sh 'pipelines/scripts/probedock-docker-image.sh'
 
     stage 'Start PostgresSQL'
-    withCredentials([[$class: 'StringBinding', credentialsId: POSTGRESSQL_PASSWORD_NAME, variable: DOCKER_POSTGRESQL_PASSWORD]]) {
+    withCredentials([
+        [$class: 'StringBinding', credentialsId: POSTGRESSQL_PASSWORD_NAME, variable: DOCKER_POSTGRESQL_PASSWORD_VARNAME],
+        [$class: 'StringBinding', credentialsId: PROBEDOCK_DB_PASSWORD_NAME, variable: DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
+    ]) {
         sh 'pipelines/scripts/postgres.sh'
     }
 
