@@ -30,8 +30,8 @@ node {
     stage 'Setup Probe Dock passwords'
 
     // Definitions
-    def passwordAlphabet = (('A'..'Z')+('a'..'z')+('0'..'9')).join()
-    def keysAlphabet = (('A'..'Z')+('a'..'z')+('0'..'9')).join()
+    def passwordAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
+    def keysAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
     def passwordLength = 32
     def keysLength = 128
 
@@ -111,10 +111,21 @@ def StringCredentialsImpl createPassword(name, description, password) {
 }
 
 /**
+ * Workaround join method to avoid rejection exception of unclassified method java.util.ArrayList join
+ */
+def join = { List lst ->
+    def str = ''
+    for (int i = 0; i < lst.size(); i++) {
+        str += lst[i]
+    }
+    return str
+}
+
+/**
  * Generate a random string base on an alphabet and the number wanted
  */
 def strGenerator = { String alphabet, int n ->
     new Random().with {
-        (1..n).collect { alphabet[ nextInt( alphabet.length() ) ] }.join()
+        join((1..n).collect { alphabet[ nextInt( alphabet.length() ) ] })
     }
 }
