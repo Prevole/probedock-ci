@@ -104,7 +104,7 @@ node {
 
     // Store each passwords
     for (int i = 0; i < passwordDefinitions.size(); i++) {
-        store.addCredentials(
+        println store.addCredentials(
             domain,
             new StringCredentialsImpl(CredentialsScope.GLOBAL, passwordDefinitions[i].name, passwordDefinitions[i].description, Secret.fromString(passwords[passwordDefinitions[i].name]))
         )
