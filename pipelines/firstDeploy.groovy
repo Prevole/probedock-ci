@@ -10,6 +10,7 @@ import hudson.util.Secret
 import hudson.plugins.sshslaves.*
 import java.util.Collections
 
+//noinspection GroovyAssignabilityCheck
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
@@ -21,24 +22,46 @@ node {
     git 'https://github.com/Prevole/probedock-ci'
     checkout poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/probedock/probedock.git']]]
 
+    /**
+     * This step will ask the Probe Dock deploy for several passwords that will be used to setup the database and such things.
+     *
+     * All the passwords will be stored through the Credentials plugin in a secure way.
+     */
     stage 'Definition of few passwords'
-    input message: 'Set the password for the PostgreSQL root user', parameters: [[$class: 'StringParameterDefinition', defaultValue: '', description: '', name: 'POSTGRESQL_ROOT_PASSWORD']]
-    echo POSTGRESQL_ROOT_PASSWORD
-    echo env.POSTGRESQL_ROOT_PASSWORD
 
-    store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
+    // Retrieve the store
+    def store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
 
     // Keep these lines of code to replace the global storage of password by dedicated storage by environment
     // domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
     // store.addDomain(domain)
 
-    domain = Domain.global()
+    // Replace this line by the two above once the Groovy sandboxing will allow to use SystemCredentialsProvider$StoreImpl.addDomain
+    def domain = Domain.global()
 
-    store.addCredentials(domain, createPassword("postgresqlroot", "The password for the PostgreSQL root user.", env.POSTGRESQL_ROOT_PASSWORD))
+    def passwordDefinitions = []
 
-    // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
-    store = null
-    domain = null
+    passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL'])
+    passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.'])
+
+    def passwordParameters = passwordDefinitions.collect {
+        [ $class: 'StringParameterDefinition', defaultValue: '', description: it.description, name: it.name ]
+    }
+
+    // Ask the user for initial passwords
+    def passwords = input message: 'Set the password for the PostgreSQL root user', parameters: passwordParameters
+
+    // Store each passwords
+    passwordDefinitions.each {
+        store.addCredentials(
+            domain,
+            new StringCredentialsImpl(CredentialsScope.GLOBAL, it.name, it.description, Secret.fromString(passwords[it.name]))
+        )
+    }
+
+//    // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
+//    store = null
+//    domain = null
 
     stage 'Build Probe Dock docker image'
     sh 'pipelines/scripts/probedock-docker-image.sh'
@@ -51,12 +74,12 @@ node {
 }
 
 /**
- * Store a password in the domain corresponding of the Probe Dock environment
+ * Create a text password
  *
  * @param name The name of the password
  * @param description The description of the password
  * @param password The password to cipher and store
  */
 def StringCredentialsImpl createPassword(name, description, password) {
-    return new StringCredentialsImpl(CredentialsScope.GLOBAL, name, description, Secret.fromString(password))
+    return
 }
