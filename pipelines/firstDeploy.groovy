@@ -61,9 +61,9 @@ node {
         )
     }
 
-//    // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
-//    store = null
-//    domain = null
+    // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
+    store = null
+    domain = null
 
     stage 'Build Probe Dock docker image'
     sh 'pipelines/scripts/probedock-docker-image.sh'
