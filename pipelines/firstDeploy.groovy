@@ -23,13 +23,18 @@ node {
 
     stage 'Definition of few passwords'
     input message: 'Set the password for the PostgreSQL root user', parameters: [[$class: 'StringParameterDefinition', defaultValue: '', description: '', name: 'POSTGRESQL_ROOT_PASSWORD']]
-    domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
-//    store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
-//    store.addDomain(domain)
-//    domain = Domain.global()
+
     store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
-    store.addDomain(domain)
+
+    // Keep these lines of code to replace the global storage of password by dedicated storage by environment
+    // domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
+    // store.addDomain(domain)
+
+    domain = Domain.global()
+
     store.addCredentials(domain, createPassword("postgresqlroot", env.POSTGRESQL_ROOT_PASSWORD, "The password for the PostgreSQL root user."))
+
+    // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
     store = null
     domain = null
 
@@ -51,12 +56,5 @@ node {
  * @param password The password to cipher and store
  */
 def createPassword(name, description, password) {
-    return secretText = new StringCredentialsImpl(
-        CredentialsScope.GLOBAL,
-        name,
-        description,
-        Secret.fromString(password)
-    )
-
-    //store.addCredentials(domain, secretText)
+    secretText = new StringCredentialsImpl(CredentialsScope.GLOBAL, name, description, Secret.fromString(password))
 }
