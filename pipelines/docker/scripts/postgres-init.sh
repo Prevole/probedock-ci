@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo $POSTGRES_PASSWORD
+
 echo "Creating the database user"
 psql -U "$POSTGRES_USER" -c "CREATE USER '${PROBEDOCK_DATABASE_USERNAME}' PASSWORD '${PROBEDOCK_DATABASE_PASSWORD}'"
 
