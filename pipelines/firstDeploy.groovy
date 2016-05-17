@@ -30,21 +30,21 @@ node {
     stage 'Definition of few passwords'
 
     // Retrieve the store
-    store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
+    def store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
 
     // Keep these lines of code to replace the global storage of password by dedicated storage by environment
     // domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
     // store.addDomain(domain)
 
     // Replace this line by the two above once the Groovy sandboxing will allow to use SystemCredentialsProvider$StoreImpl.addDomain
-    domain = Domain.global()
+    def domain = Domain.global()
 
-    passwordDefinitions = []
+    def passwordDefinitions = []
 
     passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL'])
     passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.'])
 
-    passwordParameters = []
+    def passwordParameters = []
 
     passwordDefinitions.collect(passwordDefinitions) {
         [ $class: 'StringParameterDefinition', defaultValue: '', description: it.description, name: it.name ]
@@ -54,12 +54,12 @@ node {
     passwords = input message: 'Define passwords', parameters: passwordParameters
 
     // Store each passwords
-    passwordDefinitions.each {
+//    passwordDefinitions.each {
         store.addCredentials(
             domain,
-            new StringCredentialsImpl(CredentialsScope.GLOBAL, it.name, it.description, Secret.fromString(passwords[it.name]))
+            new StringCredentialsImpl(CredentialsScope.GLOBAL, it.name, it.description, Secret.fromString(passwords[env.PROBEDOCK_ENV + '-PostgreSQLRoot']))
         )
-    }
+//    }
 
     // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
     store = null
