@@ -45,7 +45,7 @@ services:
       service: _common
     container_name: ${PROBEDOCK_ENV}_db
     volumes:
-      - ./pipelines/docker/scripts/postgres-init.sh:/docker-entrypoint-initdb.d
+      - pipelines/docker/scripts/postgres:/docker-entrypoint-initdb.d
       - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/postgresql/data:/var/lib/postgresql/data
     networks:
       - probenet
