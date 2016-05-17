@@ -23,10 +23,10 @@ node {
 
     stage 'Definition of few passwords'
     input message: 'Set the password for the PostgreSQL root user', parameters: [[$class: 'StringParameterDefinition', defaultValue: '', description: '', name: 'POSTGRESQL_ROOT_PASSWORD']]
-//    domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
+    domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
 //    store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
 //    store.addDomain(domain)
-    domain = Domain.global()
+//    domain = Domain.global()
     store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
     store.addCredentials(domain, createPassword('postgresroot', env.POSTGRESQL_ROOT_PASSWORD, 'The password for the PostgreSQL root user.'))
     store = null
