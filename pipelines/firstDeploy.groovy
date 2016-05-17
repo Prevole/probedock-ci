@@ -58,7 +58,7 @@ node {
     println(passwordParameters.size())
 
     // Ask the user for initial passwords
-    def passwords = input message: 'Define passwords', parameters: passwordParameters
+    input message: 'Define passwords', parameters: passwordParameters
 
     // Store each passwords
 //    passwordDefinitions.each {
