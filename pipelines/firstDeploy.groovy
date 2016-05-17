@@ -35,10 +35,21 @@ def strGenerator(String alphabet, int n) {
     return sb.toString()
 }
 
+
 //noinspection GroovyAssignabilityCheck
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
+
+    /**
+     * Define the password names
+     */
+    def POSTGRESSQL_PASSWORD_NAME = env.PROBEDOCK_ENV = '-PostgreSQLRoot'
+
+    /**
+     * Define the password names in Docker Compose env vars
+     */
+    def DOCKER_POSTGRESQL_PASSWORD = 'POSTGRES_PASSWORD'
 
     sh "echo -n \$(date '+%Y_%m_%d_%H_%M_%S') > date"
 
@@ -62,7 +73,7 @@ node {
 
     // Retrieve the store
     def passwordDefinitions = [
-        [name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
+        [name: POSTGRESSQL_PASSWORD_NAME, description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
         [name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
         [name: env.PROBEDOCK_ENV + '-SecretKeyBase', description: 'The secret key base', default: strGenerator(keysAlphabet, keysLength)],
         [name: env.PROBEDOCK_ENV + '-JWTSecret', description: 'The JWT secret', default: strGenerator(keysAlphabet, keysLength)],
@@ -125,7 +136,11 @@ node {
     sh 'pipelines/scripts/probedock-docker-image.sh'
 
     stage 'Start PostgresSQL'
-    sh 'pipelines/scripts/postgres.sh'
+    withCredentials([[$class: 'StringBinding', credentialsId: POSTGRESSQL_PASSWORD_NAME, variable: DOCKER_POSTGRESQL_PASSWORD]]) {
+        println POSTGRES_PASSWORD
+        println env.POSTGRES_PASSWORD
+        sh 'pipelines/scripts/postgres.sh'
+    }
 
     stage 'Create the database'
     sh 'pipelines/scripts/probedock-create-database.sh'
