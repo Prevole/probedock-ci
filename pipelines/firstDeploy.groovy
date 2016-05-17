@@ -23,6 +23,8 @@ node {
 
     stage 'Definition of few passwords'
     input message: 'Set the password for the PostgreSQL root user', parameters: [[$class: 'StringParameterDefinition', defaultValue: '', description: '', name: 'POSTGRESQL_ROOT_PASSWORD']]
+    echo POSTGRESQL_ROOT_PASSWORD
+    echo env.POSTGRESQL_ROOT_PASSWORD
 
     store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
 
