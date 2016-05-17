@@ -44,25 +44,19 @@ node {
     passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL'])
     passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.'])
 
-    def passwordParameters = []
-
-    passwordDefinitions.collect(passwordParameters) {
-        test = [ $class: 'StringParameterDefinition', defaultValue: '', description: it.description, name: it.name ]
-        echo test
-        test
+    def passwordParameters = passwordDefinitions.collect() {
+        [ $class: 'StringParameterDefinition', defaultValue: '', description: it.description, name: it.name ]
     }
 
-    echo passwordParameters
-
     // Ask the user for initial passwords
-    passwords = input message: 'Define passwords', parameters: passwordParameters
+//    passwords = input message: 'Define passwords', parameters: passwordParameters
 
     // Store each passwords
 //    passwordDefinitions.each {
-        store.addCredentials(
-            domain,
-            new StringCredentialsImpl(CredentialsScope.GLOBAL, it.name, it.description, Secret.fromString(passwords[env.PROBEDOCK_ENV + '-PostgreSQLRoot']))
-        )
+//        store.addCredentials(
+//            domain,
+//            new StringCredentialsImpl(CredentialsScope.GLOBAL, it.name, it.description, Secret.fromString(passwords[env.PROBEDOCK_ENV + '-PostgreSQLRoot']))
+//        )
 //    }
 
     // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
