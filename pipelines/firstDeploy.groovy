@@ -14,11 +14,11 @@ import java.util.Collections
  * Workaround join method to avoid rejection exception of unclassified method java.util.ArrayList join
  */
 def join = { List lst ->
-    def str = ''
+    def sb = new StringBuilder()
     for (int i = 0; i < lst.size(); i++) {
-        str += lst[i]
+        sb.append(lst[i])
     }
-    return str
+    return sb.toString()
 }
 
 /**
@@ -117,15 +117,4 @@ node {
 
     stage 'Create the database'
     sh 'pipelines/scripts/probedock-create-database.sh'
-}
-
-/**
- * Create a text password
- *
- * @param name The name of the password
- * @param description The description of the password
- * @param password The password to cipher and store
- */
-def StringCredentialsImpl createPassword(name, description, password) {
-    return
 }
