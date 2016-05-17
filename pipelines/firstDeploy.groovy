@@ -29,7 +29,7 @@ def strGenerator = { String alphabet, int n ->
     def sb = new StringBuilder()
 
     for (int i = 0; i < n; i++) {
-        sb.append(alphabet[rnd.nextInt(alphabet.length())])
+//        sb.append(alphabet[rnd.nextInt(alphabet.length())])
     }
 
     return sb.toString()
