@@ -27,7 +27,7 @@ node {
      *
      * All the passwords will be stored through the Credentials plugin in a secure way.
      */
-    stage 'Definition of few passwords'
+    stage 'Setup Probe Dock passwords'
 
     // Retrieve the store
     store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
@@ -51,7 +51,7 @@ node {
     }
 
     // Ask the user for initial passwords
-//    passwords = input message: 'Define passwords', parameters: passwordParameters
+    passwords = input message: 'Define passwords', parameters: passwordParameters
 
     // Store each passwords
 //    passwordDefinitions.each {
