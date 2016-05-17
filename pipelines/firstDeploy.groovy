@@ -44,6 +44,8 @@ node {
     passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL'])
     passwordDefinitions.add([name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.'])
 
+    println(passwordDefinitions)
+
     def passwordParameters = []
 
     passwordDefinitions.each {
