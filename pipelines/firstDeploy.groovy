@@ -28,7 +28,8 @@ node {
 //    store.addDomain(domain)
 //    domain = Domain.global()
     store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
-    store.addCredentials(domain, createPassword('postgresroot', env.POSTGRESQL_ROOT_PASSWORD, 'The password for the PostgreSQL root user.'))
+    store.addDomain(domain)
+    store.addCredentials(domain, createPassword("postgresqlroot", env.POSTGRESQL_ROOT_PASSWORD, "The password for the PostgreSQL root user."))
     store = null
     domain = null
 
