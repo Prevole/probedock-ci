@@ -45,7 +45,7 @@ node {
     // Ask the user for initial passwords
     def passwords = input message: 'Define passwords', parameters: passwordParameters
 
-    store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
+    def store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
 
     // Keep these lines of code to replace the global storage of password by dedicated storage by environment
     // domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
@@ -55,12 +55,12 @@ node {
     def domain = Domain.global()
 
     // Store each passwords
-//    passwordDefinitions.each {
-//        store.addCredentials(
-//            domain,
-//            new StringCredentialsImpl(CredentialsScope.GLOBAL, it.name, it.description, Secret.fromString(passwords[env.PROBEDOCK_ENV + '-PostgreSQLRoot']))
-//        )
-//    }
+    passwordDefinitions.each {
+        store.addCredentials(
+            domain,
+            new StringCredentialsImpl(CredentialsScope.GLOBAL, it.name, it.description, Secret.fromString(passwords[env.PROBEDOCK_ENV + '-PostgreSQLRoot']))
+        )
+    }
 
     // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
     store = null
