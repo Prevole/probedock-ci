@@ -30,22 +30,10 @@ node {
     stage 'Setup Probe Dock passwords'
 
     // Retrieve the store
-    store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
-
-    // Keep these lines of code to replace the global storage of password by dedicated storage by environment
-    // domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
-    // store.addDomain(domain)
-
-    // Replace this line by the two above once the Groovy sandboxing will allow to use SystemCredentialsProvider$StoreImpl.addDomain
-    def domain = Domain.global()
-
     def passwordDefinitions = [
         [name: env.PROBEDOCK_ENV + '-PostgreSQLRoot', description: 'The root password for PostgreSQL'],
         [name: env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL', description: 'The password for Probe Dock PostgreSQL database.']
     ]
-
-    println(passwordDefinitions)
-    println(passwordDefinitions.size())
 
     def passwordParameters = []
 
@@ -54,11 +42,17 @@ node {
         passwordParameters.add([ $class: 'StringParameterDefinition', defaultValue: '', description: passwordDefinitions[i].description, name: passwordDefinitions[i].name ])
     }
 
-    println(passwordParameters)
-    println(passwordParameters.size())
-
     // Ask the user for initial passwords
-    input message: 'Define passwords', parameters: passwordParameters
+    def passwords = input message: 'Define passwords', parameters: passwordParameters
+
+    store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
+
+    // Keep these lines of code to replace the global storage of password by dedicated storage by environment
+    // domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
+    // store.addDomain(domain)
+
+    // Replace this line by the two above once the Groovy sandboxing will allow to use SystemCredentialsProvider$StoreImpl.addDomain
+    def domain = Domain.global()
 
     // Store each passwords
 //    passwordDefinitions.each {
