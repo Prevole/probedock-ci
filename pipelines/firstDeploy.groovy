@@ -23,11 +23,14 @@ node {
 
     stage 'Definition of few passwords'
     input message: 'Set the password for the PostgreSQL root user', parameters: [[$class: 'StringParameterDefinition', defaultValue: '', description: '', name: 'POSTGRESQL_ROOT_PASSWORD']]
-    domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
+//    domain = new Domain(PROBEDOCK_ENV, 'The credentials for the probe dock ' + PROBEDOCK_ENV + ' environment.', Collections.<DomainSpecification>emptyList())
+//    store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
+//    store.addDomain(domain)
+    domain = Domain.global()
     store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
-    store.addDomain(domain)
-    storePassword('postgresroot', env.POSTGRESQL_ROOT_PASSWORD, 'The password for the PostgreSQL root user.')
+    store.addCredentials(domain, createPassword('postgresroot', env.POSTGRESQL_ROOT_PASSWORD, 'The password for the PostgreSQL root user.'))
     store = null
+    domain = null
 
     stage 'Build Probe Dock docker image'
     sh 'pipelines/scripts/probedock-docker-image.sh'
@@ -46,8 +49,8 @@ node {
  * @param description The description of the password
  * @param password The password to cipher and store
  */
-def storePassword(name, description, password) {
-    secretText = new StringCredentialsImpl(
+def createPassword(name, description, password) {
+    return secretText = new StringCredentialsImpl(
         CredentialsScope.GLOBAL,
         name,
         description,

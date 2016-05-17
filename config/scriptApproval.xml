@@ -2,8 +2,13 @@
 <scriptApproval plugin="script-security@1.19">
     <approvedScriptHashes/>
     <approvedSignatures>
+        <string>method com.cloudbees.plugins.credentials.SystemCredentialsProvider getStore</string>
+        <string>method com.cloudbees.plugins.credentials.SystemCredentialsProvider.StoreImpl addDomain</string>
         <string>method jenkins.model.Jenkins getExtensionList java.lang.String</string>
         <string>new com.cloudbees.plugins.credentials.domains.Domain java.lang.String java.lang.String java.util.List</string>
+        <string>new org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl com.cloudbees.plugins.credentials.CredentialsScope java.lang.String java.lang.String hudson.util.Secret</string>
+        <string>staticField com.cloudbees.plugins.credentials.CredentialsScope GLOBAL</string>
+        <string>staticMethod hudson.util.Secret fromString java.lang.String</string>
         <string>staticMethod java.util.Collections emptyList</string>
         <string>staticMethod jenkins.model.Jenkins getInstance</string>
     </approvedSignatures>

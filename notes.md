@@ -38,11 +38,9 @@ For simplicity, no password was given
 ```
 sudo addgroup -g 1000 jenkins
 sudo adduser -G jenkins -D -H -u 2000 jenkins
-```
 
-And create the jenkins directory
+# And create the jenkins directory
 
-```
 sudo mkdir /jenkins
 sudo chown jenkins:jenkins /jenkins
 ```
