@@ -10,6 +10,26 @@ import hudson.util.Secret
 import hudson.plugins.sshslaves.*
 import java.util.Collections
 
+/**
+ * Workaround join method to avoid rejection exception of unclassified method java.util.ArrayList join
+ */
+def join = { List lst ->
+    def str = ''
+    for (int i = 0; i < lst.size(); i++) {
+        str += lst[i]
+    }
+    return str
+}
+
+/**
+ * Generate a random string base on an alphabet and the number wanted
+ */
+def strGenerator = { String alphabet, int n ->
+    new Random().with {
+        join((1..n).collect { alphabet[ nextInt( alphabet.length() ) ] })
+    }
+}
+
 //noinspection GroovyAssignabilityCheck
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
@@ -108,24 +128,4 @@ node {
  */
 def StringCredentialsImpl createPassword(name, description, password) {
     return
-}
-
-/**
- * Workaround join method to avoid rejection exception of unclassified method java.util.ArrayList join
- */
-def join = { List lst ->
-    def str = ''
-    for (int i = 0; i < lst.size(); i++) {
-        str += lst[i]
-    }
-    return str
-}
-
-/**
- * Generate a random string base on an alphabet and the number wanted
- */
-def strGenerator = { String alphabet, int n ->
-    new Random().with {
-        join((1..n).collect { alphabet[ nextInt( alphabet.length() ) ] })
-    }
 }
