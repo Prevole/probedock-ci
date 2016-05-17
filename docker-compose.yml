@@ -30,7 +30,7 @@ services:
       PROBEDOCK_UNICORN_WORKERS:
 
   bakDb:
-    image: postgres:9.5.2
+    image: probedock/postgres
     extends:
       service: _common
     volumes:
@@ -40,7 +40,7 @@ services:
     entrypoint: sh -c 'exec pg_dump -h ${PROBEDOCK_ENV}_db -p 5432 -U postgres probedock' | gzip > /backups/postgres/${PROBEDOCK_ENV}_${PROBEDOCK_DATE}_db.sql.gz || exit 1
 
   db:
-    image: postgres:9.5.2
+    image: probedock/postgres
     extends:
       service: _common
     container_name: ${PROBEDOCK_ENV}_db
