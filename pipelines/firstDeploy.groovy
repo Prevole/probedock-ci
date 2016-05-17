@@ -46,7 +46,7 @@ node {
 
     def passwordParameters = []
 
-    passwordDefinitions.each() {
+    passwordDefinitions.each {
         passwordParameters.add([ $class: 'StringParameterDefinition', defaultValue: '', description: it.description, name: it.name ])
     }
 
