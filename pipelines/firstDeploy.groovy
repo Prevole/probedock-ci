@@ -32,7 +32,7 @@ node {
 
     domain = Domain.global()
 
-    store.addCredentials(domain, createPassword("postgresqlroot", env.POSTGRESQL_ROOT_PASSWORD, "The password for the PostgreSQL root user."))
+    store.addCredentials(domain, createPassword("postgresqlroot", "The password for the PostgreSQL root user.", env.POSTGRESQL_ROOT_PASSWORD))
 
     // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
     store = null
