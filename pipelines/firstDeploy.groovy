@@ -38,13 +38,17 @@ node {
     def passwordParameters = []
 
     // WORKAROUND: Seems the pipeline plugin is buggy with .each, ... See: https://issues.jenkins-ci.org/browse/JENKINS-26481
-    for(int i = 0; i < passwordDefinitions.size(); i++){
+    for (int i = 0; i < passwordDefinitions.size(); i++) {
         passwordParameters.add([ $class: 'StringParameterDefinition', defaultValue: '', description: passwordDefinitions[i].description, name: passwordDefinitions[i].name ])
     }
 
     // Ask the user for initial passwords
     def passwords = input message: 'Define passwords', parameters: passwordParameters
 
+    /**
+     * The storage of the password must be done after the passwords input retrieval to avoid serialization issue. In fact,
+     * the SystemCredentialsProvider$StoreImpl is not serializable
+     */
     def store = Jenkins.instance.getExtensionList('com.cloudbees.plugins.credentials.SystemCredentialsProvider')[0].getStore()
 
     // Keep these lines of code to replace the global storage of password by dedicated storage by environment
@@ -55,10 +59,10 @@ node {
     def domain = Domain.global()
 
     // Store each passwords
-    passwordDefinitions.each {
+    for (int i = 0; i < passwordDefinitions.size(); i++) {
         store.addCredentials(
             domain,
-            new StringCredentialsImpl(CredentialsScope.GLOBAL, it.name, it.description, Secret.fromString(passwords[env.PROBEDOCK_ENV + '-PostgreSQLRoot']))
+            new StringCredentialsImpl(CredentialsScope.GLOBAL, passwordDefinitions[i].name, passwordDefinitions[i].description, Secret.fromString(passwords[passwordDefinitions[i].name]))
         )
     }
 
