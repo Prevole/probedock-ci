@@ -50,9 +50,9 @@ node {
     stage 'Setup Probe Dock passwords'
 
     // Definitions
-//    def passwordAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
+    def passwordAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
 //    def keysAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
-//    def passwordLength = 32
+    def passwordLength = 32
 //    def keysLength = 128
 
     // Retrieve the store
