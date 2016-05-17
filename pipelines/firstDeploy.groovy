@@ -40,6 +40,7 @@ def strGenerator(String alphabet, int n) {
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
+    env.WORKSPACE = pwd()
 
     /**
      * Define the password names
