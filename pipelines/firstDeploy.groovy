@@ -56,8 +56,5 @@ node {
  * @param password The password to cipher and store
  */
 def StringCredentialsImpl createPassword(name, description, password) {
-    echo name
-    echo description
-    echo password
     return new StringCredentialsImpl(CredentialsScope.GLOBAL, name, description, Secret.fromString(password))
 }
