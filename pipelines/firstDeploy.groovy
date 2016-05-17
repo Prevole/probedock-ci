@@ -49,11 +49,9 @@ node {
 
     def passwordParameters = []
 
-
-
-    passwordDefinitions.each { iter ->
-        println(iter)
-//        passwordParameters.add([ $class: 'StringParameterDefinition', defaultValue: '', description: it.description, name: it.name ])
+    // WORKAROUND: Seems the pipeline plugin is buggy with .each, ... See: https://issues.jenkins-ci.org/browse/JENKINS-26481
+    for(int i = 0; i < passwordDefinitions.size(); i++){
+        passwordParameters.add([ $class: 'StringParameterDefinition', defaultValue: '', description: passwordDefinitions[i].description, name: passwordDefinitions[i].name ])
     }
 
     println(passwordParameters)
@@ -93,4 +91,11 @@ node {
  */
 def StringCredentialsImpl createPassword(name, description, password) {
     return
+}
+
+@com.cloudbees.groovy.cps.NonCPS
+def foo1() {
+    [1, 2, 3].each {
+        println it
+    }
 }
