@@ -13,7 +13,7 @@ import java.util.Collections
 /**
  * Workaround join method to avoid rejection exception of unclassified method java.util.ArrayList join
  */
-def join = { List lst ->
+def join(List lst) {
     def sb = new StringBuilder()
     for (String s : lst) {
         sb.append(s)
@@ -29,7 +29,7 @@ def strGenerator(String alphabet, int n) {
     def sb = new StringBuilder()
 
     for (int i = 0; i < n; i++) {
-//        sb.append(alphabet[rnd.nextInt(alphabet.length())])
+        sb.append(alphabet[rnd.nextInt(alphabet.length())])
     }
 
     return sb.toString()
