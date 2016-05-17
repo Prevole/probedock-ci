@@ -104,10 +104,17 @@ node {
 
     // Store each passwords
     for (int i = 0; i < passwordDefinitions.size(); i++) {
-        println store.addCredentials(
+        def result = store.addCredentials(
             domain,
             new StringCredentialsImpl(CredentialsScope.GLOBAL, passwordDefinitions[i].name, passwordDefinitions[i].description, Secret.fromString(passwords[passwordDefinitions[i].name]))
         )
+
+        if (result) {
+            println 'The password ' + passwordDefinitions[i].name + ' was successfully created.'
+        }
+        else {
+            println 'The password ' + passwordDefinitions[i].name + ' already exists and will not be updated'
+        }
     }
 
     // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
