@@ -15,8 +15,8 @@ import java.util.Collections
  */
 def join = { List lst ->
     def sb = new StringBuilder()
-    for (Object o : lst) {
-        sb.append(o)
+    for (String s : lst) {
+        sb.append(s)
     }
     return sb.toString()
 }
@@ -25,9 +25,14 @@ def join = { List lst ->
  * Generate a random string base on an alphabet and the number wanted
  */
 def strGenerator = { String alphabet, int n ->
-    new Random().with {
-        join((1..n).collect { alphabet[ nextInt( alphabet.length() ) ] })
+    def rnd = new Random()
+    def sb = new StringBuilder()
+
+    for (int i = 0; i < n; i++) {
+        sb.append(alphabet[rnd.nextInt(alphabet.length())])
     }
+
+    return sb.toString()
 }
 
 //noinspection GroovyAssignabilityCheck
