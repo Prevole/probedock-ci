@@ -45,7 +45,7 @@
                 <hudson.plugins.git.extensions.impl.WipeWorkspace/>
             </extensions>
         </scm>
-        <scriptPath>pipelines/io/probedock/jenkins/deploy.groovy</scriptPath>
+        <scriptPath>pipelines/src/deploy.groovy</scriptPath>
     </definition>
     <triggers/>
 </flow-definition>
