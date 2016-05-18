@@ -1,18 +1,8 @@
+package io.probedock.jenkins
+
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
-
-    /**
-     * Define the password names
-     */
-    def POSTGRESSQL_PASSWORD_NAME = env.PROBEDOCK_ENV + '-PostgreSQLRoot'
-    def PROBEDOCK_DB_PASSWORD_NAME = env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL'
-
-    /**
-     * Define the password names in Docker Compose env vars
-     */
-    def DOCKER_POSTGRESQL_PASSWORD_VARNAME = 'POSTGRES_PASSWORD'
-    def DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME = 'PROBEDOCK_DATABASE_PASSWORD'
 
     // Clone the pipelines repos and the probe dock server repo
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
@@ -42,7 +32,7 @@ node {
      */
     stage 'Backup the PostgresSQL database'
     withCredentials([
-            [$class: 'StringBinding', credentialsId: POSTGRESSQL_PASSWORD_NAME, variable: DOCKER_POSTGRESQL_PASSWORD_VARNAME]
+        [$class: 'StringBinding', credentialsId: passwords.POSTGRESSQL_PASSWORD_NAME, variable: passwords.DOCKER_POSTGRESQL_PASSWORD_VARNAME]
     ]) {
         sh 'pipeline/scripts/postgres-backup.sh'
     }

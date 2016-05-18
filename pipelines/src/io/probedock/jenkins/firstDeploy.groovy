@@ -1,3 +1,5 @@
+package io.probedock.jenkins
+
 import jenkins.model.*
 import com.cloudbees.plugins.credentials.*
 import com.cloudbees.plugins.credentials.common.*
@@ -40,24 +42,12 @@ node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
 
-    /**
-     * Define the password names
-     */
-    def POSTGRESSQL_PASSWORD_NAME = env.PROBEDOCK_ENV + '-PostgreSQLRoot'
-    def PROBEDOCK_DB_PASSWORD_NAME = env.PROBEDOCK_ENV + '-ProbeDockPostgreSQL'
-
-    /**
-     * Define the password names in Docker Compose env vars
-     */
-    def DOCKER_POSTGRESQL_PASSWORD_VARNAME = 'POSTGRES_PASSWORD'
-    def DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME = 'PROBEDOCK_DATABASE_PASSWORD'
-
     // Clone the pipelines repos and the probe dock server repo
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock'], [$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/probedock/probedock.git']]]
 
     /**
-     * This step will ask the Probe Dock deploy for several passwords that will be used to setup the database and such things.
+     * This step will ask the Probe Dock io.probedock.jenkins.deploy for several passwords that will be used to setup the database and such things.
      *
      * All the passwords will be stored through the Credentials plugin in a secure way.
      */
@@ -71,8 +61,8 @@ node {
 
     // Retrieve the store
     def passwordDefinitions = [
-        [name: POSTGRESSQL_PASSWORD_NAME, description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
-        [name: PROBEDOCK_DB_PASSWORD_NAME, description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
+        [name: passwords.POSTGRESSQL_PASSWORD_NAME, description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
+        [name: passwords.PROBEDOCK_DB_PASSWORD_NAME, description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
         [name: env.PROBEDOCK_ENV + '-SecretKeyBase', description: 'The secret key base', default: strGenerator(keysAlphabet, keysLength)],
         [name: env.PROBEDOCK_ENV + '-JWTSecret', description: 'The JWT secret', default: strGenerator(keysAlphabet, keysLength)],
         [name: env.PROBEDOCK_ENV + '-ProbeDockSmtpUser', description: 'The SMTP user used to send emails from Probe Dock', default: ''],
@@ -93,7 +83,7 @@ node {
     }
 
     // Ask the user for initial passwords
-    def passwords = input(
+    def inputPasswords = input(
         message: '<p>Define passwords.</p><p><strong style="color: red; font-size: 2em;">Attention: You MUST store the credentials information in a secure way.</strong></p>',
         parameters: passwordParameters
     )
@@ -115,7 +105,7 @@ node {
     for (int i = 0; i < passwordDefinitions.size(); i++) {
         def result = store.addCredentials(
             domain,
-            new StringCredentialsImpl(CredentialsScope.GLOBAL, passwordDefinitions[i].name, passwordDefinitions[i].description, Secret.fromString(passwords[passwordDefinitions[i].name]))
+            new StringCredentialsImpl(CredentialsScope.GLOBAL, passwordDefinitions[i].name, passwordDefinitions[i].description, Secret.fromString(inputPasswords[passwordDefinitions[i].name]))
         )
 
         if (result) {
@@ -135,8 +125,8 @@ node {
      */
     stage 'Start PostgresSQL'
     withCredentials([
-        [$class: 'StringBinding', credentialsId: POSTGRESSQL_PASSWORD_NAME, variable: DOCKER_POSTGRESQL_PASSWORD_VARNAME],
-        [$class: 'StringBinding', credentialsId: PROBEDOCK_DB_PASSWORD_NAME, variable: DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
+        [$class: 'StringBinding', credentialsId: passwords.POSTGRESSQL_PASSWORD_NAME, variable: passwords.DOCKER_POSTGRESQL_PASSWORD_VARNAME],
+        [$class: 'StringBinding', credentialsId: passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
     ]) {
         sh 'pipelines/scripts/postgres.sh'
     }
@@ -152,7 +142,7 @@ node {
      */
     stage 'Create the database'
     withCredentials([
-        [$class: 'StringBinding', credentialsId: PROBEDOCK_DB_PASSWORD_NAME, variable: DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
+        [$class: 'StringBinding', credentialsId: passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
     ]) {
         sh 'pipelines/scripts/probedock-create-database.sh'
     }
