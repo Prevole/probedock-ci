@@ -1,7 +1,9 @@
-def hudson = hudson.model.Hudson.instance;
 
 this.disableJob = { jobName ->
+    def hudson = hudson.model.Hudson.instance;
+
     def job = hudson.model.Hudson.instance.getItem(jobName);
+
     job.disabled = true
     job.save()
 
