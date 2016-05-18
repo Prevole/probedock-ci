@@ -35,7 +35,6 @@ def strGenerator(String alphabet, int n) {
     return sb.toString()
 }
 
-
 //noinspection GroovyAssignabilityCheck
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
@@ -52,10 +51,6 @@ node {
      */
     def DOCKER_POSTGRESQL_PASSWORD_VARNAME = 'POSTGRES_PASSWORD'
     def DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME = 'PROBEDOCK_DATABASE_PASSWORD'
-
-    sh "echo -n \$(date '+%Y_%m_%d_%H_%M_%S') > date"
-
-    env.PROBEDOCK_DATE = readFile 'date'
 
     // Clone the pipelines repos and the probe dock server repo
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
@@ -135,6 +130,9 @@ node {
     store = null
     domain = null
 
+    /**
+     * Start the PostgreSQL database server
+     */
     stage 'Start PostgresSQL'
     withCredentials([
         [$class: 'StringBinding', credentialsId: POSTGRESSQL_PASSWORD_NAME, variable: DOCKER_POSTGRESQL_PASSWORD_VARNAME],
@@ -143,9 +141,15 @@ node {
         sh 'pipelines/scripts/postgres.sh'
     }
 
+    /**
+     * Build the Probe Dock main image
+     */
     stage 'Build Probe Dock docker image'
     sh 'pipelines/scripts/probedock-docker-image.sh'
 
+    /**
+     * Create the database
+     */
     stage 'Create the database'
     withCredentials([
         [$class: 'StringBinding', credentialsId: PROBEDOCK_DB_PASSWORD_NAME, variable: DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
