@@ -65,11 +65,10 @@ node {
     def passwordDefinitions = [
         [name: passwords.POSTGRESSQL_PASSWORD_NAME, description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
         [name: passwords.PROBEDOCK_DB_PASSWORD_NAME, description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
-        [name: env.PROBEDOCK_ENV + '-SecretKeyBase', description: 'The secret key base', default: strGenerator(keysAlphabet, keysLength)],
-        [name: env.PROBEDOCK_ENV + '-JWTSecret', description: 'The JWT secret', default: strGenerator(keysAlphabet, keysLength)],
-        [name: env.PROBEDOCK_ENV + '-ProbeDockSmtpUser', description: 'The SMTP user used to send emails from Probe Dock', default: ''],
-        [name: env.PROBEDOCK_ENV + '-ProbeDockSmtpPassword', description: 'The SMTP password', default: ''],
-        [name: env.PROBEDOCK_ENV + '-ProbeDockAdminPassword', description: 'The Probe Dock admin password', default: strGenerator(passwordAlphabet, passwordLength)]
+        [name: passwords.PROBEDOCK_SECRET_KEY_NAME, description: 'The secret key base', default: strGenerator(keysAlphabet, keysLength)],
+        [name: passwords.PROBEDOCK_JWT_SECRET_NAME, description: 'The JWT secret', default: strGenerator(keysAlphabet, keysLength)],
+        [name: passwords.PROBEDOCK_SMTP_USER_NAME, description: 'The SMTP user used to send emails from Probe Dock', default: ''],
+        [name: passwords.PROBEDOCK_SMTP_PASSWORD_NAME, description: 'The SMTP password', default: '']
     ]
 
     def passwordParameters = []
@@ -86,7 +85,7 @@ node {
 
     // Ask the user for initial passwords
     def inputPasswords = input(
-        message: '<p>Define passwords.</p><p><strong style="color: red; font-size: 2em;">Attention: You MUST store the credentials information in a secure way.</strong></p>',
+        message: 'Define passwords. Attention: You MUST store the credentials information in a secure way.',
         parameters: passwordParameters
     )
 
@@ -137,7 +136,7 @@ node {
      * Build the Probe Dock main image
      */
     stage 'Build Probe Dock docker image'
-    sh 'pipelines/scripts/probedock-docker-image.sh'
+    sh 'pipelines/scripts/probedock-server-docker-image.sh'
 
     /**
      * Create the database
@@ -146,6 +145,16 @@ node {
     withCredentials([
         [$class: 'StringBinding', credentialsId: passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
     ]) {
-        sh 'pipelines/scripts/probedock-create-database.sh'
+        sh 'pipelines/scripts/create-database.sh'
     }
+
+    /**
+     * We want to create the admin user
+     */
+    stage 'Create the admin user'
+    build job: 'CreateAdmin', parameters: [
+        [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: PROBEDOCK_ADMIN_USERNAME],
+        [$class: 'PasswordParameterValue', name: 'PROBEDOCK_ADMIN_PASSWORD', value: PROBEDOCK_ADMIN_PASSWORD],
+        [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_EMAIL', value: PROBEDOCK_ADMIN_EMAIN]
+    ]
 }
