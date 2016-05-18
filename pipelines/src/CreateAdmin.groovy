@@ -8,14 +8,14 @@ node {
     // Clone the pipelines repos and the probe dock server repo
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
 
-    def passwords = load 'pipelines/src/Passwords.groovy'
+    def Passwords = load 'pipelines/src/Passwords.groovy'
 
     /**
      * We want to create the admin user
      */
     stage 'Create admin user'
     withCredentials([
-        [$class: 'StringBinding', credentialsId: passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
     ]) {
         sh 'pipelines/scripts/create-admin.sh'
     }

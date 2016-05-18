@@ -46,7 +46,7 @@ node {
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock'], [$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/probedock/probedock.git']]]
 
-    def passwords = load 'pipelines/src/Passwords.groovy'
+    def Passwords = load 'pipelines/src/Passwords.groovy'
 
     /**
      * This step will ask the Probe Dock deploy for several passwords that will be used to setup the database and such things.
@@ -63,12 +63,12 @@ node {
 
     // Retrieve the store
     def passwordDefinitions = [
-        [name: passwords.POSTGRESSQL_PASSWORD_NAME, description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
-        [name: passwords.PROBEDOCK_DB_PASSWORD_NAME, description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
-        [name: passwords.PROBEDOCK_SECRET_KEY_NAME, description: 'The secret key base', default: strGenerator(keysAlphabet, keysLength)],
-        [name: passwords.PROBEDOCK_JWT_SECRET_NAME, description: 'The JWT secret', default: strGenerator(keysAlphabet, keysLength)],
-        [name: passwords.PROBEDOCK_SMTP_USER_NAME, description: 'The SMTP user used to send emails from Probe Dock', default: ''],
-        [name: passwords.PROBEDOCK_SMTP_PASSWORD_NAME, description: 'The SMTP password', default: '']
+        [name: Passwords.POSTGRESSQL_PASSWORD_NAME, description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
+        [name: Passwords.PROBEDOCK_DB_PASSWORD_NAME, description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
+        [name: Passwords.PROBEDOCK_SECRET_KEY_NAME, description: 'The secret key base', default: strGenerator(keysAlphabet, keysLength)],
+        [name: Passwords.PROBEDOCK_JWT_SECRET_NAME, description: 'The JWT secret', default: strGenerator(keysAlphabet, keysLength)],
+        [name: Passwords.PROBEDOCK_SMTP_USER_NAME, description: 'The SMTP user used to send emails from Probe Dock', default: ''],
+        [name: Passwords.PROBEDOCK_SMTP_PASSWORD_NAME, description: 'The SMTP password', default: '']
     ]
 
     def passwordParameters = []
@@ -126,8 +126,8 @@ node {
      */
     stage 'Start PostgresSQL'
     withCredentials([
-        [$class: 'StringBinding', credentialsId: passwords.POSTGRESSQL_PASSWORD_NAME, variable: passwords.DOCKER_POSTGRESQL_PASSWORD_VARNAME],
-        [$class: 'StringBinding', credentialsId: passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
+        [$class: 'StringBinding', credentialsId: Passwords.POSTGRESSQL_PASSWORD_NAME, variable: Passwords.DOCKER_POSTGRESQL_PASSWORD_VARNAME],
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
     ]) {
         sh 'pipelines/scripts/postgres.sh'
     }
@@ -143,7 +143,7 @@ node {
      */
     stage 'Create the database'
     withCredentials([
-        [$class: 'StringBinding', credentialsId: passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
     ]) {
         sh 'pipelines/scripts/create-database.sh'
     }

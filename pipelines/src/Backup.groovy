@@ -5,7 +5,7 @@ node {
     // Clone the pipelines repos and the probe dock server repo
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
 
-    def passwords = load 'pipelines/src/Passwords.groovy'
+    def Passwords = load 'pipelines/src/Passwords.groovy'
 
     /**
      * Backup the PostgreSQL database
