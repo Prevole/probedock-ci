@@ -1,4 +1,4 @@
-package io.probedock.jenkins
+
 
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV

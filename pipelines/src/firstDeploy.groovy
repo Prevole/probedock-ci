@@ -1,4 +1,4 @@
-package io.probedock.jenkins
+
 
 import jenkins.model.*
 import com.cloudbees.plugins.credentials.*
@@ -49,7 +49,7 @@ node {
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock'], [$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/probedock/probedock.git']]]
 
     /**
-     * This step will ask the Probe Dock io.probedock.jenkins.deploy for several passwords that will be used to setup the database and such things.
+     * This step will ask the Probe Dock deploy for several passwords that will be used to setup the database and such things.
      *
      * All the passwords will be stored through the Credentials plugin in a secure way.
      */

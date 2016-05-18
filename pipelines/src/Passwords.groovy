@@ -1,4 +1,4 @@
-package io.probedock.jenkins
+
 
 /**
  * Define the password names
