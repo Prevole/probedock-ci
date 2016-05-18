@@ -23,6 +23,21 @@
                     <description></description>
                     <defaultValue>/data</defaultValue>
                 </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>PROBEDOCK_ADMIN_USERNAME</name>
+                    <description>Define the username of the Probe Dock administrator account</description>
+                    <defaultValue>admin</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.PasswordParameterDefinition>
+                    <name>PROBEDOCK_ADMIN_PASSWORD</name>
+                    <description>The password for this new administrator</description>
+                    <defaultValue>kqF10tRB6mhO+izX8Wxo6A==</defaultValue>
+                </hudson.model.PasswordParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>PROBEDOCK_ADMIN_EMAIL</name>
+                    <description>The administrator email address</description>
+                    <defaultValue></defaultValue>
+                </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
         </hudson.model.ParametersDefinitionProperty>
     </properties>
