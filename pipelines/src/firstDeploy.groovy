@@ -42,11 +42,11 @@ node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
 
-    def passwords = load 'pipelines/src/Passwords.groovy'
-
     // Clone the pipelines repos and the probe dock server repo
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'probedock'], [$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/probedock/probedock.git']]]
+
+    def passwords = load 'pipelines/src/Passwords.groovy'
 
     /**
      * This step will ask the Probe Dock deploy for several passwords that will be used to setup the database and such things.
