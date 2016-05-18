@@ -31,7 +31,7 @@
                 <hudson.model.PasswordParameterDefinition>
                     <name>PROBEDOCK_ADMIN_PASSWORD</name>
                     <description>The password for this new administrator</description>
-                    <defaultValue>kqF10tRB6mhO+izX8Wxo6A==</defaultValue>
+                    <defaultValue></defaultValue>
                 </hudson.model.PasswordParameterDefinition>
                 <hudson.model.StringParameterDefinition>
                     <name>PROBEDOCK_ADMIN_EMAIL</name>

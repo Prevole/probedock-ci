@@ -14,6 +14,11 @@
         <hudson.model.ParametersDefinitionProperty>
             <parameterDefinitions>
                 <hudson.model.StringParameterDefinition>
+                    <name>PROBEDOCK_ENV</name>
+                    <description></description>
+                    <defaultValue>default</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
                     <name>PROBEDOCK_ADMIN_USERNAME</name>
                     <description>Define the username of the Probe Dock administrator account</description>
                     <defaultValue>admin</defaultValue>
