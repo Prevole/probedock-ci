@@ -32,7 +32,7 @@ node {
      */
     stage 'Backup the PostgresSQL database'
     withCredentials([
-        [$class: 'StringBinding', credentialsId: passwords.POSTGRESSQL_PASSWORD_NAME, variable: passwords.DOCKER_POSTGRESQL_PASSWORD_VARNAME]
+        [$class: 'StringBinding', credentialsId: Passwords.POSTGRESSQL_PASSWORD_NAME, variable: Passwords.DOCKER_POSTGRESQL_PASSWORD_VARNAME]
     ]) {
         sh 'pipeline/scripts/postgres-backup.sh'
     }
