@@ -28,14 +28,12 @@ node {
     sh 'pipeline/scripts/redis.sh'
 
     /**
-     * Backup the PostgreSQL database
+     * We want to create the admin user
      */
-    stage 'Backup the PostgresSQL database'
-    withCredentials([
-        [$class: 'StringBinding', credentialsId: Passwords.POSTGRESSQL_PASSWORD_NAME, variable: Passwords.DOCKER_POSTGRESQL_PASSWORD_VARNAME]
-    ]) {
-        sh 'pipeline/scripts/postgres-backup.sh'
-    }
+    stage 'Backup'
+    build job: 'Backup', parameters: [
+        [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
+    ]
 
     /**
      * Build the Probe Dock main image
