@@ -42,7 +42,7 @@ node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.PROBEDOCK_DATA_PATH = PROBEDOCK_DATA_PATH
 
-    def passwords = load 'pipelines/src/io/probedock/jenkins/passwords.groovy'
+    def passwords = load 'pipelines/src/io/probedock/jenkins/Passwords.groovy'
 
     // Clone the pipelines repos and the probe dock server repo
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
