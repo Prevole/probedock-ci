@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+    <description></description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <jenkins.model.BuildDiscarderProperty>
+            <strategy class="hudson.tasks.LogRotator">
+                <daysToKeep>-1</daysToKeep>
+                <numToKeep>-1</numToKeep>
+                <artifactDaysToKeep>-1</artifactDaysToKeep>
+                <artifactNumToKeep>-1</artifactNumToKeep>
+            </strategy>
+        </jenkins.model.BuildDiscarderProperty>
+        <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+                <hudson.model.StringParameterDefinition>
+                    <name>PROBEDOCK_ADMIN_USERNAME</name>
+                    <description>Define the username of the Probe Dock administrator account</description>
+                    <defaultValue>admin</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.PasswordParameterDefinition>
+                    <name>PROBEDOCK_ADMIN_PASSWORD</name>
+                    <description>The password for this new administrator</description>
+                    <defaultValue>kqF10tRB6mhO+izX8Wxo6A==</defaultValue>
+                </hudson.model.PasswordParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>PROBEDOCK_ADMIN_EMAIL</name>
+                    <description>The administrator email address</description>
+                    <defaultValue></defaultValue>
+                </hudson.model.StringParameterDefinition>
+            </parameterDefinitions>
+        </hudson.model.ParametersDefinitionProperty>
+    </properties>
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.4">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <url>https://github.com/Prevole/probedock-ci</url>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+            <hudson.plugins.git.BranchSpec>
+                <name>*/master</name>
+            </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+            <hudson.plugins.git.extensions.impl.WipeWorkspace/>
+        </extensions>
+    </scm>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers/>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.tasks.Shell>
+            <command>echo &apos;Create Probe Dock administrator: ${PROBEDOCK_ADMIN_USERNAME} with email ${PROBEDOCK_ADMIN_EMAIL}&apos;
+                docker-compose -p $PROBEDOCK_ENV run --rm --no-deps task \
+                rake \
+                &quot;users:register[${PROBEDOCK_ADMIN_USERNAME},${PROBEDOCK_ADMIN_EMAIL},${PROBEDOCK_ADMIN_PASSWORD}]&quot; \
+                &quot;users:admin[${PROBEDOCK_ADMIN_USERNAME}]&quot;</command>
+        </hudson.tasks.Shell>
+    </builders>
+    <publishers/>
+    <buildWrappers/>
+</project>
