@@ -152,7 +152,7 @@ node {
      * We want to create the admin user
      */
     stage 'Create the admin user'
-    build job: 'CreateAdmin', parameters: [
+    build job: 'CreateAdmin2', parameters: [
         [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
         [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: PROBEDOCK_ADMIN_USERNAME],
         [$class: 'PasswordParameterValue', name: 'PROBEDOCK_ADMIN_PASSWORD', value: PROBEDOCK_ADMIN_PASSWORD],
