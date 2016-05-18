@@ -8,7 +8,7 @@ node {
     def Passwords = load 'pipelines/src/Passwords.groovy'
     def DisableJob = load 'pipelines/src/DisableJob.groovy'
 
-    println DisableJob
+    println DisableJob.disableJob
 
     stage 'Disable job'
     DisableJob.disableJob('Backup')
