@@ -4,7 +4,7 @@ def disableJob(jobName) {
 
     def job = hudson.model.Hudson.instance.getItem(jobName);
 
-    job.disabled = true
+    job.setDisabled(true)
     job.save()
 
     println 'Job ' + job.name + ' disabled successfully.'
