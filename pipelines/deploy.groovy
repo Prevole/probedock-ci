@@ -46,4 +46,10 @@ node {
     ]) {
         sh 'pipeline/scripts/postgres-backup.sh'
     }
+
+    /**
+     * Build the Probe Dock main image
+     */
+    stage 'Build Probe Dock docker image'
+    sh 'pipelines/scripts/probedock-docker-image.sh'
 }
