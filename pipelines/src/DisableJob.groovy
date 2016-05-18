@@ -1,5 +1,5 @@
 
-this.disableJob = { jobName ->
+def disableJob(jobName) {
     def hudson = hudson.model.Hudson.instance;
 
     def job = hudson.model.Hudson.instance.getItem(jobName);
