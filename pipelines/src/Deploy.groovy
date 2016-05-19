@@ -23,7 +23,8 @@ node {
     /**
      * Make sure PostgreSQL and Redis are up and running
      */
-    stage 'Start PostgresSQL and Redis'
+    stage 'Start PostgresSQL, Redis and Nginx'
+    sh 'pipelines/scripts/nginx.sh'
     sh 'pipeline/scripts/postgres.sh'
     sh 'pipeline/scripts/redis.sh'
 

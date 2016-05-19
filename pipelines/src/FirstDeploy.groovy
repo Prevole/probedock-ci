@@ -122,6 +122,12 @@ node {
     domain = null
 
     /**
+     * Start the Nginx
+     */
+    stage 'Start the reverse proxy (Nginx)'
+    sh 'pipelines/scripts/nginx.sh'
+
+    /**
      * Start the PostgreSQL database server
      */
     stage 'Start PostgresSQL'
