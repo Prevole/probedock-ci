@@ -29,6 +29,12 @@ services:
       PROBEDOCK_UNICORN_USER: root
       PROBEDOCK_UNICORN_WORKERS:
 
+  assets:
+    image: probedock/probedock
+    extends: task
+    volumes_from:
+      - ${PROBEDOCK_ENV}_rp
+
   bakDb:
     image: probedock/postgres
     extends:
