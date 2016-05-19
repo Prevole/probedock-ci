@@ -65,6 +65,8 @@ services:
       - jenkinsData
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - ci
     ports:
       - 8080:8080
 
@@ -72,8 +74,20 @@ services:
     image: probedock/jenkins
     container_name: jenkins_data
     entrypoint: /bin/bash
+    networks:
+      - ci
     volumes:
       - /jenkins:/var/jenkins_home
+
+  rp:
+    image: probedock/nginx
+    container_name: ${PROBEDOCK_ENV}_rp
+    environment:
+      NGINX_SERF_JOIN: ${PROBEDOCK_ENV}_rp
+    ports:
+      - 3000:80
+    networks:
+      - probenet
 
   task:
     image: probedock/probedock
@@ -96,3 +110,4 @@ services:
 
 networks:
   probenet:
+  ci:
