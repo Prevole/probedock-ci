@@ -82,8 +82,6 @@ services:
   rp:
     image: probedock/nginx
     container_name: ${PROBEDOCK_ENV}_rp
-    environment:
-      NGINX_SERF_JOIN: ${PROBEDOCK_ENV}_rp
     ports:
       - 3000:80
     networks:
