@@ -19,8 +19,8 @@ node {
      */
     stage 'Start PostgresSQL, Redis and Nginx'
     sh 'pipelines/scripts/nginx.sh'
-    sh 'pipeline/scripts/postgres.sh'
-    sh 'pipeline/scripts/redis.sh'
+    sh 'pipelines/scripts/postgres.sh'
+    sh 'pipelines/scripts/redis.sh'
 
 //    /**
 //     * We want to create the admin user
