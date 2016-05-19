@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -p $PROBEDOCK_ENV run --rm bakDb
+docker-compose -f docker-compose-app.yml -p $PROBEDOCK_ENV run --rm bakDb

@@ -28,13 +28,13 @@ node {
     sh 'pipeline/scripts/postgres.sh'
     sh 'pipeline/scripts/redis.sh'
 
-    /**
-     * We want to create the admin user
-     */
-    stage 'Backup'
-    build job: 'Backup', parameters: [
-        [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
-    ]
+//    /**
+//     * We want to create the admin user
+//     */
+//    stage 'Backup'
+//    build job: 'Backup', parameters: [
+//        [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
+//    ]
 
     /**
      * Build the Probe Dock main image
