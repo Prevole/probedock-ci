@@ -15,12 +15,6 @@ node {
     env.PROBEDOCK_DATE = readFile 'date'
 
     /**
-     * Make sure docker is up and running
-     */
-    stage 'Start docker'
-    sh 'pipeline/scripts/docker.sh'
-
-    /**
      * Make sure PostgreSQL and Redis are up and running
      */
     stage 'Start PostgresSQL, Redis and Nginx'
