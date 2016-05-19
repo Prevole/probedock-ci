@@ -33,7 +33,7 @@ services:
     image: probedock/probedock
     extends: task
     volumes_from:
-      - ${PROBEDOCK_ENV}_rp
+      - rp
 
   bakDb:
     image: probedock/postgres
