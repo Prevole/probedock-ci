@@ -40,10 +40,25 @@ def strGenerator(String alphabet, int n) {
 
 //noinspection GroovyAssignabilityCheck
 node {
+    env.PROBEDOCK_ENV = PROBEDOCK_ENV
+
     // Clone the pipelines repo
     checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
 
     def Passwords = load 'pipelines/src/Passwords.groovy'
+
+    def File enfFile = new File('/envs/' + env.PROBEDOCK_ENV)
+    def envExists = enfFile.exists()
+
+    /**
+     * Load the properties from the env file
+     */
+    def Properties envProperties = new Properties()
+    if (envExists) {
+        enfFile.withInputStream {
+            envProperties.load(it)
+        }
+    }
 
     /**
      * This step will ask the Probe Dock deploy for several passwords that will be used to setup the database and such things.
@@ -52,155 +67,180 @@ node {
      */
     stage 'Create a new Probe Dock environment'
 
-    // Definitions
+    /**
+     * Password generation rules
+     */
     def passwordAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
     def keysAlphabet = join(('A'..'Z')+('a'..'z')+('0'..'9'))
     def passwordLength = 32
     def keysLength = 128
 
-    // Define the parameters
+    /**
+     * Define the parameters that will be asked to the user
+     */
     def parametersDefinitions = [[
         name: 'ENV',
         humanName: 'Environment name',
         description: 'The environment name.',
-        default: 'default',
-        password: false
+        default: env.PROBEDOCK_ENV
     ], [
         name: 'PROBEDOCK_LOG_LEVEL',
         humanName: 'Log level',
         description: 'Rails application log level.',
-        default: 'info',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_LOG_LEVEL') : 'info'
     ], [
         name: 'PROBEDOCK_MAIL_ADDRESS',
         humanName: 'SMTP server host',
         description: 'SMTP address to send e-mails.',
-        default: '',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_MAIL_ADDRESS') : ''
     ], [
         name: 'PROBEDOCK_MAIL_PORT',
         humanName: 'SMTP server port',
         description: 'SMTP port to send e-mails.',
-        default: '587',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_MAIL_PORT') : '587'
     ], [
         name: 'PROBEDOCK_MAIL_DOMAIN',
         humanName: 'SMTP domain',
         description: 'SMTP domain to send e-mails. (Used in EHLO SMTP command).',
-        default: '',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_MAIL_DOMAIN') : ''
     ], [
         name: 'PROBEDOCK_MAIL_AUTHENTICATION',
         humanName: 'SMTP authentication',
         description: 'SMTP authentication method.',
-        default: 'plain',
-        password: false
-    ], [
-        name: Passwords.PROBEDOCK_SMTP_USER_BASE_NAME,
-        humanName: 'SMTP user name',
-        description: 'The SMTP user used to send emails from Probe Dock',
-        default: '',
-        password: true
-    ], [
-        name: Passwords.PROBEDOCK_SMTP_PASSWORD_BASE_NAME,
-        humanName: 'SMTP Password',
-        description: 'The SMTP password',
-        default: '',
-        password: true
+        default: envExists ? envProperties.getProperty('PROBEDOCK_MAIL_AUTHENTICATION') : 'plain'
     ], [
         name: 'PROBEDOCK_MAIL_FROM',
         humanName: 'SMTP sender address',
         description: 'From address for e-mails sent by Probe Dock.',
-        default: '',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_MAIL_FROM') : ''
     ], [
         name: 'PROBEDOCK_MAIL_FROM_NAME',
         humanName: 'SMTP sender name',
         description: 'From address name for e-mails sent by Probe Dock.',
-        default: '',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_MAIL_FROM_NAME') : ''
     ], [
         name: 'PROBEDOCK_APP_PROTOCOL',
         humanName: 'Application protocol',
         description: 'External address protocol (http or https).',
-        choices: 'https\nhttp',
-        password: false
+        choices: envExists && envProperties.getProperty('PROBEDOCK_APP_PROTOCOL') == 'http' ? 'http\nhttps' : 'https\nhttp'
     ], [
         name: 'PROBEDOCK_APP_HOST',
         humanName: 'Application host',
         description: 'External address host (e.g. app.example.com)',
-        default: '',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_APP_HOST') : ''
     ], [
         name: 'PROBEDOCK_APP_PORT',
         humanName: 'Application port',
         description: 'External address port (e.g. 80, 443).',
-        default: '443',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_APP_PORT') : '443'
     ], [
         name: 'PROBEDOCK_UNICORN_WORKERS',
         humanName: 'Number of unicorn workers',
         description: 'Number of Unicorn workers (Rails application instances) to run per application container.',
-        default: '3',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_UNICORN_WORKERS') : '3'
     ], [
         name: 'PROBEDOCK_DOCKER_APP_CONTAINERS',
         humanName: 'Number of application containers',
         description: 'Number of application containers to run. Note that each application container might itself run multiple workers depending on PROBEDOCK_UNICORN_WORKERS.',
-        default: '3',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_DOCKER_APP_CONTAINERS') : '3'
     ], [
         name: 'PROBEDOCK_DOCKER_JOB_CONTAINERS',
         humanName: 'Number of job containers',
         description: 'Number of background job containers to run.',
-        default: '3',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_DOCKER_JOB_CONTAINERS') : '3'
     ], [
         name: 'PROBEDOCK_DOCKER_WEB_CONTAINER_PORT',
         humanName: 'Docker web container port',
         description: 'Host port to expose the web container on. Must be different for each environment. It will be used for port mapping.',
-        default: '3000',
-        password: false
+        default: envExists ? envProperties.getProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT') : '3000'
+    ]]
+
+    /**
+     * Define the password definitions. They will be handled through the Credentials plugin and
+     * then be stored securely.
+     */
+    def passwordDefinitions = [[
+        name: Passwords.PROBEDOCK_SMTP_USER_BASE_NAME,
+        humanName: 'SMTP user name',
+        description: 'The SMTP user used to send emails from Probe Dock',
+        default: ''
+    ], [
+        name: Passwords.PROBEDOCK_SMTP_PASSWORD_BASE_NAME,
+        humanName: 'SMTP Password',
+        description: 'The SMTP password',
+        default: ''
     ], [
         name: Passwords.POSTGRESSQL_PASSWORD_BASE_NAME,
         humanName: 'PostgreSQL root password',
         description: 'The root password for PostgreSQL',
-        default: strGenerator(passwordAlphabet, passwordLength),
-        password: true
+        default: strGenerator(passwordAlphabet, passwordLength)
     ], [
         name: Passwords.PROBEDOCK_DB_PASSWORD_BASE_NAME,
         humanName: 'Probe Dock database password',
         description: 'The password for Probe Dock PostgreSQL database.',
-        default: strGenerator(passwordAlphabet, passwordLength),
-        password: true
+        default: strGenerator(passwordAlphabet, passwordLength)
     ], [
         name: Passwords.PROBEDOCK_SECRET_KEY_BASE_NAME,
         humanName: 'Secret key',
         description: 'The secret key base',
-        default: strGenerator(keysAlphabet, keysLength),
-        password: true
+        default: strGenerator(keysAlphabet, keysLength)
     ], [
         name: Passwords.PROBEDOCK_JWT_SECRET_BASE_NAME,
         humanName: 'JSON Web Token secret',
         description: 'The JWT secret',
-        default: strGenerator(keysAlphabet, keysLength),
-        password: true
+        default: strGenerator(keysAlphabet, keysLength)
     ]]
 
-    def inputParameters = []
+    /**
+     * Enrich the parameter definitions by the passwords
+     */
+    if (!envExists) {
+        for (int i = 0; i < passwordDefinitions.size(); i++) {
+            // To make the difference between standard parameter and password parameter
+            passwordDefinitions[i].password = true
+            parametersDefinitions.add(passwordDefinitions[i])
+        }
+    }
 
-    // WORKAROUND: Seems the pipeline plugin is buggy with .each, ... See: https://issues.jenkins-ci.org/browse/JENKINS-26481
+    /**
+     * Add a last parameter to decide if we start the first deployment right now or not
+     */
+    if (!envExists) {
+        parametersDefinitions.add([
+            name: 'FIRST_DEPLOY',
+            humanName: 'Do the first deployment?',
+            description: 'Perform the first deployment right after the configuration has been validated.',
+            default: false,
+            boolean: true
+        ])
+    }
+
+    /**
+     * Build real map of parameters that is used by the DSL input method
+     */
+    def inputParameters = []
     for (int i = 0; i < parametersDefinitions.size(); i++) {
+        // Check for choices parameter
         if (parametersDefinitions[i].containsKey('choices')) {
-            println parametersDefinitions[i].name
             inputParameters.add([
                 $class: 'ChoiceParameterDefinition',
                 choices: parametersDefinitions[i].choices,
                 description: parametersDefinitions[i].description,
                 name: parametersDefinitions[i].humanName
             ])
-
         }
+
+        // Check for boolean parameter
+        else if (parametersDefinitions[i].containsKey('boolean')) {
+            inputParameters.add([
+                $class: 'BooleanParameterDefinition',
+                defaultValue: parametersDefinitions[i].default,
+                description: parametersDefinitions[i].description,
+                name: parametersDefinitions[i].name
+            ])
+        }
+
+        // Defaulting to string parameter
         else {
             inputParameters.add([
                 $class: 'StringParameterDefinition',
@@ -211,9 +251,11 @@ node {
         }
     }
 
-    // Ask the user for initial passwords
+    /**
+     * Ask user for the parameters and passwords
+     */
     def filledParameters = input(
-        message: 'Define passwords. Attention: You MUST store the credentials information in a secure way.',
+        message: 'Setup your environment.\n\n!! ATTENTION !!: You MUST store the credentials information in a secure way.',
         parameters: inputParameters
     )
 
@@ -236,7 +278,7 @@ node {
     // Store each passwords
     for (int i = 0; i < parametersDefinitions.size(); i++) {
         // Check if the parameters must be stored as a password
-        if (parametersDefinitions[i].password) {
+        if (parametersDefinitions[i].containsKey('password')) {
             def result = store.addCredentials(
                 domain,
                 new StringCredentialsImpl(
@@ -255,7 +297,7 @@ node {
         }
 
         // The environment name is not handle like the other parameters
-        else if (i > 0) {
+        else if (i > 0 && !parametersDefinitions[i].name.equalsIgnoreCase('FIRST_DEPLOY')) {
             sb.append(parametersDefinitions[i].name).append('=').append(filledParameters[parametersDefinitions[i].humanName]).append('\n')
         }
     }
@@ -267,4 +309,15 @@ node {
     // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
     store = null
     domain = null
+
+    stage 'Preform the first deployment'
+    if (envExists) {
+        println 'The environment configuration file already exists. The first deploy cannot be triggered.'
+    }
+    else {
+        println 'The environment configuration file was created. The first deploy will now be triggered.'
+//        build job: 'FirstDeploy', parameters: [
+//            [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV]
+//        ]
+    }
 }
