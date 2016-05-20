@@ -55,11 +55,12 @@ node {
      */
     def Properties envProperties = new Properties()
     if (envExists) {
-        enfFile.withInputStream {
-            println 'before load'
-            envProperties.load(it)
-            println 'after load'
-        }
+        println 'before load'
+        envProperties.load(new FileInputStream(envFile))
+        println 'after load'
+//        enfFile.withInputStream {
+//            envProperties.load(it)
+//        }
     }
 
     println envProperties
