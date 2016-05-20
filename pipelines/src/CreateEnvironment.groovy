@@ -62,10 +62,106 @@ node {
     def parametersDefinitions = [[
         name: 'ENV',
         humanName: 'Environment name',
-        description: 'The environment name',
+        description: 'The environment name.',
         default: 'default',
         password: false
-     ], [
+    ], [
+        name: 'PROBEDOCK_LOG_LEVEL',
+        humanName: 'Log level',
+        description: 'Rails application log level.',
+        default: 'info',
+        password: false
+    ], [
+        name: 'PROBEDOCK_MAIL_ADDRESS',
+        humanName: 'SMTP server host',
+        description: 'SMTP address to send e-mails.',
+        default: '',
+        password: false
+    ], [
+        name: 'PROBEDOCK_MAIL_PORT',
+        humanName: 'SMTP server port',
+        description: 'SMTP port to send e-mails.',
+        default: '587',
+        password: false
+    ], [
+        name: 'PROBEDOCK_MAIL_DOMAIN',
+        humanName: 'SMTP domain',
+        description: 'SMTP domain to send e-mails. (Used in EHLO SMTP command).',
+        default: '',
+        password: false
+    ], [
+        name: 'PROBEDOCK_MAIL_AUTHENTICATION',
+        humanName: 'SMTP authentication',
+        description: 'SMTP authentication method.',
+        default: 'plain',
+        password: false
+    ], [
+        name: Passwords.PROBEDOCK_SMTP_USER_BASE_NAME,
+        humanName: 'SMTP user name',
+        description: 'The SMTP user used to send emails from Probe Dock',
+        default: '',
+        password: true
+    ], [
+        name: Passwords.PROBEDOCK_SMTP_PASSWORD_BASE_NAME,
+        humanName: 'SMTP Password',
+        description: 'The SMTP password',
+        default: '',
+        password: true
+    ], [
+        name: 'PROBEDOCK_MAIL_FROM',
+        humanName: 'SMTP sender address',
+        description: 'From address for e-mails sent by Probe Dock.',
+        default: '',
+        password: false
+    ], [
+        name: 'PROBEDOCK_MAIL_FROM_NAME',
+        humanName: 'SMTP sender name',
+        description: 'From address name for e-mails sent by Probe Dock.',
+        default: '',
+        password: false
+    ], [
+        name: 'PROBEDOCK_APP_PROTOCOL',
+        humanName: 'Application protocol',
+        description: 'External address protocol (http or https).',
+        choices: 'https\nhttp',
+        password: false
+    ], [
+        name: 'PROBEDOCK_APP_HOST',
+        humanName: 'Application host',
+        description: 'External address host (e.g. app.example.com)',
+        default: '',
+        password: false
+    ], [
+        name: 'PROBEDOCK_APP_PORT',
+        humanName: 'Application port',
+        description: 'External address port (e.g. 80, 443).',
+        default: '443',
+        password: false
+    ], [
+        name: 'PROBEDOCK_UNICORN_WORKERS',
+        humanName: 'Number of unicorn workers',
+        description: 'Number of Unicorn workers (Rails application instances) to run per application container.',
+        default: '3',
+        password: false
+    ], [
+        name: 'PROBEDOCK_DOCKER_APP_CONTAINERS',
+        humanName: 'Number of application containers',
+        description: 'Number of application containers to run. Note that each application container might itself run multiple workers depending on PROBEDOCK_UNICORN_WORKERS.',
+        default: '3',
+        password: false
+    ], [
+        name: 'PROBEDOCK_DOCKER_JOB_CONTAINERS',
+        humanName: 'Number of job containers',
+        description: 'Number of background job containers to run.',
+        default: '3',
+        password: false
+    ], [
+        name: 'PROBEDOCK_DOCKER_WEB_CONTAINER_PORT',
+        humanName: 'Docker web container port',
+        description: 'Host port to expose the web container on. Must be different for each environment. It will be used for port mapping.',
+        default: '3000',
+        password: false
+    ], [
         name: Passwords.POSTGRESSQL_PASSWORD_BASE_NAME,
         humanName: 'PostgreSQL root password',
         description: 'The root password for PostgreSQL',
@@ -89,30 +185,29 @@ node {
         description: 'The JWT secret',
         default: strGenerator(keysAlphabet, keysLength),
         password: true
-    ], [
-        name: Passwords.PROBEDOCK_SMTP_USER_BASE_NAME,
-        humanName: 'SMTP user name',
-        description: 'The SMTP user used to send emails from Probe Dock',
-        default: '',
-        password: true
-    ], [
-        name: Passwords.PROBEDOCK_SMTP_PASSWORD_BASE_NAME,
-        humanName: 'SMTP Password',
-        description: 'The SMTP password',
-        default: '',
-        password: true
     ]]
 
     def inputParameters = []
 
     // WORKAROUND: Seems the pipeline plugin is buggy with .each, ... See: https://issues.jenkins-ci.org/browse/JENKINS-26481
     for (int i = 0; i < parametersDefinitions.size(); i++) {
-        inputParameters.add([
-            $class: 'StringParameterDefinition',
-            defaultValue: parametersDefinitions[i].default,
-            description: parametersDefinitions[i].description,
-            name: parametersDefinitions[i].humanName
-        ])
+        if (parametersDefinitions['choices'] != null) {
+            inputParameters.add([
+                $class: 'ChoiceParameterDefinition',
+                choices: parametersDefinitions[i].choices,
+                description: parametersDefinitions[i].description,
+                name: parametersDefinitions[i].humanName
+            ])
+
+        }
+        else {
+            inputParameters.add([
+                $class: 'StringParameterDefinition',
+                defaultValue: parametersDefinitions[i].default,
+                description: parametersDefinitions[i].description,
+                name: parametersDefinitions[i].humanName
+            ])
+        }
     }
 
     // Ask the user for initial passwords

@@ -23,7 +23,9 @@ COPY jobs /usr/share/jenkins/ref/jobs/
 COPY scripts/wait-for-it.sh .
 
 RUN usermod -u 2000 jenkins \
-    && gpasswd -a jenkins users
+    && gpasswd -a jenkins users \
+    && mkdir /envs \
+    && chown jenkins:jenkins /envs
 
 USER jenkins
 
