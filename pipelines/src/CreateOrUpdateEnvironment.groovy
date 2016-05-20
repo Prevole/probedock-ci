@@ -322,7 +322,7 @@ node {
 
         // When we have a parameter that we not save into the property file, we just set it as env variables
         else if (parametersDefinitions[i].containsKey('save') && !parametersDefinitions[i].save) {
-            env.setProperty(parametersDefinitions[i].name, (Object) filledParameters[parametersDefinitions[i].humanName])
+            env.setProperty(parametersDefinitions[i].name, filledParameters[parametersDefinitions[i].humanName])
         }
 
         // For all other parameters, we save them to a property file
