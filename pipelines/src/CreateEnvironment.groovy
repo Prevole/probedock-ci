@@ -60,6 +60,8 @@ node {
         }
     }
 
+    println envProperties
+
     /**
      * This step will ask the Probe Dock deploy for several passwords that will be used to setup the database and such things.
      *
