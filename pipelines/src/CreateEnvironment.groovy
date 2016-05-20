@@ -123,7 +123,7 @@ node {
         name: 'PROBEDOCK_APP_PROTOCOL',
         humanName: 'Application protocol',
         description: 'External address protocol (http or https).',
-        choices: [ 'https', 'http' ],
+        choices: 'https\nhttp',
         password: false
     ], [
         name: 'PROBEDOCK_APP_HOST',
@@ -191,7 +191,8 @@ node {
 
     // WORKAROUND: Seems the pipeline plugin is buggy with .each, ... See: https://issues.jenkins-ci.org/browse/JENKINS-26481
     for (int i = 0; i < parametersDefinitions.size(); i++) {
-        if (parametersDefinitions['choices'] != null) {
+        if (parametersDefinitions.choices != null) {
+            println parametersDefinitions[i].choices
             inputParameters.add([
                 $class: 'ChoiceParameterDefinition',
                 choices: parametersDefinitions[i].choices,
