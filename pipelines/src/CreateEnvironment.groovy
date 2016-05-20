@@ -55,15 +55,8 @@ node {
      */
     def Properties envProperties = new Properties()
     if (envExists) {
-        println 'before load'
         envProperties.load(new FileInputStream(envFile))
-        println 'after load'
-//        enfFile.withInputStream {
-//            envProperties.load(it)
-//        }
     }
-
-    println envProperties
 
     /**
      * This step will ask the Probe Dock deploy for several passwords that will be used to setup the database and such things.
@@ -260,7 +253,10 @@ node {
      * Ask user for the parameters and passwords
      */
     def filledParameters = input(
-        message: 'Setup your environment.\n\n!! ATTENTION !!: You MUST store the credentials information in a secure way.',
+        message:
+            !envExists ?
+            'Setup your environment.\n\n!! ATTENTION !!: You MUST store the credentials information in a secure way.' :
+            'Update your environment configuration',
         parameters: inputParameters
     )
 
