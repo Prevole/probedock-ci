@@ -298,8 +298,6 @@ node {
     // Replace this line by the two above once the Groovy sandboxing will allow to use SystemCredentialsProvider$StoreImpl.addDomain
     def domain = Domain.global()
 
-    def env = filledParameters[parametersDefinitions[0].humanName]
-
     StringBuilder sb = new StringBuilder()
     // Store each passwords
     for (int i = 0; i < parametersDefinitions.size(); i++) {
@@ -324,7 +322,7 @@ node {
 
         // When we have a parameter that we not save into the property file, we just set it as env variables
         else if (parametersDefinitions[i].containsKey('save') && !parametersDefinitions[i].save) {
-            env.put([parametersDefinitions[i].name], filledParameters[parametersDefinitions[i].humanName])
+            env[parametersDefinitions[i].name] = filledParameters[parametersDefinitions[i].humanName]
         }
 
         // For all other parameters, we save them to a property file
