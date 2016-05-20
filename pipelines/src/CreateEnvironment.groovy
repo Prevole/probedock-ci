@@ -11,6 +11,7 @@ import org.jenkinsci.plugins.plaincredentials.impl.*
 import hudson.util.Secret
 import hudson.plugins.sshslaves.*
 import java.util.Collections
+import java.lang.StringBuilder
 
 /**
  * Workaround join method to avoid rejection exception of unclassified method java.util.ArrayList join
