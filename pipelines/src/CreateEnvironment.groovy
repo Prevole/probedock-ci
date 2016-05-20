@@ -133,7 +133,7 @@ node {
 
     def env = filledParameters[parametersDefinitions[0].humanName]
 
-    StrinbBuilder sb = new StringBuilder()
+    StringBuilder sb = new StringBuilder()
     // Store each passwords
     for (int i = 0; i < parametersDefinitions.size(); i++) {
         // Check if the parameters must be stored as a password
