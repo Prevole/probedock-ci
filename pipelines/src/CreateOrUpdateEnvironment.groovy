@@ -255,7 +255,7 @@ node {
                 $class: 'BooleanParameterDefinition',
                 defaultValue: parametersDefinitions[i].default,
                 description: parametersDefinitions[i].description,
-                name: parametersDefinitions[i].name
+                name: parametersDefinitions[i].humanName
             ])
         }
 
@@ -337,9 +337,12 @@ node {
         println 'The environment configuration file already exists. The first deploy cannot be triggered.'
     }
     else {
-        println 'The environment configuration file was created. The first deploy will now be triggered.'
-        build job: 'FirstDeploy', parameters: [
-            [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV]
-        ]
+        println 'The environment configuration file was created.'
+        if (filledParameters.FIRST_DEPLOY) {
+            println 'The first deploy will now be triggered.'
+            build job: 'FirstDeploy', parameters: [
+                [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV]
+            ]
+        }
     }
 }
