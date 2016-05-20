@@ -74,10 +74,11 @@ node {
      * Define the parameters that will be asked to the user
      */
     def parametersDefinitions = [[
-        name: 'ENV',
+        name: 'PROBEDOCK_ENV',
         humanName: 'Environment name',
         description: 'The environment name.',
-        default: env.PROBEDOCK_ENV
+        default: env.PROBEDOCK_ENV,
+        save: false
     ], [
         name: 'PROBEDOCK_LOG_LEVEL',
         humanName: 'Log level',
@@ -206,7 +207,8 @@ node {
             humanName: 'Do the first deployment?',
             description: 'Perform the first deployment right after the configuration has been validated.',
             default: false,
-            boolean: true
+            boolean: true,
+            save: false
         ])
         parametersDefinitions.add([
             name: 'PROBEDOCK_ADMIN_USERNAME',
@@ -315,15 +317,21 @@ node {
             }
         }
 
-        // The environment name is not handle like the other parameters
-        else if (i > 0 && !parametersDefinitions[i].name.equalsIgnoreCase('FIRST_DEPLOY') && (!parametersDefinitions[i].containsKey('save') || parametersDefinitions[i].save)) {
+        // When we have a parameter that we not save into the property file, we just set it as env variables
+        else if (parametersDefinitions[i].containsKey('save') && !parametersDefinitions[i].save) {
+            env[parametersDefinitions[i].name] = filledParameters[parametersDefinitions[i].humanName]
+        }
+
+        // For all other parameters, we save them to a property file
+        else {
             sb.append(parametersDefinitions[i].name).append('=').append(filledParameters[parametersDefinitions[i].humanName]).append('\n')
         }
     }
 
-    def propertyFile = new File('/envs/' + env)
-
-    propertyFile.write sb.toString()
+    /**
+     * Save the content of the property file
+     */
+    envFile.write sb.toString()
 
     // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
     store = null
@@ -335,10 +343,13 @@ node {
     }
     else {
         println 'The environment configuration file was created.'
-        if (filledParameters.FIRST_DEPLOY) {
+        if (env.FIRST_DEPLOY) {
             println 'The first deploy will now be triggered.'
             build job: 'FirstDeploy', parameters: [
-                [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV]
+                [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
+                [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: env.PROBEDOCK_ADMIN_USERNAME],
+                [$class: 'PasswordParameterValue', name: 'PROBEDOCK_ADMIN_PASSWORD', value: env.PROBEDOCK_ADMIN_PASSWORD],
+                [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_EMAIL', value: env.PROBEDOCK_ADMIN_EMAIL]
             ]
         }
     }
