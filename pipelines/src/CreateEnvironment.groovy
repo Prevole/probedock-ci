@@ -192,7 +192,7 @@ node {
     // WORKAROUND: Seems the pipeline plugin is buggy with .each, ... See: https://issues.jenkins-ci.org/browse/JENKINS-26481
     for (int i = 0; i < parametersDefinitions.size(); i++) {
         if (parametersDefinitions['choices'] != null) {
-            println parametersDefinitions[i].choices
+            println parametersDefinitions[i].name
             inputParameters.add([
                 $class: 'ChoiceParameterDefinition',
                 choices: parametersDefinitions[i].choices,
