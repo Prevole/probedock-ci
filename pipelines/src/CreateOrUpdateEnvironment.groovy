@@ -298,6 +298,11 @@ node {
     // Replace this line by the two above once the Groovy sandboxing will allow to use SystemCredentialsProvider$StoreImpl.addDomain
     def domain = Domain.global()
 
+    /**
+     * Define the current runtime variables
+     */
+    def currentVars = [:]
+
     StringBuilder sb = new StringBuilder()
     // Store each passwords
     for (int i = 0; i < parametersDefinitions.size(); i++) {
@@ -322,7 +327,7 @@ node {
 
         // When we have a parameter that we not save into the property file, we just set it as env variables
         else if (parametersDefinitions[i].containsKey('save') && !parametersDefinitions[i].save) {
-            env.setProperty(parametersDefinitions[i].name, filledParameters[parametersDefinitions[i].humanName])
+            currentVars.put(parametersDefinitions[i].name, filledParameters[parametersDefinitions[i].humanName])
         }
 
         // For all other parameters, we save them to a property file
@@ -349,10 +354,10 @@ node {
         if (env.FIRST_DEPLOY) {
             println 'The first deploy will now be triggered.'
             build job: 'FirstDeploy', parameters: [
-                [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
-                [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: env.PROBEDOCK_ADMIN_USERNAME],
-                [$class: 'PasswordParameterValue', name: 'PROBEDOCK_ADMIN_PASSWORD', value: env.PROBEDOCK_ADMIN_PASSWORD],
-                [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_EMAIL', value: env.PROBEDOCK_ADMIN_EMAIL]
+                [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: currentVars.PROBEDOCK_ENV],
+                [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: currentVars.PROBEDOCK_ADMIN_USERNAME],
+                [$class: 'PasswordParameterValue', name: 'PROBEDOCK_ADMIN_PASSWORD', value: currentVars.PROBEDOCK_ADMIN_PASSWORD],
+                [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_EMAIL', value: currentVars.PROBEDOCK_ADMIN_EMAIL]
             ]
         }
     }
