@@ -40,6 +40,9 @@ def strGenerator(String alphabet, int n) {
 
 //noinspection GroovyAssignabilityCheck
 node {
+    // Clone the pipelines repo
+    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
+
     def Passwords = load 'pipelines/src/Passwords.groovy'
 
     /**
