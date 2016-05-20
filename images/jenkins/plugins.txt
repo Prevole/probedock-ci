@@ -1,3 +1,4 @@
+filesystem-list-parameter-plugin:0.0.3
 plain-credentials:1.2
 durable-task:1.10
 envinject:1.92.1

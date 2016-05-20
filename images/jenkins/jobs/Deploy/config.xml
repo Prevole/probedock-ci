@@ -13,18 +13,35 @@
         </jenkins.model.BuildDiscarderProperty>
         <hudson.model.ParametersDefinitionProperty>
             <parameterDefinitions>
-                <hudson.model.StringParameterDefinition>
+                <alex.jenkins.plugins.FileSystemListParameterDefinition plugin="filesystem-list-parameter-plugin@0.0.3">
                     <name>PROBEDOCK_ENV</name>
                     <description></description>
-                    <defaultValue>default</defaultValue>
-                </hudson.model.StringParameterDefinition>
-                <hudson.model.StringParameterDefinition>
-                    <name>PROBEDOCK_DATA_PATH</name>
-                    <description></description>
-                    <defaultValue>/data</defaultValue>
-                </hudson.model.StringParameterDefinition>
+                    <path>/envs</path>
+                    <selectedType>FILE</selectedType>
+                    <sortByLastModified>false</sortByLastModified>
+                    <sortReverseOrder>false</sortReverseOrder>
+                    <selectedEnumType>FILE</selectedEnumType>
+                    <regexIncludePattern></regexIncludePattern>
+                    <regexExcludePattern></regexExcludePattern>
+                    <formatter>
+                        <a class="string-builder"></a>
+                        <l>en</l>
+                        <zero>0</zero>
+                    </formatter>
+                </alex.jenkins.plugins.FileSystemListParameterDefinition>
             </parameterDefinitions>
         </hudson.model.ParametersDefinitionProperty>
+        <EnvInjectJobProperty plugin="envinject@1.92.1">
+            <info>
+                <propertiesFilePath>/envs/${PROBEDOCK_ENV}</propertiesFilePath>
+                <loadFilesFromMaster>false</loadFilesFromMaster>
+            </info>
+            <on>true</on>
+            <keepJenkinsSystemVariables>true</keepJenkinsSystemVariables>
+            <keepBuildVariables>true</keepBuildVariables>
+            <overrideBuildParameters>false</overrideBuildParameters>
+            <contributors/>
+        </EnvInjectJobProperty>
     </properties>
     <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.2">
         <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.4">

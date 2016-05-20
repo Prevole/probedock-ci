@@ -13,11 +13,22 @@
         </jenkins.model.BuildDiscarderProperty>
         <hudson.model.ParametersDefinitionProperty>
             <parameterDefinitions>
-                <hudson.model.StringParameterDefinition>
+                <alex.jenkins.plugins.FileSystemListParameterDefinition plugin="filesystem-list-parameter-plugin@0.0.3">
                     <name>PROBEDOCK_ENV</name>
-                    <description>The environment to scope Probe Dock in its own context (one postgres, redis, nginx per environment)</description>
-                    <defaultValue>default</defaultValue>
-                </hudson.model.StringParameterDefinition>
+                    <description></description>
+                    <path>/envs</path>
+                    <selectedType>FILE</selectedType>
+                    <sortByLastModified>false</sortByLastModified>
+                    <sortReverseOrder>false</sortReverseOrder>
+                    <selectedEnumType>FILE</selectedEnumType>
+                    <regexIncludePattern></regexIncludePattern>
+                    <regexExcludePattern></regexExcludePattern>
+                    <formatter>
+                        <a class="string-builder"></a>
+                        <l>en</l>
+                        <zero>0</zero>
+                    </formatter>
+                </alex.jenkins.plugins.FileSystemListParameterDefinition>
             </parameterDefinitions>
         </hudson.model.ParametersDefinitionProperty>
     </properties>
