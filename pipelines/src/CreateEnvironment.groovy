@@ -123,7 +123,7 @@ node {
         name: 'PROBEDOCK_APP_PROTOCOL',
         humanName: 'Application protocol',
         description: 'External address protocol (http or https).',
-        choices: 'https\nhttp',
+        choices: [ 'https', 'http' ],
         password: false
     ], [
         name: 'PROBEDOCK_APP_HOST',
