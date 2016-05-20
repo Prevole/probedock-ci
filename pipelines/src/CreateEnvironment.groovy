@@ -317,8 +317,8 @@ node {
     }
     else {
         println 'The environment configuration file was created. The first deploy will now be triggered.'
-//        build job: 'FirstDeploy', parameters: [
-//            [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV]
-//        ]
+        build job: 'FirstDeploy', parameters: [
+            [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV]
+        ]
     }
 }
