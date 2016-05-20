@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@2.1">
+    <actions/>
     <description></description>
     <keepDependencies>false</keepDependencies>
     <properties>
@@ -11,6 +12,15 @@
                 <artifactNumToKeep>-1</artifactNumToKeep>
             </strategy>
         </jenkins.model.BuildDiscarderProperty>
+        <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+                <hudson.model.StringParameterDefinition>
+                    <name>PROBEDOCK_ENV</name>
+                    <description></description>
+                    <defaultValue>default</defaultValue>
+                </hudson.model.StringParameterDefinition>
+            </parameterDefinitions>
+        </hudson.model.ParametersDefinitionProperty>
     </properties>
     <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.2">
         <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.4">
