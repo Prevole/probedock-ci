@@ -47,8 +47,8 @@ node {
 
     def Passwords = load 'pipelines/src/Passwords.groovy'
 
-    def File enfFile = new File('/envs/' + env.PROBEDOCK_ENV)
-    def envExists = enfFile.exists()
+    def File envFile = new File('/envs/' + env.PROBEDOCK_ENV)
+    def envExists = envFile.exists()
 
     /**
      * Load the properties from the env file
