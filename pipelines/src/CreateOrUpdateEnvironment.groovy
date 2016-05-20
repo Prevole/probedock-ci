@@ -211,6 +211,27 @@ node {
             default: false,
             boolean: true
         ])
+        parametersDefinitions.add([
+            name: 'PROBEDOCK_ADMIN_USERNAME',
+            humanName: 'Probe Dock administrator user name',
+            description: 'The Probe Dock administrator user name.',
+            default: 'admin',
+            save: false
+        ])
+        parametersDefinitions.add([
+            name: 'PROBEDOCK_ADMIN_PASSWORD',
+            humanName: 'Probe Dock admistrator password',
+            description: 'The Probe Dock administrator password.',
+            default: '',
+            save: false
+        ])
+        parametersDefinitions.add([
+            name: 'PROBEDOCK_ADMIN_EMAIL',
+            humanName: 'Probe Dock administrator email',
+            description: 'The Probe Dock administrator email.',
+            default: '',
+            save: false
+        ])
     }
 
     /**
@@ -298,7 +319,7 @@ node {
         }
 
         // The environment name is not handle like the other parameters
-        else if (i > 0 && !parametersDefinitions[i].name.equalsIgnoreCase('FIRST_DEPLOY')) {
+        else if (i > 0 && !parametersDefinitions[i].name.equalsIgnoreCase('FIRST_DEPLOY') && (!parametersDefinitions[i].containsKey('save') || parametersDefinitions[i].save)) {
             sb.append(parametersDefinitions[i].name).append('=').append(filledParameters[parametersDefinitions[i].humanName]).append('\n')
         }
     }
