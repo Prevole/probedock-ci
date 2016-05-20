@@ -27,4 +27,6 @@ RUN usermod -u 2000 jenkins \
 
 USER jenkins
 
+VOLUME /envs
+
 ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]

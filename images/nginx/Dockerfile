@@ -1,6 +1,5 @@
-FROM alphahydrae/nginx-serf
+FROM alphahydrae/nginx-serf:0.1.0
 
-COPY config.yml /etc/nginx-serf/config.yml
-COPY conf.d /etc/nginx-serf/conf.d
+COPY sites /etc/nginx-serf/sites
 
 VOLUME /usr/src/app/public

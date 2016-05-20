@@ -61,7 +61,7 @@ node {
     def passwordLength = 32
     def keysLength = 128
 
-    // Retrieve the store
+    // Define the passwords
     def passwordDefinitions = [
         [name: Passwords.POSTGRESSQL_PASSWORD_NAME, description: 'The root password for PostgreSQL', default: strGenerator(passwordAlphabet, passwordLength)],
         [name: Passwords.PROBEDOCK_DB_PASSWORD_NAME, description: 'The password for Probe Dock PostgreSQL database.', default: strGenerator(passwordAlphabet, passwordLength)],
