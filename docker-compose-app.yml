@@ -29,8 +29,13 @@ services:
       PROBEDOCK_UNICORN_USER: root
       PROBEDOCK_UNICORN_WORKERS:
 
+  app:
+    image: probedock/probedock-app
+    extends:
+      service: _common
+
   assets:
-    image: probedock/probedock
+    image: probedock/probedock-base
     extends: task
     volumes_from:
       - rp
@@ -64,6 +69,11 @@ services:
     networks:
       - probenet
 
+  job:
+    image: probedock/probedock-job
+    extends:
+      service: _common
+
   rp:
     image: probedock/nginx
     container_name: ${PROBEDOCK_ENV}_rp
@@ -73,7 +83,7 @@ services:
       - probenet
 
   task:
-    image: probedock/probedock
+    image: probedock/probedock-base
     entrypoint: rake
     command: -T
     extends:

@@ -30,7 +30,7 @@ node {
      * Build the Probe Dock main image
      */
     stage 'Build Probe Dock docker image'
-    sh 'pipelines/scripts/probedock-server-docker-images.sh'
+    sh 'pipelines/scripts/probedock-docker-images.sh'
 
     /**
      * Create the database

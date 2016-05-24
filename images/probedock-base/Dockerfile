@@ -43,4 +43,3 @@ RUN bundle config --global frozen 1
 
 COPY probedock /usr/src/app
 
-EXPOSE 3000

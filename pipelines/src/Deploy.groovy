@@ -34,7 +34,7 @@ node {
      * Build the Probe Dock main image
      */
     stage 'Build Probe Dock docker image'
-    sh 'pipelines/scripts/probedock-server-docker-images.sh'
+    sh 'pipelines/scripts/probedock-docker-images.sh'
 
     // TODO: Stop the applications
     // TODO: Stop the jobs
@@ -42,6 +42,9 @@ node {
     stage 'Compile assets'
     sh 'pipelines/scripts/build-assets.sh'
 
-    // TODO: Start the jobs
-    // TODO: Start the apps
+    stage 'Start job containers'
+    sh 'pipelines/scripts/probedock-job-start.sh'
+
+    stage 'Start app containers'
+    sh 'pipelines/scripts/probedock-app-start.sh'
 }
