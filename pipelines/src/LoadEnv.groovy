@@ -12,7 +12,7 @@ def setupEnv(env, propertyFile) {
 
     println envProperties
 
-    def propertyNames = envProperties.keys()
+    def propertyNames = envProperties.keySet().toArray(new String[0])
 
     println propertyNames
 
