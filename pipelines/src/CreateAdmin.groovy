@@ -1,12 +1,15 @@
 //noinspection GroovyAssignabilityCheck
 node {
+    // Clone the pipelines repos and the probe dock server repo
+    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
+
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
+
+    load('pipelines/src/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
+
     env.PROBEDOCK_ADMIN_USERNAME = PROBEDOCK_ADMIN_USERNAME
     env.PROBEDOCK_ADMIN_PASSWORD = PROBEDOCK_ADMIN_PASSWORD
     env.PROBEDOCK_ADMIN_EMAIL = PROBEDOCK_ADMIN_EMAIL
-
-    // Clone the pipelines repos and the probe dock server repo
-    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
 
     def Passwords = load 'pipelines/src/Passwords.groovy'
 
