@@ -9,6 +9,7 @@
         <string>method java.lang.Appendable append java.lang.CharSequence</string>
         <string>method java.lang.String equalsIgnoreCase java.lang.String</string>
         <string>method java.util.ArrayList join</string>
+        <string>method java.util.Collection toArray java.lang.Object[]</string>
         <string>method java.util.Map containsKey java.lang.Object</string>
         <string>method java.util.Map keySet</string>
         <string>method java.util.Properties getProperty java.lang.String</string>
