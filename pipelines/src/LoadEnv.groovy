@@ -10,10 +10,10 @@ def setupEnv(env, propertyFile) {
         envProperties.load(new FileInputStream(envFile))
     }
 
-    def propertyNames = properties.keys()
+    def propertyNames = envProperties.keys()
 
     for (int i = 0; i < propertyNames.length; i++) {
-        env[propertyNames[i]] = properties.getProperty(propertyNames[i])
+        env[propertyNames[i]] = envProperties.getProperty(propertyNames[i])
     }
 }
 
