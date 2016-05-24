@@ -1,12 +1,19 @@
 //noinspection GroovyAssignabilityCheck
 node {
+    def File envFile = new File('/envs/' + env.PROBEDOCK_ENV)
+    def envExists = envFile.exists()
+
+    /**
+     * Load the properties from the env file
+     */
+    def Properties envProperties = new Properties()
+    if (envExists) {
+        envProperties.load(new FileInputStream(envFile))
+    }
+
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
 
     load('pipelines/src/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
-
-    // Clone the pipelines repos and the probe dock server repo
-    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
-    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'images/probedock-base/probedock'], [$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/probedock/probedock.git']]]
 
     def Passwords = load 'pipelines/src/Passwords.groovy'
 
