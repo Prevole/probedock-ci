@@ -3,10 +3,10 @@
 cd images
 
 echo 'Build the Probe Dock base image'
-docker build -t probedock/probedock-base images/probedock-base
+docker build -t probedock/probedock-base probedock-base
 
 echo 'Build the Probe Dock backend image'
-docker build -t probedock/probedock-app images/probedock-app
+docker build -t probedock/probedock-app probedock-app
 
 echo 'Build the Probe Dock job image'
-docker build -t probedock/probedock-job images/probedock-job
+docker build -t probedock/probedock-job probedock-job
