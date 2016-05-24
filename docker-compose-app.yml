@@ -64,27 +64,6 @@ services:
     networks:
       - probenet
 
-  jenkins:
-    image: probedock/jenkins
-    container_name: jenkins
-    volumes_from:
-      - jenkinsData
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - ci
-    ports:
-      - 8080:8080
-
-  jenkinsData:
-    image: probedock/jenkins
-    container_name: jenkins_data
-    entrypoint: /bin/bash
-    networks:
-      - ci
-    volumes:
-      - /jenkins:/var/jenkins_home
-
   rp:
     image: probedock/nginx
     container_name: ${PROBEDOCK_ENV}_rp
@@ -95,6 +74,8 @@ services:
 
   task:
     image: probedock/probedock
+    entrypoint: rake
+    command: -T
     extends:
       service: _common
     networks:
@@ -114,4 +95,3 @@ services:
 
 networks:
   probenet:
-  ci:
