@@ -1,15 +1,8 @@
 //noinspection GroovyAssignabilityCheck
 node {
-    def File envFile = new File('/envs/' + env.PROBEDOCK_ENV)
-    def envExists = envFile.exists()
-
-    /**
-     * Load the properties from the env file
-     */
-    def Properties envProperties = new Properties()
-    if (envExists) {
-        envProperties.load(new FileInputStream(envFile))
-    }
+    // Clone the pipelines repos and the probe dock server repo
+    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
+    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'images/probedock-base/probedock'], [$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/probedock/probedock.git']]]
 
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
 
