@@ -35,6 +35,7 @@
         <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods plus java.util.List java.lang.Iterable</string>
         <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods plus java.util.List java.lang.Object</string>
         <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods plus java.util.List java.util.Collection</string>
+        <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods putAt java.lang.Object java.lang.String java.lang.Object</string>
         <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods withInputStream java.io.File groovy.lang.Closure</string>
         <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods write java.io.File java.lang.String</string>
         <string>staticMethod org.codehaus.groovy.runtime.ScriptBytecodeAdapter createRange java.lang.Object java.lang.Object boolean</string>
