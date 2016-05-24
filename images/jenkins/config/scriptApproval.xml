@@ -9,8 +9,8 @@
         <string>method java.lang.Appendable append java.lang.CharSequence</string>
         <string>method java.lang.String equalsIgnoreCase java.lang.String</string>
         <string>method java.util.ArrayList join</string>
-        <string>method java.util.Dictionary keys</string>
         <string>method java.util.Map containsKey java.lang.Object</string>
+        <string>method java.util.Map keySet</string>
         <string>method java.util.Properties getProperty java.lang.String</string>
         <string>method java.util.Properties load java.io.InputStream</string>
         <string>method java.util.Random nextInt int</string>
