@@ -33,6 +33,8 @@ services:
     image: probedock/probedock-app
     extends:
       service: _common
+    networks:
+      - probenet
 
   assets:
     image: probedock/probedock-base
@@ -73,6 +75,8 @@ services:
     image: probedock/probedock-job
     extends:
       service: _common
+    networks:
+      - probenet
 
   rp:
     image: probedock/nginx
