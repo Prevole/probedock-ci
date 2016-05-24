@@ -13,6 +13,8 @@ def setupEnv(env, propertyFile) {
     def propertyNames = envProperties.keys()
 
     for (int i = 0; i < propertyNames.size(); i++) {
+        println propertyNames[i]
+        println envProperties.getProperty(propertyNames[i])
         env[propertyNames[i]] = envProperties.getProperty(propertyNames[i])
     }
 }
