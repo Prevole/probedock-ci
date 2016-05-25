@@ -19,26 +19,34 @@ node {
     sh 'pipelines/scripts/postgres.sh'
     sh 'pipelines/scripts/redis.sh'
 
-//    /**
-//     * We want to create the admin user
-//     */
-//    stage 'Backup'
-//    build job: 'Backup', parameters: [
-//        [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
-//    ]
-
     /**
      * Build the Probe Dock main image
      */
     stage 'Build Probe Dock docker image'
     sh 'pipelines/scripts/probedock-docker-images.sh'
 
-    // TODO: Stop the applications
-    // TODO: Stop the jobs
+    /**
+     * Stop the app and job containers
+     */
+    stage 'Stop app containers'
+    sh 'pipelines/scripts/probedock-app-stop.sh'
 
+    stage 'Stop job containers'
+    sh 'pipelines/scripts/probedock-job-stop.sh'
+
+    /**
+     * Probe Dock must be done during the assets are built and copied to rp container
+     */
     stage 'Compile assets'
     sh 'pipelines/scripts/build-assets.sh'
 
+    // TODO: Add the backup of the database
+    // TODO: Add the database migration and backup
+
+    /**
+     * Start the app and job containers
+     */
+    stage 'Start job containers'
     withCredentials([
         [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME],
         [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_SECRET_KEY_NAME, variable: Passwords.DOCKER_SECRET_KEY_NAME],
@@ -46,10 +54,17 @@ node {
         [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_SMTP_USER_NAME, variable: Passwords.DOCKER_SMTP_USER_NAME],
         [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_SMTP_PASSWORD_NAME, variable: Passwords.DOCKER_SMTP_PASSWORD_NAME]
     ]) {
-        stage 'Start job containers'
         sh 'pipelines/scripts/probedock-job-start.sh'
+    }
 
-        stage 'Start app containers'
+    stage 'Start app containers'
+    withCredentials([
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME],
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_SECRET_KEY_NAME, variable: Passwords.DOCKER_SECRET_KEY_NAME],
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_JWT_SECRET_NAME, variable: Passwords.DOCKER_JWT_SECRET_NAME],
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_SMTP_USER_NAME, variable: Passwords.DOCKER_SMTP_USER_NAME],
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_SMTP_PASSWORD_NAME, variable: Passwords.DOCKER_SMTP_PASSWORD_NAME]
+    ]) {
         sh 'pipelines/scripts/probedock-app-start.sh'
     }
 }
