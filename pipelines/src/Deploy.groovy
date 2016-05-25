@@ -9,6 +9,8 @@ node {
 
     load('pipelines/src/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
+    def Passwords = load 'pipelines/src/Passwords.groovy'
+
     /**
      * Make sure PostgreSQL and Redis are up and running
      */
