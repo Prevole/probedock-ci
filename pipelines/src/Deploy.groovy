@@ -37,9 +37,17 @@ node {
     stage 'Compile assets'
     sh 'pipelines/scripts/build-assets.sh'
 
-    stage 'Start job containers'
-    sh 'pipelines/scripts/probedock-job-start.sh'
+    withCredentials([
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME],
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_SECRET_KEY_NAME, variable: Passwords.DOCKER_SECRET_KEY_NAME],
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_JWT_SECRET_NAME, variable: Passwords.DOCKER_JWT_SECRET_NAME],
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_SMTP_USER_NAME, variable: Passwords.DOCKER_SMTP_USER_NAME],
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_SMTP_PASSWORD_NAME, variable: Passwords.DOCKER_SMTP_PASSWORD_NAME]
+    ]) {
+        stage 'Start job containers'
+        sh 'pipelines/scripts/probedock-job-start.sh'
 
-    stage 'Start app containers'
-    sh 'pipelines/scripts/probedock-app-start.sh'
+        stage 'Start app containers'
+        sh 'pipelines/scripts/probedock-app-start.sh'
+    }
 }
