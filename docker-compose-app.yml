@@ -77,6 +77,10 @@ services:
       service: _common
     networks:
       - probenet
+    environment:
+      QUEUE: "*"
+      INTERVAL: "2"
+      TERM_CHILD: "1"
 
   rp:
     image: probedock/nginx
