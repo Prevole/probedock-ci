@@ -22,7 +22,7 @@ node {
     /**
      * Build the Probe Dock main image
      */
-    stage 'Build Probe Dock docker image'
+    stage 'Build Probe Dock docker images'
     sh 'pipelines/scripts/probedock-docker-images.sh'
 
     /**
@@ -40,7 +40,11 @@ node {
     stage 'Compile assets'
     sh 'pipelines/scripts/build-assets.sh'
 
-    // TODO: Add the backup of the database
+    stage 'Backup the database'
+    sh 'pipelines/scripts/postgres-backup.sh'
+
+    stage 'Database migration'
+    sh 'pipelines/scripts/probedock-migration.sh'
     // TODO: Add the database migration and backup
 
     /**
