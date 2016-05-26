@@ -16,7 +16,7 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
 RUN echo 2.0 > /usr/share/jenkins/ref/jenkins.install.UpgradeWizard.state
 
-COPY config/scriptApproval.xml /usr/share/jenkins/ref/scriptApproval.xml
+COPY config /usr/share/jenkins/ref
 
 COPY jobs /usr/share/jenkins/ref/jobs/
 

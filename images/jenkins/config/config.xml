@@ -2,7 +2,7 @@
 <hudson>
     <disabledAdministrativeMonitors/>
     <version>2.6</version>
-    <numExecutors>3</numExecutors>
+    <numExecutors>4</numExecutors>
     <mode>NORMAL</mode>
     <useSecurity>true</useSecurity>
     <authorizationStrategy class="hudson.security.AuthorizationStrategy$Unsecured"/>

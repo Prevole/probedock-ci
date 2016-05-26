@@ -40,12 +40,21 @@ node {
     stage 'Compile assets'
     sh 'pipelines/scripts/build-assets.sh'
 
+    /**
+     * Make a backup of the PostgreSQL database
+     */
     stage 'Backup the database'
-    sh 'pipelines/scripts/postgres-backup.sh'
+    withCredentials([
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
+    ]) {
+        sh 'pipelines/scripts/postgres-backup.sh'
+    }
 
+    /**
+     * Proceed to the migration, if any, of the Probe Dock database
+     */
     stage 'Database migration'
     sh 'pipelines/scripts/probedock-migration.sh'
-    // TODO: Add the database migration and backup
 
     /**
      * Start the app and job containers
