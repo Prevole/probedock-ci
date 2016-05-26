@@ -90,7 +90,7 @@ services:
     image: probedock/nginx
     container_name: ${PROBEDOCK_ENV}_rp
     ports:
-      - 3000:80
+      - ${PROBEDOCK_DOCKER_WEB_CONTAINER_PORT}:80
     networks:
       - probenet
 

@@ -43,6 +43,8 @@ sudo adduser -G jenkins -D -H -u 2000 jenkins
 
 sudo mkdir /jenkins
 sudo chown jenkins:jenkins /jenkins
+sudo mkdir /envs
+sudo chown jenkins:jenkins /envs
 ```
 
 ## Get the list of plugins with the versions to update the plugins.txt
