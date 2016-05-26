@@ -54,7 +54,7 @@ services:
       PGPASSWORD: ${POSTGRES_PASSWORD}
       ENV: ${PROBEDOCK_ENV}
       DATE: ${PROBEDOCK_DATE}
-    entrypoint: backup.sh
+    entrypoint: /scripts/backup.sh
 
   db:
     image: probedock/postgres

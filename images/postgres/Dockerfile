@@ -1,4 +1,6 @@
 FROM postgres:9.5.2
 
-COPY scripts docker-entrypoint-initdb.d
+COPY scripts/init.sh docker-entrypoint-initdb.d/init.sh
+
+COPY scripts/backup.sh /scripts/backup.sh
 
