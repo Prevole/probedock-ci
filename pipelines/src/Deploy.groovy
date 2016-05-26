@@ -54,7 +54,11 @@ node {
      * Proceed to the migration, if any, of the Probe Dock database
      */
     stage 'Database migration'
-    sh 'pipelines/scripts/probedock-migration.sh'
+    withCredentials([
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
+    ]) {
+        sh 'pipelines/scripts/probedock-migration.sh'
+    }
 
     /**
      * Start the app and job containers

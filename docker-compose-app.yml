@@ -52,7 +52,9 @@ services:
       - probenet
     environment:
       PGPASSWORD: ${POSTGRES_PASSWORD}
-    entrypoint: sh -c 'exec pg_dump -h ${PROBEDOCK_ENV}_db -p 5432 -U postgres probedock' | gzip > /backups/postgres/${PROBEDOCK_ENV}_${PROBEDOCK_DATE}_db.sql.gz || exit 1
+      ENV: ${PROBEDOCK_ENV}
+      DATE: ${PROBEDOCK_DATE}
+    entrypoint: backup.sh
 
   db:
     image: probedock/postgres
