@@ -49,7 +49,7 @@ node {
         sh 'pipelines/scripts/postgres-backup.sh'
     }
 
-    state 'Drop and create the database'
+    stage 'Drop and create the database'
     withCredentials([
         [$class: 'StringBinding', credentialsId: Passwords.POSTGRESSQL_PASSWORD_NAME, variable: Passwords.DOCKER_POSTGRESQL_PASSWORD_VARNAME],
         [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
@@ -57,7 +57,7 @@ node {
         sh 'pipelines/scripts/drop-and-create-database.sh'
     }
 
-    state 'Restore the database dump'
+    stage 'Restore the database dump'
     withCredentials([
         [$class: 'StringBinding', credentialsId: Passwords.POSTGRESSQL_PASSWORD_NAME, variable: Passwords.DOCKER_POSTGRESQL_PASSWORD_VARNAME]
     ]) {
