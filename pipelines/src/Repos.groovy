@@ -17,7 +17,7 @@ def cloneProbeDock() {
  */
 def cloneRepos() {
     cloneCi()
-    cloneRepos()
+    cloneProbeDock()
 }
 
 return this
