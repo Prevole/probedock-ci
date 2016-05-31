@@ -52,7 +52,7 @@
             <configVersion>2</configVersion>
             <userRemoteConfigs>
                 <hudson.plugins.git.UserRemoteConfig>
-                    <url>https://github.com/Prevole/probedock-ci</url>
+                    <url>$REPO_CI</url>
                 </hudson.plugins.git.UserRemoteConfig>
             </userRemoteConfigs>
             <branches>
