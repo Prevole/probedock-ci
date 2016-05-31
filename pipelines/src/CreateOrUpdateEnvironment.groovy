@@ -101,7 +101,7 @@ node {
         name: 'PROBEDOCK_DATA_PATH',
         humanName: 'Data path',
         description: 'Host path to mount the volume for the Probe Dock data (Postgres data, ...). Each environment will create a subdirectory in this path.',
-        default: envExists ? envProperties.getProperty('PROBEDOCK_DATA') : '/data'
+        default: envExists ? envProperties.getProperty('PROBEDOCK_DATA_PATH') : '/data'
     ], [
         name: 'PROBEDOCK_LOG_LEVEL',
         humanName: 'Log level',
