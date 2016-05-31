@@ -38,7 +38,7 @@ node {
     withCredentials([
         [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
     ]) {
-        sh 'pipelines/scripts/create-database.sh'
+        sh 'pipelines/scripts/setup-database.sh'
     }
 
     /**

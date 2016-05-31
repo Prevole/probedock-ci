@@ -86,6 +86,20 @@ services:
       INTERVAL: "2"
       TERM_CHILD: "1"
 
+  loadDump:
+    image: probedock/postgres
+    extends:
+      service: _common
+    volumes:
+      - ${DUMPS_PATH}:/dumps
+    networks:
+      - probenet
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      ENV: ${PROBEDOCK_ENV}
+      DUMP_PATH: ${DUMP_PATH}
+    entryPoint: /bin/bash
+
   rp:
     image: probedock/nginx
     container_name: ${PROBEDOCK_ENV}_rp
