@@ -22,9 +22,6 @@ def setupEnv(env, propertyFile) {
         env[propertyNames[i]] = envProperties.getProperty(propertyNames[i])
     }
 
-    // Define the path to the dumps
-    env.DUMPS_PATH = env.PROBEDOCK_DATA_PATH + '/' + env.PROBEDOCK_ENV + '/dumps/postgresql'
-
     /**
      * Prepare the date for backup file names
      */

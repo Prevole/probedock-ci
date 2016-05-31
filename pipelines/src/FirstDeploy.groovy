@@ -34,7 +34,7 @@ node {
     /**
      * Create the database
      */
-    stage 'Create the database'
+    stage 'Setup the database'
     withCredentials([
         [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
     ]) {

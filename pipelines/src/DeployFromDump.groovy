@@ -5,18 +5,11 @@ node {
 
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
     env.DUMP_FILE = DUMP_FILE
-    env.DUMP_PATH = env.DUMPS_PATH + '/' + DUMP_FILE
+    env.DUMP_PATH = 'jenkins/dumps/' + DUMP_FILE
 
     load('pipelines/src/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
     def Passwords = load 'pipelines/src/Passwords.groovy'
-
-    /**
-     * Move the dump
-     */
-    stage 'Copy the dump file'
-    sh 'mkdir -p ${DUMPS_PATH}'
-    sh 'cp /dumps/${DUMP_FILE} ${DUMP_PATH}'
 
     /**
      * Make sure PostgreSQL and Redis are up and running

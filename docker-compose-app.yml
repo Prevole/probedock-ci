@@ -91,7 +91,7 @@ services:
     extends:
       service: _common
     volumes:
-      - ${DUMPS_PATH}:/dumps
+      - /jenkins/dumps:/dumps
     networks:
       - probenet
     environment:
