@@ -6,6 +6,7 @@
         <string>method com.cloudbees.plugins.credentials.SystemCredentialsProvider getStore</string>
         <string>method com.cloudbees.plugins.credentials.SystemCredentialsProvider.StoreImpl addDomain</string>
         <string>method java.io.File exists</string>
+        <string>method java.lang.AbstractStringBuilder append int</string>
         <string>method java.lang.Appendable append java.lang.CharSequence</string>
         <string>method java.lang.String equalsIgnoreCase java.lang.String</string>
         <string>method java.util.ArrayList join</string>
@@ -14,6 +15,7 @@
         <string>method java.util.Map keySet</string>
         <string>method java.util.Properties getProperty java.lang.String</string>
         <string>method java.util.Properties load java.io.InputStream</string>
+        <string>method java.util.Properties setProperty java.lang.String java.lang.String</string>
         <string>method java.util.Random nextInt int</string>
         <string>method jenkins.model.Jenkins getExtensionList java.lang.String</string>
         <string>new com.cloudbees.plugins.credentials.domains.Domain java.lang.String java.lang.String java.util.List</string>
@@ -27,6 +29,8 @@
         <string>staticField com.cloudbees.plugins.credentials.CredentialsScope GLOBAL</string>
         <string>staticMethod com.cloudbees.plugins.credentials.domains.Domain global</string>
         <string>staticMethod hudson.util.Secret fromString java.lang.String</string>
+        <string>staticMethod java.lang.Boolean parseBoolean java.lang.String</string>
+        <string>staticMethod java.lang.Integer parseInt java.lang.String</string>
         <string>staticMethod java.util.Collections emptyList</string>
         <string>staticMethod jenkins.model.Jenkins getInstance</string>
         <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods collect java.util.Collection java.util.Collection groovy.lang.Closure</string>
