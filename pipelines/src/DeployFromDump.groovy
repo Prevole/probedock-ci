@@ -4,8 +4,7 @@ node {
     load('../workspace@script/pipelines/src/Repos.groovy').cloneRepos()
 
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
-    env.DUMP_FILE = DUMP_FILE
-    env.DUMP_PATH = 'jenkins/dumps/' + DUMP_FILE
+    env.DUMP_PATH = '/dumps/' + DUMP_FILE
 
     load('pipelines/src/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
@@ -99,7 +98,4 @@ node {
     ]) {
         sh 'pipelines/scripts/probedock-app-start.sh'
     }
-
-    state 'Remove the dump file copied'
-    sh 'rm ${DUMP_PATH}'
 }
