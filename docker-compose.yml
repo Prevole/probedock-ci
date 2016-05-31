@@ -9,7 +9,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /jenkins/envs:/envs
-      - /jenkins/dumps:/dumps
+      - /Users/lprevost/Downloads:/dumps
     networks:
       - ci
     ports:
