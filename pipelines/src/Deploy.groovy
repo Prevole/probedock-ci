@@ -1,7 +1,7 @@
 
 
 node {
-    load('pipelines/src/Repos.groovy').cloneRepos()
+    load('../workspace@script/pipelines/src/Repos.groovy').cloneRepos()
 
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
 

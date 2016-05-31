@@ -1,6 +1,6 @@
 //noinspection GroovyAssignabilityCheck
 node {
-    load('pipelines/src/Repos.groovy').cloneCi()
+    load('../workspace@script/pipelines/src/Repos.groovy').cloneCi()
 
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
 

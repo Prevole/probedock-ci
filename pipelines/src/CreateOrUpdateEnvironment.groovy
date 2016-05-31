@@ -389,6 +389,7 @@ node {
     }
     else {
         println 'The environment configuration file was created.'
+        println env.FIRST_DEPLOY
         if (env.FIRST_DEPLOY) {
             println 'The first deploy will now be triggered.'
             build job: 'FirstDeploy', parameters: [
