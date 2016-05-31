@@ -39,11 +39,29 @@ def strGenerator(String alphabet, int n) {
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
 
-    // Clone the pipelines repo
-    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
+    load('pipelines/src/Repos.groovy').cloneCi()
 
     def Passwords = load 'pipelines/src/Passwords.groovy'
 
+    /**
+     * Load the file that contains the next free RP port
+     */
+    def File rpPortFile = new File('/envs/.rpPort')
+
+    /**
+     * Load the property file that contains the port
+     */
+    def Properties rpProperties = new Properties()
+    if (rpPortFile.exists()) {
+        rpProperties.load(new FileInputStream(rpPortFile))
+    }
+    else {
+        rpProperties.setProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT', '3000')
+    }
+
+    /**
+     * The property file to handle each environment configuration
+     */
     def File envFile = new File('/envs/' + env.PROBEDOCK_ENV)
     def envExists = envFile.exists()
 
@@ -153,7 +171,7 @@ node {
         name: 'PROBEDOCK_DOCKER_WEB_CONTAINER_PORT',
         humanName: 'Docker web container port',
         description: 'Host port to expose the web container on. Must be different for each environment. It will be used for port mapping.',
-        default: envExists ? envProperties.getProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT') : '3000'
+        default: envExists ? envProperties.getProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT') : rpProperties.getProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT')
     ]]
 
     /**
@@ -340,6 +358,26 @@ node {
      * Save the content of the property file
      */
     envFile.write sb.toString()
+
+    /**
+     * We will make sure the RP property file is updated only when a new environment is created
+     */
+    if (!envExists) {
+        /**
+         * Build the RP property file content.
+         * The TCP ports allocated for the RP will be 3000 and following.
+         */
+        StringBuilder rpSb = new StringBuilder();
+        rpSb
+            .append('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT')
+            .append('=')
+            .append(Integer.parseInt(rpProperties.getProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT')) + 1)
+
+        /**
+         * Write the content of the file
+         */
+        rpPortFile.write rpSb.toString()
+    }
 
     // Make sure the following variables will not be serialized for the next step which will fail due to store that is not serializable
     store = null

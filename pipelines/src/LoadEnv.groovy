@@ -1,3 +1,9 @@
+/**
+ * Setup the environment variables from a property file
+ *
+ * @param env The environment to setup
+ * @param propertyFile The property file that stores the configuration for the environment
+ */
 def setupEnv(env, propertyFile) {
     def File envFile = new File(propertyFile)
     def envExists = envFile.exists()

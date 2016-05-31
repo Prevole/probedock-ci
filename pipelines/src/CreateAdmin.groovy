@@ -1,7 +1,6 @@
 //noinspection GroovyAssignabilityCheck
 node {
-    // Clone the pipelines repos and the probe dock server repo
-    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Prevole/probedock-ci']]]
+    load('pipelines/src/Repos.groovy').cloneCi()
 
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
 
