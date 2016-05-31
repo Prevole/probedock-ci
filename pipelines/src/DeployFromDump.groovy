@@ -37,7 +37,8 @@ node {
      * Probe Dock must be done during the assets are built and copied to rp container
      */
     stage 'Compile assets'
-    sh 'pipelines/scripts/build-assets.sh'
+    // TODO: Uncomment line
+    //sh 'pipelines/scripts/build-assets.sh'
 
     /**
      * Make a backup of the PostgreSQL database
