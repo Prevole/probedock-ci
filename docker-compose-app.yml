@@ -98,7 +98,7 @@ services:
       PGPASSWORD: ${POSTGRES_PASSWORD}
       ENV: ${PROBEDOCK_ENV}
       DUMP_PATH: ${DUMP_PATH}
-    entryPoint: /bin/bash
+    entrypoint: /bin/bash
 
   rp:
     image: probedock/nginx
