@@ -5,6 +5,7 @@ services:
     image: jenkinsci/jenkins:2.3
     environment:
       RAILS_ENV: production
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD:
       PROBEDOCK_DATABASE_HOST: ${PROBEDOCK_ENV}_db
       PROBEDOCK_DATABASE_NAME: probedock
