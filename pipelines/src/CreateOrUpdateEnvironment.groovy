@@ -39,7 +39,7 @@ def strGenerator(String alphabet, int n) {
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
 
-    load('pipelines/src/Repos.groovy').cloneCi()
+    load('../workspace@script/pipelines/src/Repos.groovy').cloneCi()
 
     def Passwords = load 'pipelines/src/Passwords.groovy'
 
