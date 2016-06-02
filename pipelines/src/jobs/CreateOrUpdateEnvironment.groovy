@@ -38,9 +38,9 @@ def strGenerator(String alphabet, int n) {
 def executeJob() {
     //noinspection GroovyAssignabilityCheck
 //    node {
-        //load('pipelines/lib/utils/Repos.groovy').cloneCi()
+        //load('pipelines/src/utils/Repos.groovy').cloneCi()
 
-        def Passwords = load 'pipelines/lib/utils/Passwords.groovy'
+        def Passwords = load 'pipelines/src/utils/Passwords.groovy'
 
         /**
          * Load the file that contains the next free RP port

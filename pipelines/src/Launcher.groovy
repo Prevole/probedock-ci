@@ -12,7 +12,7 @@ node {
 //
 //    env.PROBEDOCK_ENV = PROBEDOCK_ENV
 //
-//    load('pipelines/lib/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
+//    load('pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 //
 //    env.PROBEDOCK_ADMIN_USERNAME = PROBEDOCK_ADMIN_USERNAME
 //    env.PROBEDOCK_ADMIN_PASSWORD = PROBEDOCK_ADMIN_PASSWORD
