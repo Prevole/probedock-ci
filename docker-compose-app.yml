@@ -92,7 +92,7 @@ services:
     extends:
       service: _common
     volumes:
-      - /Users/lprevost/tmpjenkins:/dumps
+      - /jenkins/dumps:/dumps
     networks:
       - probenet
     environment:
