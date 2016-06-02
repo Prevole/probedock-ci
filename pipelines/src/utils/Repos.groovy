@@ -10,6 +10,7 @@ def cloneCi() {
             branches: [[name: env.PROBEDOCK_CI_VERSION ? env.PROBEDOCK_CI_VERSION : '*/master']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'ci' ]
                 [$class: 'WipeWorkspace']
             ],
             submoduleCfg: [],
@@ -33,7 +34,7 @@ def cloneProbeDock() {
             branches: [[name: env.PROBEDOCK_VERSION ? env.PROBEDOCK_VERSION : '*/master']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'images/probedock-base/probedock' ],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'ci/images/probedock-base/probedock' ],
                 [$class: 'WipeWorkspace']
             ],
             submoduleCfg: [],
