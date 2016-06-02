@@ -35,7 +35,7 @@ def version() {
 
     if (env.PROBEDOCK_ENV) {
         versionsProperties.setProperty(env.PROBEDOCK_ENV, env.PROBEDOCK_VERSION)
-        versionsProperties.store(new FileOutputStream(versionsFile))
+        versionsProperties.store(new FileOutputStream(versionsFile), '')
     }
 }
 
