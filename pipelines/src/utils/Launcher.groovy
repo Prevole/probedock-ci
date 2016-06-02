@@ -28,7 +28,12 @@ def launch(operation) {
         load('ci/pipelines/src/utils/Repos.groovy').cloneProbeDock('ci/images/probedock-base/probedock')
     }
 
-    load('ci/pipelines/src/jobs/' + jobName + '.groovy').executeJob()
+    if (jobName) {
+        load('ci/pipelines/src/jobs/' + jobName + '.groovy').executeJob()
+    }
+    else {
+        println 'Unknown operation: ' + operation
+    }
 }
 
 return this
