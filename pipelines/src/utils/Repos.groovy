@@ -25,7 +25,7 @@ def cloneCi() {
 /**
  * Clone the Probe Dock repo
  */
-def cloneProbeDock(path) {
+def cloneProbeDock(path = null) {
     checkout(
         changelog: false,
         poll: false,
