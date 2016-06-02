@@ -39,9 +39,9 @@ def strGenerator(String alphabet, int n) {
 node {
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
 
-    load('../workspace@script/pipelines/src/Repos.groovy').cloneCi()
+    load('../workspace@script/pipelines/lib/utils/Repos.groovy').cloneCi()
 
-    def Passwords = load 'pipelines/src/Passwords.groovy'
+    def Passwords = load 'pipelines/lib/utils/Passwords.groovy'
 
     /**
      * Load the file that contains the next free RP port

@@ -1,11 +1,11 @@
 
 
 node {
-    load('../workspace@script/pipelines/src/Repos.groovy').cloneRepos()
+    load('../workspace@script/pipelines/lib/utils/Repos.groovy').cloneRepos()
 
     env.PROBEDOCK_ENV = PROBEDOCK_ENV
 
-    load('pipelines/src/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
+    load('pipelines/lib/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
     def Passwords = load 'pipelines/src/Passwords.groovy'
 
