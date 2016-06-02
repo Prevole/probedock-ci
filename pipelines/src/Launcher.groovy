@@ -1,7 +1,12 @@
 //noinspection GroovyAssignabilityCheck
 node {
+    def repos = load('ci/pipelines/src/utils/Repos.groovy')
+
     load('ci/pipelines/src/utils/ProbeDockVersion.groovy').version()
-    load('ci/pipelines/src/utils/Repos.groovy').cloneProbeDock()
+    repos.cloneProbeDock()
+
+    load('ci/pipelines/src/utils/PipelineVersion.groovy').version()
+    repos.cloneCi()
 
 //    load('../workspace@script/pipelines/src/utils/Repos.groovy').cloneCi()
 //
