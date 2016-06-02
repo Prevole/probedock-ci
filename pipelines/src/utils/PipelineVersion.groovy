@@ -3,7 +3,7 @@
  */
 def version() {
     // Reference to the CI file in Probe Dock repo
-    def File ciFile = new File(env.PROBEDOCK_CHECKOUT_PATH + '.probeDockCi')
+    def File ciFile = new File('probedock/.probeDockCi')
 
     if (ciFile.exists()) {
         def Properties ciProperties = new Properties()

@@ -25,7 +25,7 @@ def cloneCi() {
 /**
  * Clone the Probe Dock repo
  */
-def cloneProbeDock() {
+def cloneProbeDock(path) {
     checkout(
         changelog: false,
         poll: false,
@@ -34,7 +34,7 @@ def cloneProbeDock() {
             branches: [[name: env.PROBEDOCK_VERSION ? env.PROBEDOCK_VERSION : '*/master']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'ci/images/probedock-base/probedock' ],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: path ? path : 'ci/images/probedock-base/probedock' ],
                 [$class: 'WipeWorkspace']
             ],
             submoduleCfg: [],
