@@ -388,12 +388,15 @@ def executeJob() {
             println 'The environment configuration file was created.'
             if (Boolean.parseBoolean(env.FIRST_DEPLOY)) {
                 println 'The first deploy will now be triggered.'
-                build job: 'FirstDeploy', parameters: [
-                    [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
-                    [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: env.PROBEDOCK_ADMIN_USERNAME],
-                    [$class: 'PasswordParameterValue', name: 'PROBEDOCK_ADMIN_PASSWORD', value: env.PROBEDOCK_ADMIN_PASSWORD],
-                    [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_EMAIL', value: env.PROBEDOCK_ADMIN_EMAIL]
-                ]
+
+                load('ci/pipelines/src/jobs/FirstDeploy.groovy').executeJob()
+
+//                build job: 'FirstDeploy', parameters: [
+//                    [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
+//                    [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: env.PROBEDOCK_ADMIN_USERNAME],
+//                    [$class: 'PasswordParameterValue', name: 'PROBEDOCK_ADMIN_PASSWORD', value: env.PROBEDOCK_ADMIN_PASSWORD],
+//                    [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_EMAIL', value: env.PROBEDOCK_ADMIN_EMAIL]
+//                ]
             }
         }
 //    }
