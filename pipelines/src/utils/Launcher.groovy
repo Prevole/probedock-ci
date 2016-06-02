@@ -1,5 +1,8 @@
 
 def launch(operation) {
+    println env.PROBEDOCK_ENV
+
+
     if (operation.equalsIgnoreCase('Update environment')) {
         jobName = 'CreateOrUpdateEnvironment'
     }
