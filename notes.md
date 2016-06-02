@@ -41,7 +41,7 @@ sudo adduser -G jenkins -D -H -u 2000 jenkins
 
 # And create the jenkins directory
 
-sudo mkdir /jenkins
+sudo mkdir -p /jenkins/home
 sudo chown jenkins:jenkins /jenkins
 ```
 

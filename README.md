@@ -20,7 +20,8 @@
     sudo adduser -G jenkins -D -H -u 2000 jenkins
     
     # Make sure the folder /jenkins is owned by user and group Jenkins
-    sudo chown jenkins:jenkins /jenkins
+    sudo mkdir -p /jenkins/home /jenkins/dumps /jenkins/envs
+    sudo chown -R jenkins:jenkins /jenkins
     ```
 
 4. Make sure Docker is installed and running
