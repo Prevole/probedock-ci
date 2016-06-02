@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.1">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@1.4">
+          <name>ACTION</name>
+          <description></description>
+          <randomName>choice-parameter-20050385260670</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <script>def envs = new File(&apos;/envs&apos;)
+
+def files = envs.list(new FilenameFilter() {
+    @Override
+    public boolean accept(File file, String name) {
+        def currentFile = new File(file.getPath() + &apos;/&apos; + name);
+        return currentFile.isFile() &amp;&amp; !currentFile.isHidden()
+    }
+});
+
+files.size() &gt; 0 ? [&apos;New environment&apos;, &apos;Choose an existing environment:selected&apos;] : [ &apos;New environment:selected&apos; ]</script>
+            <fallbackScript></fallbackScript>
+          </script>
+          <projectName>Experiment</projectName>
+          <choiceType>PT_RADIO</choiceType>
+          <filterable>false</filterable>
+        </org.biouno.unochoice.ChoiceParameter>
+        <org.biouno.unochoice.DynamicReferenceParameter plugin="uno-choice@1.4">
+          <name>PROBEDOCK_ENV</name>
+          <description></description>
+          <randomName>choice-parameter-20963240728637</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <script>def envs = new File(&apos;/envs&apos;)
+
+def files = envs.list(new FilenameFilter() {
+    @Override
+    public boolean accept(File file, String name) {
+        def currentFile = new File(file.getPath() + &apos;/&apos; + name);
+        return currentFile.isFile() &amp;&amp; !currentFile.isHidden()
+    }
+});
+
+if (ACTION.equalsIgnoreCase(&apos;New environment&apos;) || files.size() == 0) {
+  html = &quot;&lt;input type=\&quot;text\&quot; name=\&quot;value\&quot; value=\&quot;default\&quot; /&gt;&quot;
+
+  if (files.size() == 0) {
+    html += &quot;&lt;p&gt;No environment exists, you must create at least one environment&lt;/p&gt;&quot;
+  }
+}
+else if (ACTION.equalsIgnoreCase(&apos;Choose an existing environment&apos;)) {
+  html = &quot;&lt;select name=\&quot;value\&quot;&gt;&quot;
+
+  for (int i = 0; i &lt; files.size(); i++) {
+    html += &quot;&lt;option value=\&quot;&quot; + files[i] + &quot;\&quot;&gt;&quot; + files[i] + &quot;&lt;/option&gt;&quot;
+  }
+  
+  html += &quot;&lt;/select&gt;&quot;
+}
+else {
+  html = &quot;&lt;p&gt;Choose to create a new environment or to use an existing one.&quot;
+}
+
+html</script>
+            <fallbackScript></fallbackScript>
+          </script>
+          <projectName>Experiment</projectName>
+          <parameters class="linked-hash-map"/>
+          <referencedParameters>ACTION</referencedParameters>
+          <choiceType>ET_FORMATTED_HTML</choiceType>
+          <omitValueField>true</omitValueField>
+        </org.biouno.unochoice.DynamicReferenceParameter>
+        <org.biouno.unochoice.CascadeChoiceParameter plugin="uno-choice@1.4">
+          <name>OPERATION</name>
+          <description></description>
+          <randomName>choice-parameter-22639661482819</randomName>
+          <visibleItemCount>1</visibleItemCount>
+          <script class="org.biouno.unochoice.model.GroovyScript">
+            <script>if (ACTION.equalsIgnoreCase(&apos;New Environment&apos;)) {
+  [&apos;Setup new environment&apos;]
+}
+else {
+  [
+    &apos;Update environment&apos;,
+    &apos;Deploy for the first time&apos;,
+    &apos;Deploy a new version&apos;,
+    &apos;Deploy a new version and load a database dump&apos;,
+    &apos;Create an administrator account&apos;,
+    &apos;Make a backup of the database&apos;
+  ]
+}</script>
+            <fallbackScript></fallbackScript>
+          </script>
+          <projectName>Experiment</projectName>
+          <parameters class="linked-hash-map"/>
+          <referencedParameters>ACTION</referencedParameters>
+          <choiceType>PT_SINGLE_SELECT</choiceType>
+          <filterable>false</filterable>
+        </org.biouno.unochoice.CascadeChoiceParameter>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.2">
+    <script>node {
+    checkout(
+        changelog: false, 
+        poll: false, 
+        scm: [
+            $class: &apos;GitSCM&apos;, 
+            branches: [
+                [name: &apos;**&apos;]
+            ], 
+            doGenerateSubmoduleConfigurations: false, 
+            extensions: [
+                [$class: &apos;WipeWorkspace&apos;],
+                [$class: &apos;RelativeTargetDirectory&apos;, relativeTargetDir: &apos;baseCi&apos; ]
+            ], 
+            submoduleCfg: [], 
+            userRemoteConfigs: [[
+                refspec: env.PROBEDOCK_CI_DEFAULT_VERSION,
+                url: env.REPO_CI
+            ]]
+        ]
+    )
+    
+    env.PROBEDOCK_ENV = PROBEDOCK_ENV
+    
+    def repos = load(&apos;baseCi/pipelines/src/utils/Repos.groovy&apos;)
+    
+    load(&apos;baseCi/pipelines/src/utils/ProbeDockVersion.groovy&apos;).version()
+    repos.cloneProbeDock()
+    
+    load(&apos;baseCi/pipelines/src/utils/PipelineVersion.groovy&apos;).version()
+    repos.cloneCi()
+    
+    load(&apos;ci/pipelines/src/utils/Launcher.groovy&apos;).launch(OPERATION)
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+</flow-definition>
