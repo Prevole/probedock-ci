@@ -1,6 +1,7 @@
 //noinspection GroovyAssignabilityCheck
 node {
-    load('../workspace@script/pipelines/src/utils/utils.PipelineVersion.groovy').version()
+    load('ci/pipelines/src/utils/ProbeDockVersion.groovy').version()
+    load('ci/pipelines/src/utils/Repos.groovy').cloneProbeDock()
 
 //    load('../workspace@script/pipelines/src/utils/Repos.groovy').cloneCi()
 //
@@ -24,3 +25,28 @@ node {
 //        sh 'pipelines/scripts/create-admin.sh'
 //    }
 }
+
+//node {
+//    checkout(
+//        changelog: false,
+//        poll: false,
+//        scm: [
+//            $class: 'GitSCM',
+//            branches: [
+//                [name: '**']
+//            ],
+//            doGenerateSubmoduleConfigurations: false,
+//            extensions: [
+//                [$class: 'WipeWorkspace'],
+//                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'ci']
+//            ],
+//            submoduleCfg: [],
+//            userRemoteConfigs: [[
+//                                    refspec: env.PROBEDOCK_CI_VERSION,
+//                                    url: env.REPO_CI
+//                                ]]
+//        ]
+//    )
+//
+//    load('ci/pipelines/src/utils/PipelineVersion.groovy').version()
+//}
