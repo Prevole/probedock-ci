@@ -16,7 +16,7 @@ def version() {
         if (versionsFile.exists()) {
             // Load the properties and try to get the version for the Probe Dock env
             versionsProperties.load(new FileInputStream(versionsFile))
-            env.PROBEDOCK_VERSION = versionsProperties.get(env.PROBEDOCK_ENV)
+            env.PROBEDOCK_VERSION = versionsProperties.getProperty(env.PROBEDOCK_ENV)
         }
     }
 
@@ -34,7 +34,7 @@ def version() {
     println env.PROBEDOCK_VERSION
 
     if (env.PROBEDOCK_ENV) {
-        versionsProperties.set(env.PROBEDOCK_ENV, env.PROBEDOCK_VERSION)
+        versionsProperties.setProperty(env.PROBEDOCK_ENV, env.PROBEDOCK_VERSION)
         versionsProperties.store(new FileOutputStream(versionsFile))
     }
 }
