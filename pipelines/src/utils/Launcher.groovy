@@ -1,10 +1,10 @@
 
 def launch(operation) {
     if (operation.equalsIgnoreCase('Update environment')) {
-        job = load('ci/pipelines/jobs/CreateOrUpdateEnvironment.groovy')
+        jobName = 'CreateOrUpdateEnvironment'
     }
 
-    job.run()
+    load('pipelines/jobs/' + jobName + '.groovy').run()
 }
 
 return this
