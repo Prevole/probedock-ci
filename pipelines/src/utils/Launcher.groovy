@@ -2,10 +2,26 @@
 def launch(operation) {
     println env.PROBEDOCK_ENV
 
+    def probedockNewCloneRequired = true
 
-    if (operation.equalsIgnoreCase('Update environment')) {
+    if (operation.equalsIgnoreCase('Update environment') || operation.equalsIgnoreCase('Create environment')) {
         jobName = 'CreateOrUpdateEnvironment'
         probedockNewCloneRequired = false
+    }
+    else if (operation.equalsIgnoreCase('Deploy for the first time')) {
+        jobName = 'FirstDeploy'
+    }
+    else if (operation.equalsIgnoreCase('Deploy a new version')) {
+        jobName = 'Deploy'
+    }
+    else if (operation.equalsIgnoreCase('Deploy a new version and load a database dump')) {
+        jobName = 'DeployFromDump'
+    }
+    else if (operation.equalsIgnoreCase('Create an administrator account')) {
+        jobName = 'CreateAdmin'
+    }
+    else if (operation.equalsIgnoreCase('Make a backup of the database')) {
+        jobName = 'Backup'
     }
 
     if (probedockNewCloneRequired) {
