@@ -34,10 +34,15 @@ infra and also start the Jenkins instance to manage the infra.
 
     * `Backup`: Allow to make a backup of the PostgreSQL database. The Probe Dock application will be stopped before the backup and restarted after it.
     * `CreateAdmin`: Allow to create a new admin account on Probe Dock. 
+       
         **Hint**: You can use this job to create a new admin if you loose the previous admin password.
+    
     * `CreateOrUpdateEnvironment`: Create new Probe Dock environment or update an existing one. This allow to change the configuration. 
+        
         **Hint**: Credentials are stored through `credentials plugin` and therefore can be updated through the plugin interface. 
+        
         **Remark**: Take care that updating a password will not change the password in the infra.
+    
     * `Deploy`: The deploy job is used to deploy specific version of Probe Dock. This job is always used once the `FirstDeploy` has been run once.
     * `DeployFromDump`: Same as deploy job. In addition, you can choose a PostgreSQL dump file (previously placed in `/jenkins/dumps`) to fill the database with it.
     * `FirstDeploy`: The first deploy job allow to setup for the first time an environment. If an environment is already runnin, the job will fail with strange errors.
