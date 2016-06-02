@@ -37,7 +37,7 @@ def strGenerator(String alphabet, int n) {
 
 def executeJob() {
     //noinspection GroovyAssignabilityCheck
-    node {
+//    node {
         //load('pipelines/lib/utils/Repos.groovy').cloneCi()
 
         def Passwords = load 'pipelines/lib/utils/Passwords.groovy'
@@ -396,7 +396,7 @@ def executeJob() {
                 ]
             }
         }
-    }
+//    }
 }
 
 return this
