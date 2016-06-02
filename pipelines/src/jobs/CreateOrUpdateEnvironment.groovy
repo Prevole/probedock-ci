@@ -35,7 +35,7 @@ def strGenerator(String alphabet, int n) {
     return sb.toString()
 }
 
-def run() {
+def executeJob() {
     //noinspection GroovyAssignabilityCheck
     node {
         load('../workspace@script/pipelines/lib/utils/Repos.groovy').cloneCi()

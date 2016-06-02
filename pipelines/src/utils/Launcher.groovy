@@ -4,7 +4,7 @@ def launch(operation) {
         jobName = 'CreateOrUpdateEnvironment'
     }
 
-    load('pipelines/src/jobs/' + jobName + '.groovy').run()
+    load('pipelines/src/jobs/' + jobName + '.groovy').executeJob()
 }
 
 return this
