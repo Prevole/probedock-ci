@@ -7,7 +7,7 @@ def cloneCi() {
         poll: false,
         scm: [
             $class: 'GitSCM',
-            branches: [[name: '**']],
+            branches: [[name: env.PROBEDOCK_CI_VERSION ? env.PROBEDOCK_CI_VERSION : '*/master']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
                 [$class: 'WipeWorkspace']
@@ -30,7 +30,7 @@ def cloneProbeDock() {
         poll: false,
         scm: [
             $class: 'GitSCM',
-            branches: [[name: '**']],
+            branches: [[name: env.PROBEDOCK_VERSION ? env.PROBEDOCK_VERSION : '*/master']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
                 [$class: 'RelativeTargetDirectory', relativeTargetDir: 'images/probedock-base/probedock'],
