@@ -5,7 +5,7 @@ def launch(operation) {
     def jobName = null
     def probedockNewCloneRequired = true
 
-    if (operation.equalsIgnoreCase('Update environment') || operation.equalsIgnoreCase('Create environment')) {
+    if (operation.equalsIgnoreCase('Update environment') || operation.equalsIgnoreCase('Setup new environment')) {
         jobName = 'CreateOrUpdateEnvironment'
         probedockNewCloneRequired = false
     }
