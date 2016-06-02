@@ -40,7 +40,7 @@ def executeJob() {
 //    node {
         //load('pipelines/src/utils/Repos.groovy').cloneCi()
 
-        def Passwords = load 'pipelines/src/utils/Passwords.groovy'
+        def Passwords = load 'ci/pipelines/src/utils/Passwords.groovy'
 
         /**
          * Load the file that contains the next free RP port

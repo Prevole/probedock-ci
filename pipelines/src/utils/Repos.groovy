@@ -10,7 +10,7 @@ def cloneCi() {
             branches: [[name: env.PROBEDOCK_CI_VERSION ? env.PROBEDOCK_CI_VERSION : '*/master']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'ci' ]
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'ci' ],
                 [$class: 'WipeWorkspace']
             ],
             submoduleCfg: [],
@@ -46,12 +46,12 @@ def cloneProbeDock() {
     )
 }
 
-/**
- * Clone all the repos
- */
-def cloneRepos() {
-    cloneCi()
-    cloneProbeDock()
-}
+///**
+// * Clone all the repos
+// */
+//def cloneRepos() {
+//    cloneCi()
+//    cloneProbeDock()
+//}
 
 return this
