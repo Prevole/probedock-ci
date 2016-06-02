@@ -2,6 +2,7 @@
 def launch(operation) {
     println env.PROBEDOCK_ENV
 
+    def jobName = null
     def probedockNewCloneRequired = true
 
     if (operation.equalsIgnoreCase('Update environment') || operation.equalsIgnoreCase('Create environment')) {
@@ -28,7 +29,7 @@ def launch(operation) {
         load('ci/pipelines/src/utils/Repos.groovy').cloneProbeDock('ci/images/probedock-base/probedock')
     }
 
-    if (jobName) {
+    if (jobName != null) {
         load('ci/pipelines/src/jobs/' + jobName + '.groovy').executeJob()
     }
     else {
