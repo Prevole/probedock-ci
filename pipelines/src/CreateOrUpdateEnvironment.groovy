@@ -264,7 +264,7 @@ node {
         // Check for choices parameter
         if (parametersDefinitions[i].containsKey('choices')) {
             inputParameters.add([
-                $class: 'ChoiceParameterDefinition',
+                $class: 'hudson.model.ChoiceParameterDefinition',
                 choices: parametersDefinitions[i].choices,
                 description: parametersDefinitions[i].description,
                 name: parametersDefinitions[i].humanName
@@ -274,7 +274,7 @@ node {
         // Check for boolean parameter
         else if (parametersDefinitions[i].containsKey('boolean')) {
             inputParameters.add([
-                $class: 'BooleanParameterDefinition',
+                $class: 'hudson.model.BooleanParameterDefinition',
                 defaultValue: parametersDefinitions[i].default,
                 description: parametersDefinitions[i].description,
                 name: parametersDefinitions[i].humanName
@@ -284,7 +284,7 @@ node {
         // Defaulting to string parameter
         else {
             inputParameters.add([
-                $class: 'StringParameterDefinition',
+                $class: 'hudson.model.StringParameterDefinition',
                 defaultValue: parametersDefinitions[i].default,
                 description: parametersDefinitions[i].description,
                 name: parametersDefinitions[i].humanName

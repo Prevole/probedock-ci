@@ -24,7 +24,7 @@ def version() {
     env.PROBEDOCK_VERSION = input(
         message: 'Choose the Probe Dock version you want to deploy',
         parameters: [[
-            $class: 'StringParameterDefinition',
+            $class: 'hudson.model.StringParameterDefinition',
             defaultValue: env.PROBEDOCK_VERSION ? env.PROBEDOCK_VERSION : 'master',
             description: 'Probe Dock Git reference',
             name: 'PROBEDOCK_VERSION'
