@@ -34,7 +34,7 @@ def cloneProbeDock(path) {
             branches: [[name: env.PROBEDOCK_VERSION ? env.PROBEDOCK_VERSION : '*/master']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: path ? path : 'ci/images/probedock-base/probedock' ],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: path ? path : 'probedock' ],
                 [$class: 'WipeWorkspace']
             ],
             submoduleCfg: [],

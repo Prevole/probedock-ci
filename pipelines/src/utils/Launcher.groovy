@@ -7,6 +7,10 @@ def launch(operation) {
         jobName = 'CreateOrUpdateEnvironment'
     }
 
+    if (probedockNewCloneRequired) {
+        load('ci/pipelines/src/utils/Repos.groovy').cloneProbeDock('ci/images/probedock-base/probedock')
+    }
+
     load('ci/pipelines/src/jobs/' + jobName + '.groovy').executeJob()
 }
 
