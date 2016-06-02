@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd images
+cd ci/images
 
 echo 'Build the Probe Dock base image'
 docker build -t probedock/probedock-base probedock-base

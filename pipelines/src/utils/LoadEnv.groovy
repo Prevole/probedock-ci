@@ -27,6 +27,8 @@ def setupEnv(env, propertyFile) {
      */
     sh "echo -n \$(date '+%Y_%m_%d_%H_%M_%S') > date"
     env.PROBEDOCK_DATE = readFile 'date'
+
+    env.PROBEDOCK_DOCKER_COMPOSE_FILE = 'ci/docker-compose-app.yml'
 }
 
 return this
