@@ -5,9 +5,9 @@ def executeJob() {
 
     //    env.PROBEDOCK_ENV = PROBEDOCK_ENV
 
-    load('ci/pipelines/src/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
+    load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
-    def Passwords = load 'ci/pipelines/src/utils/Passwords.groovy'
+    def Passwords = load 'ci/pipelines/src/utils/utils/Passwords.groovy'
 
     /**
      * Start the Nginx

@@ -38,7 +38,7 @@ def executeJob() {
         env.PROBEDOCK_ADMIN_EMAIL    = params.PROBEDOCK_ADMIN_EMAIL
     }
 
-    def Passwords = load 'ci/pipelines/src/Passwords.groovy'
+    def Passwords = load 'ci/pipelines/src/utils/Passwords.groovy'
 
     /**
      * We want to create the admin user

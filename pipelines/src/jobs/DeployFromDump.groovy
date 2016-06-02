@@ -9,7 +9,7 @@ def executeJob() {
 
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
-    def Passwords = load 'ci/pipelines/src/Passwords.groovy'
+    def Passwords = load 'ci/pipelines/src/utils/Passwords.groovy'
 
     /**
      * Make sure PostgreSQL and Redis are up and running
