@@ -41,7 +41,7 @@
                 <hudson.plugins.git.extensions.impl.WipeWorkspace/>
             </extensions>
         </scm>
-        <scriptPath>pipelines/src/CreateOrUpdateEnvironment.groovy</scriptPath>
+        <scriptPath>pipelines/src/jobs/CreateOrUpdateEnvironment.groovy</scriptPath>
     </definition>
     <triggers/>
     <concurrentBuild>false</concurrentBuild>
