@@ -25,12 +25,12 @@ def files = envs.list(new FilenameFilter() {
 files.size() &gt; 0 ? [&apos;New environment&apos;, &apos;Choose an existing environment:selected&apos;] : [ &apos;New environment:selected&apos; ]</script>
             <fallbackScript></fallbackScript>
           </script>
-          <projectName>Experiment</projectName>
+          <projectName>OneClick</projectName>
           <choiceType>PT_RADIO</choiceType>
           <filterable>false</filterable>
         </org.biouno.unochoice.ChoiceParameter>
         <org.biouno.unochoice.DynamicReferenceParameter plugin="uno-choice@1.4">
-          <name>Environment</name>
+          <name>ProbeDockEnv</name>
           <description></description>
           <randomName>choice-parameter-20963240728637</randomName>
           <visibleItemCount>1</visibleItemCount>
@@ -68,7 +68,7 @@ else {
 html</script>
             <fallbackScript></fallbackScript>
           </script>
-          <projectName>Experiment</projectName>
+          <projectName>OneClick</projectName>
           <parameters class="linked-hash-map"/>
           <referencedParameters>Action</referencedParameters>
           <choiceType>ET_FORMATTED_HTML</choiceType>
@@ -88,7 +88,7 @@ if (Action.equalsIgnoreCase(&apos;New Environment&apos;)) {
 else {
   html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;value&quot; value=&quot;UpdateEnvironment&quot;&gt; &lt;strong&gt;Update the environment&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;You will have the possibility to update the environment configuration through this task. &lt;br/&gt;&lt;strong&gt;Remark&lt;/strong&gt;: You will not be able to update the passwords. For that, you have the possibility to go in the credentials plugin UI. Take care that updating a password will not update it in the Probe Dock infra.&lt;/td&gt;&lt;/tr&gt;&apos;
 
-  if (!new File(&quot;/envs/.&quot; + Environment + &quot;-firstDeploymentDone&quot;).exists()) {
+  if (!new File(&quot;/envs/.&quot; + ProbeDockEnv + &quot;-firstDeploymentDone&quot;).exists()) {
     html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;value&quot; value=&quot;FirstDeploy&quot;&gt; &lt;strong&gt;Deploy for the first time&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Various operations must be done only once to deploy Probe Dock. This task is only available once.&lt;/td&gt;&lt;/tr&gt;&apos;
   }
 
@@ -102,9 +102,9 @@ else {
 html += &apos;&lt;/tbody&gt;&lt;/table&gt;&apos;</script>
             <fallbackScript></fallbackScript>
           </script>
-          <projectName>Experiment</projectName>
+          <projectName>OneClick</projectName>
           <parameters class="linked-hash-map"/>
-          <referencedParameters>Action,Environment</referencedParameters>
+          <referencedParameters>Action,Probe Dock Environment</referencedParameters>
           <choiceType>ET_FORMATTED_HTML</choiceType>
           <omitValueField>true</omitValueField>
         </org.biouno.unochoice.DynamicReferenceParameter>
@@ -134,7 +134,7 @@ html += &apos;&lt;/tbody&gt;&lt;/table&gt;&apos;</script>
         ]
     )
     
-    env.PROBEDOCK_ENV = Environment
+    env.PROBEDOCK_ENV = ProbeDockEnv
     
     def repos = load(&apos;baseCi/pipelines/src/utils/Repos.groovy&apos;)
     
