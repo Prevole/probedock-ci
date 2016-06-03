@@ -386,7 +386,7 @@ def executeJob() {
         if (Boolean.parseBoolean(env.FIRST_DEPLOY)) {
             println 'The first deploy will now be triggered.'
 
-            Launcher.launchJob(Launcher.JOB_FIRST_DEPLOY, false)
+            Launcher.launchJob(Launcher.JOB_FIRST_DEPLOY, true)
         }
     }
 }
