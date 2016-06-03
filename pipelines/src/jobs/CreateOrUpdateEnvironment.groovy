@@ -36,10 +36,6 @@ def strGenerator(String alphabet, int n) {
 }
 
 def executeJob() {
-    //noinspection GroovyAssignabilityCheck
-//    node {
-        //load('pipelines/src/utils/Repos.groovy').cloneCi()
-
     def Launcher = load 'ci/pipelines/src/utils/Launcher.groovy'
     def Passwords = load 'ci/pipelines/src/utils/Passwords.groovy'
 
@@ -391,16 +387,8 @@ def executeJob() {
             println 'The first deploy will now be triggered.'
 
             Launcher.launchJob(Launcher.JOB_FIRST_DEPLOY, false)
-
-//                build job: 'FirstDeploy', parameters: [
-//                    [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
-//                    [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: env.PROBEDOCK_ADMIN_USERNAME],
-//                    [$class: 'PasswordParameterValue', name: 'PROBEDOCK_ADMIN_PASSWORD', value: env.PROBEDOCK_ADMIN_PASSWORD],
-//                    [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_EMAIL', value: env.PROBEDOCK_ADMIN_EMAIL]
-//                ]
         }
     }
-//    }
 }
 
 return this

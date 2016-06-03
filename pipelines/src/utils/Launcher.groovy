@@ -28,36 +28,36 @@ def launchJob(jobName, newProbeDockClone = true) {
 }
 
 /**
- * Launch an operation like doing a backup or deploying Probe Dock.
+ * Launch a task like doing a backup or deploying Probe Dock.
  *
- * The available operations are defined in the OneClick job and are human readable labels.
+ * The available task are defined in the OneClick job and are human readable labels.
  *
- * @param operation The operation human readable label
+ * @param task The task human readable label
  */
-def launch(operation) {
+def launch(task) {
     def jobName = null
     def probedockNewCloneRequired = true
 
     /**
      * Check if the operation is a known one
      */
-    if (operation.equalsIgnoreCase('Update environment') || operation.equalsIgnoreCase('Setup new environment')) {
+    if (task.equalsIgnoreCase('Update environment') || task.equalsIgnoreCase('Setup new environment')) {
         jobName = this.JOB_CREATE_OR_UPDATE_ENVIRONMENT
         probedockNewCloneRequired = false
     }
-    else if (operation.equalsIgnoreCase('Deploy for the first time')) {
+    else if (task.equalsIgnoreCase('Deploy for the first time')) {
         jobName = this.JOB_FIRST_DEPLOY
     }
-    else if (operation.equalsIgnoreCase('Deploy a new version')) {
+    else if (task.equalsIgnoreCase('Deploy a new version')) {
         jobName = this.JOB_DEPLOY
     }
-    else if (operation.equalsIgnoreCase('Deploy a new version and load a database dump')) {
+    else if (task.equalsIgnoreCase('Deploy a new version and load a database dump')) {
         jobName = this.JOB_DEPLOY_FROM_DUMP
     }
-    else if (operation.equalsIgnoreCase('Create an administrator account')) {
+    else if (task.equalsIgnoreCase('Create an administrator account')) {
         jobName = this.JOB_CREATE_ADMIN
     }
-    else if (operation.equalsIgnoreCase('Make a backup of the database')) {
+    else if (task.equalsIgnoreCase('Make a backup of the database')) {
         jobName = this.JOB_BACKUP
     }
 

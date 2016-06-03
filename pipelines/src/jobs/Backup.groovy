@@ -1,9 +1,3 @@
-
-//node {
-//    load('../workspace@script/pipelines/src/utils/Repos.groovy').cloneRepos()
-
-//    env.PROBEDOCK_ENV = PROBEDOCK_ENV
-
 def executeJob() {
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 

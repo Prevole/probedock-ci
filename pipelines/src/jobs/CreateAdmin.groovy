@@ -1,10 +1,4 @@
-//noinspection GroovyAssignabilityCheck
-//node {
-//    load('../workspace@script/pipelines/src/utils/Repos.groovy').cloneCi()
-
 def executeJob() {
-//    env.PROBEDOCK_ENV = PROBEDOCK_ENV
-
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
     def Passwords = load 'ci/pipelines/src/utils/Passwords.groovy'

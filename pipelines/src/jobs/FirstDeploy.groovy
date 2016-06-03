@@ -1,10 +1,4 @@
 def executeJob() {
-    //noinspection GroovyAssignabilityCheck
-    //node {
-    //    load('../workspace@script/pipelines/src/Repos.groovy').cloneRepos()
-
-    //    env.PROBEDOCK_ENV = PROBEDOCK_ENV
-
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
     def Launcher = load 'ci/pipelines/src/utils/Launcher.groovy'
@@ -48,18 +42,12 @@ def executeJob() {
      */
     stage 'Create the admin user'
     Launcher.launchJob(Launcher.JOB_CREATE_ADMIN, false)
-//    build job: 'CreateAdmin', parameters: [
-//        [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
-//        [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: PROBEDOCK_ADMIN_USERNAME],
-//        [$class: 'PasswordParameterValue', name: 'PROBEDOCK_ADMIN_PASSWORD', value: PROBEDOCK_ADMIN_PASSWORD],
-//        [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_EMAIL', value: PROBEDOCK_ADMIN_EMAIL]
-//    ]
 
     stage 'Deploy Probe Dock'
     Launcher.launchJob(Launcher.JOB_DEPLOY, false)
-//        build job: 'Deploy', parameters: [
-//            [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV]
-//        ]
+
+    stage 'First deployment finalization'
+    sh 'touch /envs/.' + env.PROBEDOCK_ENV + '-FirstDeploymentDone'
 }
 
 return this

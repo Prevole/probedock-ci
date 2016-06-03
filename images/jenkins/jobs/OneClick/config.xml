@@ -7,7 +7,7 @@
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@1.4">
-          <name>ACTION</name>
+          <name>Action</name>
           <description></description>
           <randomName>choice-parameter-20050385260670</randomName>
           <visibleItemCount>1</visibleItemCount>
@@ -30,7 +30,7 @@ files.size() &gt; 0 ? [&apos;New environment&apos;, &apos;Choose an existing env
           <filterable>false</filterable>
         </org.biouno.unochoice.ChoiceParameter>
         <org.biouno.unochoice.DynamicReferenceParameter plugin="uno-choice@1.4">
-          <name>PROBEDOCK_ENV</name>
+          <name>Environment</name>
           <description></description>
           <randomName>choice-parameter-20963240728637</randomName>
           <visibleItemCount>1</visibleItemCount>
@@ -45,14 +45,14 @@ def files = envs.list(new FilenameFilter() {
     }
 });
 
-if (ACTION.equalsIgnoreCase(&apos;New environment&apos;) || files.size() == 0) {
+if (Action.equalsIgnoreCase(&apos;New environment&apos;) || files.size() == 0) {
   html = &quot;&lt;input type=\&quot;text\&quot; name=\&quot;value\&quot; value=\&quot;default\&quot; /&gt;&quot;
 
   if (files.size() == 0) {
     html += &quot;&lt;p&gt;No environment exists, you must create at least one environment&lt;/p&gt;&quot;
   }
 }
-else if (ACTION.equalsIgnoreCase(&apos;Choose an existing environment&apos;)) {
+else if (Action.equalsIgnoreCase(&apos;Choose an existing environment&apos;)) {
   html = &quot;&lt;select name=\&quot;value\&quot;&gt;&quot;
 
   for (int i = 0; i &lt; files.size(); i++) {
@@ -70,17 +70,17 @@ html</script>
           </script>
           <projectName>Experiment</projectName>
           <parameters class="linked-hash-map"/>
-          <referencedParameters>ACTION</referencedParameters>
+          <referencedParameters>Action</referencedParameters>
           <choiceType>ET_FORMATTED_HTML</choiceType>
           <omitValueField>true</omitValueField>
         </org.biouno.unochoice.DynamicReferenceParameter>
         <org.biouno.unochoice.CascadeChoiceParameter plugin="uno-choice@1.4">
-          <name>OPERATION</name>
+          <name>Task</name>
           <description></description>
           <randomName>choice-parameter-22639661482819</randomName>
           <visibleItemCount>1</visibleItemCount>
           <script class="org.biouno.unochoice.model.GroovyScript">
-            <script>if (ACTION.equalsIgnoreCase(&apos;New Environment&apos;)) {
+            <script>if (Action.equalsIgnoreCase(&apos;New Environment&apos;)) {
   [&apos;Setup new environment&apos;]
 }
 else {
@@ -97,7 +97,7 @@ else {
           </script>
           <projectName>Experiment</projectName>
           <parameters class="linked-hash-map"/>
-          <referencedParameters>ACTION</referencedParameters>
+          <referencedParameters>Action</referencedParameters>
           <choiceType>PT_SINGLE_SELECT</choiceType>
           <filterable>false</filterable>
         </org.biouno.unochoice.CascadeChoiceParameter>
@@ -127,7 +127,7 @@ else {
         ]
     )
     
-    env.PROBEDOCK_ENV = PROBEDOCK_ENV
+    env.PROBEDOCK_ENV = Environment
     
     def repos = load(&apos;baseCi/pipelines/src/utils/Repos.groovy&apos;)
     
@@ -137,7 +137,7 @@ else {
     load(&apos;baseCi/pipelines/src/utils/PipelineVersion.groovy&apos;).version()
     repos.cloneCi()
     
-    load(&apos;ci/pipelines/src/utils/Launcher.groovy&apos;).launch(OPERATION)
+    load(&apos;ci/pipelines/src/utils/Launcher.groovy&apos;).launch(Task)
 }</script>
     <sandbox>true</sandbox>
   </definition>
