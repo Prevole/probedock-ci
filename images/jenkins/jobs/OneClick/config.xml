@@ -104,7 +104,7 @@ html += &apos;&lt;/tbody&gt;&lt;/table&gt;&apos;</script>
           </script>
           <projectName>OneClick</projectName>
           <parameters class="linked-hash-map"/>
-          <referencedParameters>Action,Probe Dock Environment</referencedParameters>
+          <referencedParameters>Action,ProbeDockEnv</referencedParameters>
           <choiceType>ET_FORMATTED_HTML</choiceType>
           <omitValueField>true</omitValueField>
         </org.biouno.unochoice.DynamicReferenceParameter>
