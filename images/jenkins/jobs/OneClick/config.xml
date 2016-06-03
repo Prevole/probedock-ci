@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<flow-definition plugin="workflow-job@2.1">
+<flow-definition plugin="workflow-job@2.2">
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
@@ -74,37 +74,44 @@ html</script>
           <choiceType>ET_FORMATTED_HTML</choiceType>
           <omitValueField>true</omitValueField>
         </org.biouno.unochoice.DynamicReferenceParameter>
-        <org.biouno.unochoice.CascadeChoiceParameter plugin="uno-choice@1.4">
+        <org.biouno.unochoice.DynamicReferenceParameter plugin="uno-choice@1.4">
           <name>Task</name>
           <description></description>
-          <randomName>choice-parameter-22639661482819</randomName>
+          <randomName>choice-parameter-48185743167256</randomName>
           <visibleItemCount>1</visibleItemCount>
           <script class="org.biouno.unochoice.model.GroovyScript">
-            <script>if (Action.equalsIgnoreCase(&apos;New Environment&apos;)) {
-  [&apos;Setup new environment&apos;]
+            <script>html = &apos;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th style=&quot;width:28%;&quot;&gt;Task&lt;/th&gt;&lt;th style=&quot;width:72%;&quot;&gt;Description&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&apos;
+if (Action.equalsIgnoreCase(&apos;New Environment&apos;)) {
+  html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;Task&quot; value=&quot;CreateEnvironment&quot;&gt; &lt;strong&gt;Create a new environment&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;During the creation of a new environment, you will be gudied to setup various configuration values and passwords. You should keep a copy of the passwords in a safe place. At the end of the configuration, you will have the possibility to directly deploy Probe Dock for the first time on this new environment.&lt;/td&gt;&lt;/tr&gt;&apos;
 }
 else {
-  [
-    &apos;Update environment&apos;,
-    &apos;Deploy for the first time&apos;,
-    &apos;Deploy a new version&apos;,
-    &apos;Deploy a new version and load a database dump&apos;,
-    &apos;Create an administrator account&apos;,
-    &apos;Make a backup of the database&apos;
-  ]
-}</script>
+  html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;Task&quot; value=&quot;UpdateEnvironment&quot;&gt; &lt;strong&gt;Update the environment&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;You will have the possibility to update the environment configuration through this task. &lt;br/&gt;&lt;strong&gt;Remark&lt;/strong&gt;: You will not be able to update the passwords. For that, you have the possibility to go in the credentials plugin UI. Take care that updating a password will not update it in the Probe Dock infra.&lt;/td&gt;&lt;/tr&gt;&apos;
+
+  System.out.println(new File(&quot;/envs/.&quot; + Environment + &quot;-firstDeploymentDone&quot;).exists())
+  if (!new File(&quot;/envs/.&quot; + Environment + &quot;-firstDeploymentDone&quot;).exists()) {
+    html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;Task&quot; value=&quot;FirstDeploy&quot;&gt; &lt;strong&gt;Deploy for the first time&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Various operations must be done only once to deploy Probe Dock. This task is only available once.&lt;/td&gt;&lt;/tr&gt;&apos;
+  }
+
+  html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;Task&quot; value=&quot;Deploy&quot;&gt; &lt;strong&gt;Deploy a new version&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;This task allow you to deploy a new version of Probe Dock or to redeploy an existing one.&lt;/td&gt;&lt;/tr&gt;&apos;
+
+  html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;Task&quot; value=&quot;DeployFromDump&quot;&gt; &lt;strong&gt;Deploy a new version and load a database dump&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;This task is pretty much the same than the previous one. In addition, a dump is loaded before doing any migration. This task allows to deploy a Probe Dock with existing data or data from another environment&lt;/td&gt;&lt;/tr&gt;&apos;
+
+  html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;Task&quot; value=&quot;Backup&quot;&gt; &lt;strong&gt;Make a backup of the database&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;This task perform a backup of the PostgreSQL database. &lt;br/&gt;&lt;strong&gt;Remark&lt;/strong&gt;: Probe Dock will be stopped before the backup is done and restarted right after the backup finished&lt;/td&gt;&lt;/tr&gt;&apos;
+}
+
+html += &apos;&lt;/tbody&gt;&lt;/table&gt;&apos;</script>
             <fallbackScript></fallbackScript>
           </script>
           <projectName>Experiment</projectName>
           <parameters class="linked-hash-map"/>
-          <referencedParameters>Action</referencedParameters>
-          <choiceType>PT_SINGLE_SELECT</choiceType>
-          <filterable>false</filterable>
-        </org.biouno.unochoice.CascadeChoiceParameter>
+          <referencedParameters>Action,Environment</referencedParameters>
+          <choiceType>ET_FORMATTED_HTML</choiceType>
+          <omitValueField>false</omitValueField>
+        </org.biouno.unochoice.DynamicReferenceParameter>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.2">
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.4">
     <script>node {
     checkout(
         changelog: false, 

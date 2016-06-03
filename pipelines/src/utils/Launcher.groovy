@@ -41,23 +41,23 @@ def launch(task) {
     /**
      * Check if the operation is a known one
      */
-    if (task.equalsIgnoreCase('Update environment') || task.equalsIgnoreCase('Setup new environment')) {
+    if (task.equalsIgnoreCase('UpdateEnvironment') || task.equalsIgnoreCase('CreateEnvironment')) {
         jobName = this.JOB_CREATE_OR_UPDATE_ENVIRONMENT
         probedockNewCloneRequired = false
     }
-    else if (task.equalsIgnoreCase('Deploy for the first time')) {
+    else if (task.equalsIgnoreCase('FirstDeploy')) {
         jobName = this.JOB_FIRST_DEPLOY
     }
-    else if (task.equalsIgnoreCase('Deploy a new version')) {
+    else if (task.equalsIgnoreCase('Deploy')) {
         jobName = this.JOB_DEPLOY
     }
-    else if (task.equalsIgnoreCase('Deploy a new version and load a database dump')) {
+    else if (task.equalsIgnoreCase('DeployFromDump')) {
         jobName = this.JOB_DEPLOY_FROM_DUMP
     }
-    else if (task.equalsIgnoreCase('Create an administrator account')) {
+    else if (task.equalsIgnoreCase('CreateAdmin')) {
         jobName = this.JOB_CREATE_ADMIN
     }
-    else if (task.equalsIgnoreCase('Make a backup of the database')) {
+    else if (task.equalsIgnoreCase('Backup')) {
         jobName = this.JOB_BACKUP
     }
 
