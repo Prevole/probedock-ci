@@ -26,8 +26,7 @@ RUN mkdir /opt/bin \
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY probedock/Gemfile /usr/src/app/
-COPY probedock/Gemfile.lock /usr/src/app/
+COPY probedock /usr/src/app/
 
 RUN bundle install --without development test
 
@@ -41,5 +40,4 @@ ENTRYPOINT ["/init"]
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
 
-COPY probedock /usr/src/app
 

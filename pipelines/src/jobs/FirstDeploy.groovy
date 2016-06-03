@@ -7,6 +7,7 @@ def executeJob() {
 
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
+    def Launcher = load 'ci/pipelines/src/utils/Launcher.groovy'
     def Passwords = load 'ci/pipelines/src/utils/Passwords.groovy'
 
     /**
@@ -46,7 +47,7 @@ def executeJob() {
      * We want to create the admin user
      */
     stage 'Create the admin user'
-    load('ci/pipelines/src/jobs/CreateAdmin.groovy').executeJob()
+    Launcher.launchJob(Launcher.JOB_CREATE_ADMIN)
 //    build job: 'CreateAdmin', parameters: [
 //        [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
 //        [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: PROBEDOCK_ADMIN_USERNAME],
@@ -55,7 +56,7 @@ def executeJob() {
 //    ]
 
     stage 'Deploy Probe Dock'
-    load('ci/pipelines/src/jobs/Deploy.groovy').executeJob()
+    Launcher.launchJob(Launcher.JOB_DEPLOY)
 //        build job: 'Deploy', parameters: [
 //            [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV]
 //        ]
