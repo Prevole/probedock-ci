@@ -47,7 +47,7 @@ def executeJob() {
     Launcher.launchJob(Launcher.JOB_DEPLOY, false)
 
     stage 'First deployment finalization'
-    sh 'touch /envs/.' + env.PROBEDOCK_ENV + '-FirstDeploymentDone'
+    sh 'touch /envs/.' + env.PROBEDOCK_ENV + '-firstDeploymentDone'
 }
 
 return this
