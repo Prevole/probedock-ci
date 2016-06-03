@@ -47,7 +47,7 @@ def executeJob() {
      * We want to create the admin user
      */
     stage 'Create the admin user'
-    Launcher.launchJob(Launcher.JOB_CREATE_ADMIN)
+    Launcher.launchJob(Launcher.JOB_CREATE_ADMIN, false)
 //    build job: 'CreateAdmin', parameters: [
 //        [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],
 //        [$class: 'StringParameterValue', name: 'PROBEDOCK_ADMIN_USERNAME', value: PROBEDOCK_ADMIN_USERNAME],
@@ -56,7 +56,7 @@ def executeJob() {
 //    ]
 
     stage 'Deploy Probe Dock'
-    Launcher.launchJob(Launcher.JOB_DEPLOY)
+    Launcher.launchJob(Launcher.JOB_DEPLOY, false)
 //        build job: 'Deploy', parameters: [
 //            [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV]
 //        ]

@@ -390,7 +390,7 @@ def executeJob() {
         if (Boolean.parseBoolean(env.FIRST_DEPLOY)) {
             println 'The first deploy will now be triggered.'
 
-            Launcher.launchJob(Launcher.JOB_FIRST_DEPLOY)
+            Launcher.launchJob(Launcher.JOB_FIRST_DEPLOY, false)
 
 //                build job: 'FirstDeploy', parameters: [
 //                    [$class: 'StringParameterValue', name: 'PROBEDOCK_ENV', value: env.PROBEDOCK_ENV],

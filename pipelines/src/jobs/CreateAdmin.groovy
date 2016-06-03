@@ -9,10 +9,6 @@ def executeJob() {
 
     def Passwords = load 'ci/pipelines/src/utils/Passwords.groovy'
 
-    env.PROBEDOCK_ADMIN_USERNAME = PROBEDOCK_ADMIN_USERNAME
-    env.PROBEDOCK_ADMIN_PASSWORD = PROBEDOCK_ADMIN_PASSWORD
-    env.PROBEDOCK_ADMIN_EMAIL = PROBEDOCK_ADMIN_EMAIL
-
     // Ask the user for admin data if not already gathered
     if (!env.PROBEDOCK_ADMIN_USERNAME) {
         def params = input(
