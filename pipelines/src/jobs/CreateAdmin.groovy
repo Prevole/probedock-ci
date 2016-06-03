@@ -50,3 +50,5 @@ def executeJob() {
         sh 'ci/pipelines/scripts/create-admin.sh'
     }
 }
+
+return this

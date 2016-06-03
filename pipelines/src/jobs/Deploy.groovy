@@ -83,3 +83,5 @@ def executeJob() {
         sh 'ci/pipelines/scripts/probedock-app-start.sh'
     }
 }
+
+return this
