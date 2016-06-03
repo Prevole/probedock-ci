@@ -15,7 +15,7 @@ this.JOB_BACKUP = 'Backup'
  * @param newProbeDockClone True to clone Probe Dock again. It will be cloned in images/probedock-base/probedock
  */
 def launchJob(jobName, newProbeDockClone = true) {
-    if (probedockNewCloneRequired) {
+    if (newProbeDockClone) {
         load('ci/pipelines/src/utils/Repos.groovy').cloneProbeDock('ci/images/probedock-base/probedock')
     }
 
