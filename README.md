@@ -10,7 +10,7 @@
     ```
     
     In fact, the `/data` can be placed anywhere on the file system and you will have to configure it during the setup of
-    an environment for Probe Dock. This setup has to be done in Jenkins job `CreateOrUpdateEnvironment`.
+    an environment for Probe Dock.
 
 3. Make sure the folder `/jenkins` has the correct rights.
 
@@ -24,7 +24,7 @@
     sudo chown -R jenkins:jenkins /jenkins
     ```
 
-4. Make sure Docker is installed and running
+4. Make sure Docker and Docker Compose is installed and running
 
 5. Run the following script (at the root of this directory). This script will build some images used in the Probe Dock
 infra and also start the Jenkins instance to manage the infra.
