@@ -19,7 +19,7 @@ def executeJob() {
                 name        : 'PROBEDOCK_ADMIN_PASSWORD'
             ], [
                 $class      : 'hudson.model.StringParameterDefinition',
-                defaultValue: 'admin',
+                defaultValue: '',
                 description : 'The Probe Dock administrator email.',
                 name        : 'PROBEDOCK_ADMIN_EMAIL'
             ]]
