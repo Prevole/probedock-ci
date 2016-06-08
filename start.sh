@@ -13,7 +13,7 @@ docker build -t probedock/postgres images/postgres
 
 echo "Probe Dock base image"
 git clone https://github.com/probedock/probedock images/probedock-base/probedock
-docker build -f images/probedock-base/Dockerfile-base -t probedock/base images/probedock-base
+docker build -f images/probedock-base/Dockerfile-base -t probedock/probedock-base images/probedock-base
 
 echo "Starting Jenkins"
 docker-compose -p ci up -d jenkins

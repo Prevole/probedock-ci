@@ -38,7 +38,7 @@ services:
       - probenet
 
   assets:
-    image: probedock/probedock-base
+    image: probedock/probedock-common
     extends: task
     volumes_from:
       - rp
@@ -109,7 +109,7 @@ services:
       - probenet
 
   task:
-    image: probedock/probedock-base
+    image: probedock/probedock-common
     entrypoint: rake
     command: -T
     extends:
