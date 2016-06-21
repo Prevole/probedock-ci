@@ -22,7 +22,7 @@ def executeJob() {
     env.DUMP_FILE = input(
         message: 'Choose the dump file to load in the database',
         parameters: [[
-             $class: 'ChoiceParameterDefinition',
+             $class: 'hudson.model.ChoiceParameterDefinition',
              choices: dumps,
              description: 'The dump file will be loaded into the database',
              name: 'DUMP_FILE'
