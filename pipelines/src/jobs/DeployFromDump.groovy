@@ -10,15 +10,17 @@ def executeJob() {
 
     // Ask the user for the Probe Dock version
     stage 'Choose a dump file'
-    env.DUMP_FILE = '/dumps/' + input(
-        message: 'Choose the dump file to load in the database',
-        parameters: [[
-             $class: 'hudson.model.ChoiceParameterDefinition',
-             choices: ['test'],
-             description: 'The dump file will be loaded into the database',
-             name: 'DUMP_FILE'
-         ]]
-    )
+//    env.DUMP_FILE = '/dumps/' + input(
+//        message: 'Choose the dump file to load in the database',
+//        parameters: [[
+//             $class: 'hudson.model.ChoiceParameterDefinition',
+//             choices: ['test'],
+//             description: 'The dump file will be loaded into the database',
+//             name: 'DUMP_FILE'
+//         ]]
+//    )
+    env.DUMP_FILE = input message: '', parameters: [[$class: 'ChoiceParameterDefinition', choices: ['test', 'test', 'test'], description: '', name: '']]
+
 
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
