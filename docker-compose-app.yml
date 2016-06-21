@@ -57,6 +57,15 @@ services:
       DATE: ${PROBEDOCK_DATE}
     entrypoint: /scripts/backup.sh
 
+  cache:
+    image: redis:3.2.0
+    container_name: ${PROBEDOCK_ENV}_cache
+    command: redis-server --appendonly yes
+    volumes:
+      - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/redis/data:/data
+    networks:
+      - probenet
+
   db:
     image: probedock/postgres
     extends:
@@ -67,14 +76,15 @@ services:
     networks:
       - probenet
 
-  cache:
-    image: redis:3.2.0
-    container_name: ${PROBEDOCK_ENV}_cache
-    command: redis-server --appendonly yes
-    volumes:
-      - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/redis/data:/data
+  dropAndCreateDb:
+    image: probedock/postgres
+    extends:
+      service: _common
     networks:
       - probenet
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      ENV: ${PROBEDOCK_ENV}
 
   job:
     image: probedock/probedock-job
