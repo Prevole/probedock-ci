@@ -1,8 +1,6 @@
 package jobs
 
 def executeJob() {
-    env.DUMP_PATH = '/dumps/' + DUMP_FILE
-
     def dumps = new File("/dumps")
 
     def files = dumps.list(new FilenameFilter() {
