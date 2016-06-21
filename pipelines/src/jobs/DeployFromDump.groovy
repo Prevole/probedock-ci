@@ -3,11 +3,14 @@ package jobs
 def executeJob() {
     def dumps = new File('/dumps')
 
-    def dumpFiles = dumps.list()
+    def dumpFiles = []
+    dumps.list().each { fileName ->
+        println fileName
+    }
 
     // Ask the user for the Probe Dock version
     stage 'Choose a dump file'
-    env.DUMP_FILE = input(
+    env.DUMP_FILE = '/dumps/' + input(
         message: 'Choose the dump file to load in the database',
         parameters: [[
              $class: 'hudson.model.ChoiceParameterDefinition',
