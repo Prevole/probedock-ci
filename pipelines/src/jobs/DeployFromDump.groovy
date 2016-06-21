@@ -1,15 +1,17 @@
 package jobs
 
-def executeJob() {
-    def dumps = new File("/dumps")
+class DupmFileNameFilter implements FilenameFilter {
+    public boolean accept(File file, String name) {
+        println(file.getPath() + '/' + name)
+        def currentFile = new File(file.getPath() + '/' + name);
+        return currentFile.isFile() && currentFile.endsWith('sql') && !currentFile.isHidden()
+    }
+}
 
-    def dumpFiles = dumps.list(new FilenameFilter() {
-        public boolean accept(File file, String name) {
-            println(file.getPath() + "/" + name)
-            def currentFile = new File(file.getPath() + "/" + name);
-            return currentFile.isFile() && !currentFile.isHidden()
-        }
-    })
+def executeJob() {
+    def dumps = new File('/dumps')
+
+    def dumpFiles = dumps.list(new DupmFileNameFilter())
 
     println(dumpFiles)
 
