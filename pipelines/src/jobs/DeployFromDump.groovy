@@ -1,22 +1,9 @@
 package jobs
 
-class DupmFileNameFilter implements FilenameFilter {
-    public boolean accept(File file, String name) {
-        println(file.getPath() + '/' + name)
-        def currentFile = new File(file.getPath() + '/' + name);
-        return currentFile.isFile() && name.endsWith('sql') && !currentFile.isHidden()
-    }
-}
-
 def executeJob() {
     def dumps = new File('/dumps')
 
-    println 'Here we go'
-    println dumps
-    println dumps.list()
-    println dumps.listFiles(new DupmFileNameFilter())
-
-    def dumpFiles = dumps.list(new DupmFileNameFilter())
+    def dumpFiles = dumps.list()
 
     // Ask the user for the Probe Dock version
     stage 'Choose a dump file'
