@@ -19,7 +19,15 @@ def executeJob() {
 //             name: 'DUMP_FILE'
 //         ]]
 //    )
-    env.DUMP_FILE = input message: '', parameters: [[$class: 'ChoiceParameterDefinition', choices: ['test', 'test', 'test'], description: '', name: '']]
+    env.DUMP_FILE = input(
+        message: 'Choose the dump file to load in the database',
+        parameters: [[
+             $class: 'ChoiceParameterDefinition',
+             choices: dumps,
+             description: 'The dump file will be loaded into the database',
+             name: 'DUMP_FILE'
+        ]]
+    )
 
 
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
