@@ -1,9 +1,8 @@
 package jobs
 
-def executeJob() {
-    // Ask the user for a dump file
-    stage 'Choose a dump file'
-    def tmp = input(
+@NonCPS
+def retrieveDumpFile() {
+    env.DUMP_FILE = input(
         message: '',
         parameters: [[
             $class: 'FileSystemListParameterDefinition',
@@ -15,12 +14,15 @@ def executeJob() {
             selectedType: 'FILE',
             sortByLastModified: true,
             sortReverseOrder: false
-         ]]
+        ]]
     )
 
-    println tmp
+}
 
-    env.DUMP_FILE = tmp
+def executeJob() {
+    // Ask the user for a dump file
+    stage 'Choose a dump file'
+    retrieveDumpFile()
 
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
