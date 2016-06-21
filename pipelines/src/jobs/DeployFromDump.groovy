@@ -74,7 +74,7 @@ def executeJob() {
 
     stage 'Restore the database dump'
     withCredentials([
-        [$class: 'StringBinding', credentialsId: Passwords.POSTGRESSQL_PASSWORD_NAME, variable: Passwords.DOCKER_POSTGRESQL_PASSWORD_VARNAME]
+        [$class: 'StringBinding', credentialsId: Passwords.PROBEDOCK_DB_PASSWORD_NAME, variable: Passwords.DOCKER_PROBEDOCK_DB_PASSWORD_VARNAME]
     ]) {
         sh 'ci/pipelines/scripts/load-database-dump.sh'
     }

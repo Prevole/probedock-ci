@@ -96,7 +96,7 @@ services:
     networks:
       - probenet
     environment:
-      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGPASSWORD: ${PROBEDOCK_DATABASE_PASSWORD}
       ENV: ${PROBEDOCK_ENV}
       DUMP_PATH: ${DUMP_PATH}
 
