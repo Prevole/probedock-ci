@@ -14,7 +14,7 @@ def executeJob() {
     println 'Here we go'
     println dumps
     println dumps.list()
-    println dumps.list(new DupmFileNameFilter())
+    println dumps.listFiles(new DupmFileNameFilter())
 
     def dumpFiles = dumps.list(new DupmFileNameFilter())
 
