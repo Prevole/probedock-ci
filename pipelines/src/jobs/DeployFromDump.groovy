@@ -12,7 +12,7 @@ def executeJob() {
             path: '/dumps',
             regexExcludePattern: '',
             regexIncludePattern: '.*\\.sql',
-            selectedType: 'SYMLINK',
+            selectedType: 'FILE',
             sortByLastModified: true,
             sortReverseOrder: false
          ]]
