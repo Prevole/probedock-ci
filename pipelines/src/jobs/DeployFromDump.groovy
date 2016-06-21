@@ -12,6 +12,8 @@ def executeJob() {
     def dumps = new File('/dumps')
 
     println 'Here we go'
+    println dumps
+    println dumps.list()
     println dumps.list(new DupmFileNameFilter())
 
     def dumpFiles = dumps.list(new DupmFileNameFilter())
