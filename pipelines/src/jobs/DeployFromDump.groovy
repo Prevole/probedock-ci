@@ -1,7 +1,22 @@
 package jobs
 
 def executeJob() {
-    env.DUMP_PATH = '/dumps/' + DUMP_FILE
+    // Ask the user for a dump file
+    stage 'Choose a dump file'
+    env.DUMP_FILE = input(
+        message: '',
+        parameters: [[
+            $class: 'FileSystemListParameterDefinition',
+            description: 'Choose a dump file to load in the database',
+            name: 'DUMP_FILE',
+            path: '/dumps',
+            regexExcludePattern: '',
+            regexIncludePattern: '.*\\.sql',
+            selectedType: 'SYMLINK',
+            sortByLastModified: true,
+            sortReverseOrder: false
+         ]]
+    )
 
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
