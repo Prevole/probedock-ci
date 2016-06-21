@@ -4,7 +4,7 @@ class DupmFileNameFilter implements FilenameFilter {
     public boolean accept(File file, String name) {
         println(file.getPath() + '/' + name)
         def currentFile = new File(file.getPath() + '/' + name);
-        return currentFile.isFile() && currentFile.endsWith('sql') && !currentFile.isHidden()
+        return currentFile.isFile() && name.endsWith('sql') && !currentFile.isHidden()
     }
 }
 
