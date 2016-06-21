@@ -3,7 +3,7 @@ package jobs
 def executeJob() {
     // Ask the user for a dump file
     stage 'Choose a dump file'
-    env.DUMP_FILE = input(
+    def tmp = input(
         message: '',
         parameters: [[
             $class: 'FileSystemListParameterDefinition',
@@ -17,6 +17,10 @@ def executeJob() {
             sortReverseOrder: false
          ]]
     )
+
+    println tmp
+
+    env.DUMP_FILE = tmp
 
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
