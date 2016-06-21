@@ -6,7 +6,7 @@ def executeJob() {
     def files = dumps.list(new FilenameFilter() {
         @Override
         public boolean accept(File file, String name) {
-            println file.getPath + "/" + name
+            println file.getPath() + "/" + name
             def currentFile = new File(file.getPath() + "/" + name);
             return currentFile.isFile() && !currentFile.isHidden()
         }
