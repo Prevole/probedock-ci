@@ -1,28 +1,29 @@
 package jobs
 
-@NonCPS
-def retrieveDumpFile() {
-    env.DUMP_FILE = input(
-        message: '',
-        parameters: [[
-            $class: 'FileSystemListParameterDefinition',
-            description: 'Choose a dump file to load in the database',
-            name: 'DUMP_FILE',
-            path: '/dumps',
-            regexExcludePattern: '',
-            regexIncludePattern: '.*\\.sql',
-            selectedType: 'FILE',
-            sortByLastModified: true,
-            sortReverseOrder: false
-        ]]
-    )
-
-}
-
 def executeJob() {
-    // Ask the user for a dump file
+    env.DUMP_PATH = '/dumps/' + DUMP_FILE
+
+    def dumps = new File("/dumps")
+
+    def files = dumps.list(new FilenameFilter() {
+        @Override
+        public boolean accept(File file, String name) {
+            def currentFile = new File(file.getPath() + "/" + name);
+            return currentFile.isFile() && !currentFile.isHidden()
+        }
+    })
+
+    // Ask the user for the Probe Dock version
     stage 'Choose a dump file'
-    retrieveDumpFile()
+    env.DUMP_FILE = input(
+        message: 'Choose the dump file to load in the database',
+        parameters: [[
+             $class: 'hudson.model.ChoiceParameterDefinition',
+             choices: files,
+             description: 'The dump file will be loaded into the database',
+             name: 'DUMP_FILE'
+         ]]
+    )
 
     load('ci/pipelines/src/utils/LoadEnv.groovy').setupEnv(env, '/envs/' + env.PROBEDOCK_ENV)
 
