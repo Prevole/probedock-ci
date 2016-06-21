@@ -11,9 +11,10 @@ class DupmFileNameFilter implements FilenameFilter {
 def executeJob() {
     def dumps = new File('/dumps')
 
-    def dumpFiles = dumps.list(new DupmFileNameFilter())
+    println 'Here we go'
+    println dumps.list(new DupmFileNameFilter())
 
-    println(dumpFiles)
+    def dumpFiles = dumps.list(new DupmFileNameFilter())
 
     // Ask the user for the Probe Dock version
     stage 'Choose a dump file'
