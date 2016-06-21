@@ -11,6 +11,8 @@ def executeJob() {
         }
     })
 
+    println(files)
+
     // Ask the user for the Probe Dock version
     stage 'Choose a dump file'
     env.DUMP_FILE = input(

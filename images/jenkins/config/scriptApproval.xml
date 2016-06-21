@@ -20,6 +20,9 @@
     <string>method java.util.Random nextInt int</string>
     <string>method jenkins.model.Jenkins getExtensionList java.lang.String</string>
     <string>method java.io.File list java.io.FilenameFilter</string>
+    <string>method java.io.File getPath</string>
+    <string>method java.io.File isFile</string>
+    <string>method java.io.File isHidden</string>
     <string>new com.cloudbees.plugins.credentials.domains.Domain java.lang.String java.lang.String java.util.List</string>
     <string>new java.io.File java.lang.String</string>
     <string>new java.io.FileInputStream java.io.File</string>
