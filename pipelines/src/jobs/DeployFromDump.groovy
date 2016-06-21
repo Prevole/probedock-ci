@@ -14,7 +14,7 @@ def executeJob() {
         message: 'Choose the dump file to load in the database',
         parameters: [[
              $class: 'hudson.model.ChoiceParameterDefinition',
-             choices: dumpFiles,
+             choices: dumpFiles.toArray(new String[dumpFiles.size()]),
              description: 'The dump file will be loaded into the database',
              name: 'DUMP_FILE'
          ]]
