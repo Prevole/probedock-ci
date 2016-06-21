@@ -3,9 +3,9 @@ package jobs
 def executeJob() {
     def dumps = new File('/dumps')
 
-    def dumpFiles = []
+    def dumpFilesListStr = ''
     dumps.list().each { fileName ->
-        println fileName
+        dumpFilesListStr += fileName + ','
     }
 
     // Ask the user for the Probe Dock version
@@ -23,7 +23,7 @@ def executeJob() {
         message: 'Choose the dump file to load in the database',
         parameters: [[
              $class: 'hudson.model.ChoiceParameterDefinition',
-             choices: dumps,
+             choices: dumpFilesListStr,
              description: 'The dump file will be loaded into the database',
              name: 'DUMP_FILE'
         ]]
