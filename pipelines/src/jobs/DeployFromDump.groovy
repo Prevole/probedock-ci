@@ -3,8 +3,7 @@ package jobs
 def executeJob() {
     def dumps = new File("/dumps")
 
-    def files = dumps.list(new FilenameFilter() {
-        @Override
+    def dumpFiles = dumps.list(new FilenameFilter() {
         public boolean accept(File file, String name) {
             println file.getPath() + "/" + name
             def currentFile = new File(file.getPath() + "/" + name);
@@ -12,7 +11,7 @@ def executeJob() {
         }
     })
 
-    println(files)
+    println(dumpFiles)
 
     // Ask the user for the Probe Dock version
     stage 'Choose a dump file'
@@ -20,7 +19,7 @@ def executeJob() {
         message: 'Choose the dump file to load in the database',
         parameters: [[
              $class: 'hudson.model.ChoiceParameterDefinition',
-             choices: files,
+             choices: dumpFiles,
              description: 'The dump file will be loaded into the database',
              name: 'DUMP_FILE'
          ]]
