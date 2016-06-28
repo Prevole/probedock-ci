@@ -94,7 +94,7 @@ else {
 
   html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;value&quot; value=&quot;Deploy&quot; checked&gt; &lt;strong&gt;Deploy a new version&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;This task allow you to deploy a new version of Probe Dock or to redeploy an existing one.&lt;/td&gt;&lt;/tr&gt;&apos;
 
-  html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;value&quot; value=&quot;DeployViz&quot; checked&gt; &lt;strong&gt;Deploy a new versio of Vizn&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;This task allow you to deploy a new version of Viz or to redeploy an existing one.&lt;/td&gt;&lt;/tr&gt;&apos;
+  html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;value&quot; value=&quot;DeployViz&quot;&gt; &lt;strong&gt;Deploy a new version of Viz&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;This task allow you to deploy a new version of Viz or to redeploy an existing one.&lt;/td&gt;&lt;/tr&gt;&apos;
 
   html += &apos;&lt;tr&gt;&lt;td&gt;&lt;input type=&quot;radio&quot; name=&quot;value&quot; value=&quot;DeployFromDump&quot;&gt; &lt;strong&gt;Deploy a new version and load a database dump&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;This task is pretty much the same than the previous one. In addition, a dump is loaded before doing any migration. This task allows to deploy a Probe Dock with existing data or data from another environment&lt;/td&gt;&lt;/tr&gt;&apos;
 

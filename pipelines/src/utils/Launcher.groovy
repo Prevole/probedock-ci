@@ -63,6 +63,7 @@ def launch(task) {
     }
     else if (task.equalsIgnoreCase('DeployViz')) {
         jobName = this.JOB_DEPLOY_VIZ
+        probedockNewCloneRequired = false
     }
 
     launchJob(jobName, probedockNewCloneRequired)
