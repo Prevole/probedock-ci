@@ -24,7 +24,7 @@ def launchJob(jobName, newProbeDockClone = true) {
         load('ci/pipelines/src/jobs/' + jobName + '.groovy').executeJob()
     }
     else {
-        println 'Unknown operation: ' + operation
+        println 'Unknown operation: ' + jobName
     }
 }
 
