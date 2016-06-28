@@ -9,7 +9,7 @@ def executeJob() {
      * Make sure all required services are up and running
      */
     stage 'Start Elastic Search'
-    sh 'cu/pipelines/scripts/elastic.sh'
+    sh 'ci/pipelines/scripts/elastic.sh'
 
 //    /**
 //     * Build the Probe Dock main image
