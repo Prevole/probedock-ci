@@ -5,6 +5,7 @@ this.JOB_CREATE_OR_UPDATE_ENVIRONMENT = 'CreateOrUpdateEnvironment'
 this.JOB_FIRST_DEPLOY = 'FirstDeploy'
 this.JOB_DEPLOY = 'Deploy'
 this.JOB_DEPLOY_FROM_DUMP = 'DeployFromDump'
+this.JOB_DEPLOY_VIZ = 'DeployViz'
 this.JOB_CREATE_ADMIN = 'CreateAdmin'
 this.JOB_BACKUP = 'Backup'
 
@@ -59,6 +60,9 @@ def launch(task) {
     }
     else if (task.equalsIgnoreCase('Backup')) {
         jobName = this.JOB_BACKUP
+    }
+    else if (task.equalsIgnoreCase('DeployViz')) {
+        jobName = this.JOB_DEPLOY_VIZ
     }
 
     launchJob(jobName, probedockNewCloneRequired)

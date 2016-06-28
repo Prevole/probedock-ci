@@ -11,6 +11,11 @@ docker build -t probedock/nginx images/nginx
 echo "Probe Dock Postgres"
 docker build -t probedock/postgres images/postgres
 
+echo "Probe Dock Elastic Search"
+git clone -b report-docker --single-branch https://bitbucket.org/probedock/game-dock.git images/gamedock
+
+docker build -t probedock/elastic images/gamedock/docker-images/probedock-elasticsearch
+
 echo "Probe Dock base image"
 git clone https://github.com/probedock/probedock images/probedock-base/probedock
 docker build -f images/probedock-base/Dockerfile-base -t probedock/probedock-base images/probedock-base

@@ -1,3 +1,4 @@
 .idea/
 .vagrant
 images/probedock-base/probedock
+/images/gamedock/

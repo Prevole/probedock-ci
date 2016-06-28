@@ -5,7 +5,7 @@ def executeJob() {
     def Passwords = load 'ci/pipelines/src/utils/Passwords.groovy'
 
     /**
-     * Make sure PostgreSQL and Redis are up and running
+     * Make sure all required services are up and running
      */
     stage 'Start PostgresSQL, Redis and Nginx'
     sh 'ci/pipelines/scripts/nginx.sh'
