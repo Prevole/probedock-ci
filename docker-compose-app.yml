@@ -179,7 +179,7 @@ services:
     image: probedock/jenkins
     networks:
       - probenet
-    entrypoint: ./wait-for-it.sh ${PROBEDOCK_ENV}_elastic:
+    entrypoint: ./wait-for-it.sh ${PROBEDOCK_ENV}_elastic:9200
 
 networks:
   probenet:
