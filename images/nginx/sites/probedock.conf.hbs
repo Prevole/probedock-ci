@@ -7,15 +7,15 @@ upstream probedock_cluster {
 {{/with_members}}
 
 upstream kibana {
-    server KIBANA;
+    server KIBANA_ADDRESS;
 }
 
 upstream vizpapi {
-    server VIZAPI;
+    server VIZAPI_ADDRESS;
 }
 
 upstream vizweb {
-    server VIZWEB;
+    server VIZWEB_ADDRESS;
 }
 
 server {
