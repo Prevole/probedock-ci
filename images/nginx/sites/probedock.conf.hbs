@@ -6,18 +6,6 @@ upstream probedock_cluster {
 }
 {{/with_members}}
 
-upstream kibana {
-    server KIBANA_ADDRESS;
-}
-
-upstream vizpapi {
-    server VIZAPI_ADDRESS;
-}
-
-upstream vizweb {
-    server VIZWEB_ADDRESS;
-}
-
 server {
     listen 80 default_server;
     server_name _;
@@ -69,15 +57,15 @@ server {
         }
 
         if ($uri ~ ^/kibana/) {
-            proxy_pass http://kibana;
+            proxy_pass http://KIBANA_ADDRESS;
         }
 
         if ($uri ~ ^/vizapi/) {
-            proxy_pass http://vizapi;
+            proxy_pass http://VIZAPI_ADDRESS;
         }
 
         if ($url ~ ^/vizweb/) {
-            proxy_pass http://vizweb;
+            proxy_pass http://VIZWEB_ADDRESS;
         }
 
         # Serve index otherwise.
