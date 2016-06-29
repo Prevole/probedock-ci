@@ -39,8 +39,6 @@ def launch(task) {
     def jobName = null
     def probedockNewCloneRequired = true
 
-    println 'Task: ' + task
-
     /**
      * Check if the operation is a known one
      */

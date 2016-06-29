@@ -50,6 +50,8 @@ def cloneGameDock(path = null) {
     // Reference to the CI file in Probe Dock repo
     def File privKey = new File('~/.ssh/id_rsa')
 
+    println privKey.exists()
+
     if (!privKey.exists()) {
         def keys = input(
             message: 'Configure the Game Dock SSH deployment key',
