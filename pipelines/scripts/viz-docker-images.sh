@@ -5,10 +5,12 @@ cp ci/images/gamedock/docker-images/probedock-report-app/Dockerfile ci/images/ga
 
 echo 'Build the viz web image'
 cd ci/images/gamedock/probedock-report/client/app
-sed 's/tmp\/app/./' <Dockerfile > Dockerfile
+sed 's/tmp\/app/./' <Dockerfile > Dockerfile.new
+mv Dockerfile.new Dockerfile
 sudo -E docker build -t probedock/vizweb .
 
 echo 'Build the viz api image'
 cd ../../server
-sed 's/tmp\/server/./' <Dockerfile > Dockerfile
+sed 's/tmp\/server/./' <Dockerfile > Dockerfile.new
+mv Dockerfile.new Dockerfile
 sudo -E docker build -t probedock/vizapi .
