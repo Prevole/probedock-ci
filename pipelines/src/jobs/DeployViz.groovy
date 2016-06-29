@@ -20,7 +20,8 @@ def executeJob() {
     /**
      * Make sure all required services are up and running
      */
-    stage 'Start Elastic Search'
+    stage 'Start Elastic Search and Nginx'
+    sh 'ci/pipelines/scripts/nginx.sh'
     sh 'ci/pipelines/scripts/elastic.sh'
 
     /**
@@ -29,14 +30,14 @@ def executeJob() {
     stage 'BuildViz docker images'
     sh 'ci/pipelines/scripts/viz-docker-images.sh'
 
-//    /**
-//     * Stop the viz containers
-//     */
-//    stage 'Stop viz containers'
-//    sh 'ci/pipelines/scripts/viz-app-stop.sh'
-//
-//    stage 'Start viz containers'
-//    sh 'ci/pipelines/scripts/viz-app-start.sh'
+    /**
+     * Stop the viz containers
+     */
+    stage 'Stop viz containers'
+    sh 'ci/pipelines/scripts/viz-app-stop.sh'
+
+    stage 'Start viz containers'
+    sh 'ci/pipelines/scripts/viz-app-start.sh'
 }
 
 return this
