@@ -26,7 +26,24 @@ def cloneCi() {
  * Clone the Probe Dock repo
  */
 def cloneProbeDock(path = null) {
-
+    checkout(
+        changelog: false,
+        poll: false,
+        scm: [
+            $class: 'GitSCM',
+            branches: [[name: env.PROBEDOCK_VERSION ? env.PROBEDOCK_VERSION : '*/master']],
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: path ? path : 'probedock' ],
+                [$class: 'WipeWorkspace']
+            ],
+            submoduleCfg: [],
+            userRemoteConfigs: [[
+                refspec: env.PROBEDOCK_VERSION ? env.PROBEDOCK_VERSION : 'master',
+                url: env.REPO_PROBEDOCK]
+            ]
+        ]
+    )
 }
 
 def cloneGameDock(path = null) {
@@ -52,8 +69,6 @@ def cloneGameDock(path = null) {
         env.GD_PRIVATE_KEY = keys.PRIVATE_KEY
         env.GD_PUBLIC_KEY = keys.PUBLIC_KEY
 
-        println env.GD_PRIVATE_KEY
-
         sh 'ci/pipelines/scripts/gamedock-ssh-keys.sh'
 
         env.GD_PRIVATE_KEY = ''
@@ -69,7 +84,7 @@ def cloneGameDock(path = null) {
             doGenerateSubmoduleConfigurations: false,
             extensions: [
                 [$class: 'WipeWorkspace'],
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'gamedock']
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: path ? path : 'gamedock' ]
             ],
             submoduleCfg: [],
             userRemoteConfigs: [[

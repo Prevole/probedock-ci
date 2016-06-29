@@ -2,8 +2,6 @@
 
 mkdir -p ~/.ssh
 
-echo $GD_PRIVATE_KEY
-
 touch ~/.ssh/id_rsa
 
 IFS=$'\n'
