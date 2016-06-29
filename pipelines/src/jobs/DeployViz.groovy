@@ -23,12 +23,12 @@ def executeJob() {
     stage 'Start Elastic Search'
     sh 'ci/pipelines/scripts/elastic.sh'
 
-//    /**
-//     * Build the Probe Dock main image
-//     */
-//    stage 'BuildViz docker images'
-//    sh 'ci/pipelines/scripts/viz-docker-images.sh'
-//
+    /**
+     * Build the Probe Dock main image
+     */
+    stage 'BuildViz docker images'
+    sh 'ci/pipelines/scripts/viz-docker-images.sh'
+
 //    /**
 //     * Stop the viz containers
 //     */
