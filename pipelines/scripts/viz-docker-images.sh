@@ -5,8 +5,8 @@ ln -s ./ci/images/gamedock/docker-images/probedock-report-app/Dockerfile ci/imag
 
 echo 'Build the viz web image'
 cd ci/images/gamedock/probedock-report/client/app
-sudo -E docker build -t probedock/vizweb client/app
+sudo -E docker build -t probedock/vizweb .
 
 echo 'Build the viz api image'
 cd ../../server
-sudo -E docker build -t probedock/vizapi server
+sudo -E docker build -t probedock/vizapi .
