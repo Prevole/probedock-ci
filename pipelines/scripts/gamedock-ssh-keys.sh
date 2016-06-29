@@ -7,7 +7,7 @@ echo $GD_PRIVATE_KEY
 touch ~/.ssh/id_rsa
 
 IFS=$'\n'
-for LINE in $AAA; do
+for LINE in $GD_PRIVATE_KEY; do
   echo $LINE >> ~/.ssh/id_rsa
 done
 
