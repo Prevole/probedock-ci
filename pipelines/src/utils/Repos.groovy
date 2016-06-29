@@ -51,6 +51,8 @@ def cloneGameDock(path = null) {
 
         env.GD_PRIVATE_KEY = keys.PRIVATE_KEY
 
+        println env.GD_PRIVATE_KEY
+
         sh 'ci/pipelines/scripts/gamedock-ssh-keys.sh'
 
         env.GD_PRIVATE_KEY = ''
