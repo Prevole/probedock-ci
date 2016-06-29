@@ -2,6 +2,8 @@
 
 mkdir -p ~/.ssh
 
+echo $GD_PRIVATE_KEY
+
 echo $GD_PRIVATE_KEY > ~/.ssh/id_rsa
 #echo $GD_PUBLIC_KEY > ~/.ssh/id_rsa.pub
 
