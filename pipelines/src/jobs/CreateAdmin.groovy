@@ -6,7 +6,7 @@ def executeJob() {
     // Ask the user for admin data if not already gathered
     if (!env.PROBEDOCK_ADMIN_USERNAME) {
         def params = input(
-            message: 'Choose the Probe Dock version you want to deploy',
+            message: 'Configure the admin info',
             parameters: [[
                 $class      : 'hudson.model.StringParameterDefinition',
                 defaultValue: 'admin',

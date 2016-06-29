@@ -26,32 +26,54 @@ def cloneCi() {
  * Clone the Probe Dock repo
  */
 def cloneProbeDock(path = null) {
+
+}
+
+def cloneGameDock(path = null) {
+    // Reference to the CI file in Probe Dock repo
+    def File privKey = new File('~/.ssh/id_rsa')
+
+    if (!privKey.exists()) {
+        def keys = input(
+            message: 'Configure the Game Dock SSH deployment key',
+            parameters: [[
+                $class: 'TextParameterDefinition',
+                defaultValue: '',
+                description: 'Give the private SSH key',
+                name: 'PRIVATE_KEY'
+            ], [
+                $class: 'TextParameterDefinition',
+                defaultValue: '',
+                description: 'Give the public SSH key',
+                name: 'PUBLIC_KEY'
+            ]]
+        )
+
+        env.GD_PRIVATE_KEY = keys.PRIVATE_KEY
+
+        sh 'ci/pipelines/scripts/gamedock-ssh-keys.sh'
+
+        env.GD_PRIVATE_KEY = ''
+    }
+
     checkout(
         changelog: false,
         poll: false,
         scm: [
             $class: 'GitSCM',
-            branches: [[name: env.PROBEDOCK_VERSION ? env.PROBEDOCK_VERSION : '*/master']],
+            branches: [[name: env.GAMEDOCK_VERSION ? env.GAMEDOCK_VERSION : '*/master']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [
-                [$class: 'RelativeTargetDirectory', relativeTargetDir: path ? path : 'probedock' ],
-                [$class: 'WipeWorkspace']
+                [$class: 'WipeWorkspace'],
+                [$class: 'RelativeTargetDirectory', relativeTargetDir: 'gamedock']
             ],
             submoduleCfg: [],
             userRemoteConfigs: [[
-                refspec: env.PROBEDOCK_VERSION ? env.PROBEDOCK_VERSION : 'master',
-                url: env.REPO_PROBEDOCK]
-            ]
+                refspec: env.GAMEDOCK_VERSION ? env.GAMEDOCK_VERSION : 'master',
+                url: 'git@bitbucket.org:probedock/game-dock.git'
+            ]]
         ]
     )
 }
-
-///**
-// * Clone all the repos
-// */
-//def cloneRepos() {
-//    cloneCi()
-//    cloneProbeDock()
-//}
 
 return this

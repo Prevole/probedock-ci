@@ -6,6 +6,18 @@ def executeJob() {
     def Passwords = load 'ci/pipelines/src/utils/Passwords.groovy'
 
     /**
+     * Choose the correct version of Game Dock
+     */
+    stage 'Choose GameDock version'
+    load('ci/pipelines/src/utils/GameDockVersion.groovy').version()
+
+    /**
+     * Clone the Game Dock repo
+     */
+    stage 'Clone the Game Dock repo'
+    load('ci/pipelines/src/utils/Repos').cloneGameDock()
+
+    /**
      * Make sure all required services are up and running
      */
     stage 'Start Elastic Search'
