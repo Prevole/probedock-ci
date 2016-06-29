@@ -4,7 +4,14 @@ mkdir -p ~/.ssh
 
 echo $GD_PRIVATE_KEY
 
-echo $GD_PRIVATE_KEY > ~/.ssh/id_rsa
+touch ~/.ssh/id_rsa
+
+IFS=$'\n'
+for LINE in $AAA; do
+  echo $LINE >> ~/.ssh/id_rsa
+done
+
+#echo $GD_PRIVATE_KEY > ~/.ssh/id_rsa
 #echo $GD_PUBLIC_KEY > ~/.ssh/id_rsa.pub
 
 chmod 700 ~/.ssh
