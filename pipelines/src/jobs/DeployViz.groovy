@@ -15,7 +15,7 @@ def executeJob() {
      * Clone the Game Dock repo
      */
     stage 'Clone the Game Dock repo'
-    load('ci/pipelines/src/utils/Repos.groovy').cloneGameDock()
+    load('ci/pipelines/src/utils/Repos.groovy').cloneGameDock('ci/images/gamedock')
 
     /**
      * Make sure all required services are up and running

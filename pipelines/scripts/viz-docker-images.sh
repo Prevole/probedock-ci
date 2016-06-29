@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 
+ln -s ci/images/gamedock/docker-images/probedock-report-api/Dockerfile ci/images/gamedock/probedock-report/server/Dockerfile
+ln -s ci/images/gamedock/docker-images/probedock-report-app/Dockerfile ci/images/gamedock/probedock-report/client/app/Dockerfile
+
 cd ci/images/gamedock/probedock-report
 
 echo 'Build the viz web image'
-sudo -E docker build -f client/app/Dockerfile -t probedock/vizweb client/app
+cd ci/images/gamedock/probedock-report/client/app
+sudo -E docker build -t probedock/vizweb client/app
 
 echo 'Build the viz api image'
-sudo -E docker build -f server/Dockerfile -t probedock/vizapi server
+cd ../../server
+sudo -E docker build -t probedock/vizapi server

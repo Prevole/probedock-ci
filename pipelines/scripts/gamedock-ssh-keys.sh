@@ -22,6 +22,7 @@ chmod 700 ~/.ssh
 chmod 600 ~/.ssh/id_rsa
 chmod 644 ~/.ssh/id_rsa.pub
 
+ssh-keygen -R bitbucket.org
 echo `ssh-keyscan -t rsa bitbucket.org` >> ~/.ssh/known_hosts
 
 chmod 600 ~/.ssh/known_hosts
