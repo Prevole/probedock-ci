@@ -12,6 +12,32 @@ server {
 
     root /usr/src/app/public;
 
+    resolver 127.0.0.11;
+
+    location /vizapi {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $http_host;
+
+        set $vizapi VIZAPI_ADDRESS;
+        rewrite ^/vizapi/(.*) /$1 break;
+        proxy_pass http://$vizapi;
+        proxy_next_upstream error http_403;
+    }
+
+    location /vizweb {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header Host $http_host;
+
+        set $vizweb VIZWEB_ADDRESS;
+        rewrite ^/vizweb/(.*) /$1 break;
+        proxy_pass http://$vizweb;
+        proxy_next_upstream error http_403;
+    }
+
     location / {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -54,21 +80,6 @@ server {
             {{else}}
             return 502;
             {{/with_members}}
-        }
-
-        if ($uri ~ ^/kibana/) {
-            proxy_pass http://KIBANA_ADDRESS;
-            proxy_next_upstream error http_403;
-        }
-
-        if ($uri ~ ^/vizapi/) {
-            proxy_pass http://VIZAPI_ADDRESS;
-            proxy_next_upstream error http_403;
-        }
-
-        if ($url ~ ^/vizweb/) {
-            proxy_pass http://VIZWEB_ADDRESS;
-            proxy_next_upstream error http_403;
         }
 
         # Serve index otherwise.

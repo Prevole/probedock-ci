@@ -138,7 +138,6 @@ services:
     ports:
       - ${PROBEDOCK_DOCKER_WEB_CONTAINER_PORT}:80
     environment:
-      KIBANA: ${PROBEDOCK_ENV}_kibana:5601
       VIZAPI: ${PROBEDOCK_ENV}_vizapi:3000
       VIZWEB: ${PROBEDOCK_ENV}_vizweb:8080
     networks:
