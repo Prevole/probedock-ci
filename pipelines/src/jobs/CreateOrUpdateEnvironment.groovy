@@ -45,13 +45,14 @@ def executeJob() {
     def File rpPortFile = new File('/envs/.rpPort')
 
     /**
-     * Load the property file that contains the port
+     * Load the property file that contains the ports
      */
     def Properties rpProperties = new Properties()
     if (rpPortFile.exists()) {
         rpProperties.load(new FileInputStream(rpPortFile))
     } else {
         rpProperties.setProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT', '3000')
+        rpProperties.setProperty('PROBEDOCK_DOCKER_KIBANA_PORT', '5601')
     }
 
     /**
@@ -167,6 +168,11 @@ def executeJob() {
         humanName  : 'Docker web container port',
         description: 'Host port to expose the web container on. Must be different for each environment. It will be used for port mapping.',
         default    : envExists ? envProperties.getProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT') : rpProperties.getProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT')
+    ], [
+        name       : 'PROBEDOCK_DOCKER_KIBANA_PORT',
+        humanName  : 'Docker web container port',
+        description: 'Host port to expose the Kibana container on. Must be different for each environment. It will be used for port mapping.',
+        default    : envExists ? envProperties.getProperty('PROBEDOCK_DOCKER_KIBANA_PORT') : rpProperties.getProperty('PROBEDOCK_DOCKER_KIBANA_PORT')
     ]]
 
     /**
@@ -367,6 +373,10 @@ def executeJob() {
             .append('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT')
             .append('=')
             .append(Integer.parseInt(rpProperties.getProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT')) + 1)
+            .append('\n')
+            .append('PROBEDOCK_DOCKER_KIBANA_PORT')
+            .append('=')
+            .append(Integer.parseInt(rpProperties.getProperty('PROBEDOCK_DOCKER_KIBANA_PORT')) + 1)
 
         /**
          * Write the content of the file

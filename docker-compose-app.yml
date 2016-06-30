@@ -115,7 +115,7 @@ services:
     environment:
       ELASTICSEARCH_URL: http://elastic:9200
     ports:
-      - 5601:5601
+      - ${PROBEDOCK_DOCKER_KIBANA_PORT}:5601
     networks:
       - probenet
 
