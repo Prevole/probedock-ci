@@ -58,14 +58,17 @@ server {
 
         if ($uri ~ ^/kibana/) {
             proxy_pass http://KIBANA_ADDRESS;
+            proxy_next_upstream error http_403;
         }
 
         if ($uri ~ ^/vizapi/) {
             proxy_pass http://VIZAPI_ADDRESS;
+            proxy_next_upstream error http_403;
         }
 
         if ($url ~ ^/vizweb/) {
             proxy_pass http://VIZWEB_ADDRESS;
+            proxy_next_upstream error http_403;
         }
 
         # Serve index otherwise.
