@@ -170,6 +170,10 @@ services:
     command: bin/start.sh
     extends:
       service: _common
+    environment:
+      CONTEXT_ROOT: vizweb
+      VIZAPI_CONTEXT_ROOT: vizapi
+      VIZAPI_ADDRESS: ${PROBEDOCK_APP_HOST}:${PROBEDOCK_APP_PORT}
     networks:
       - probenet
 
