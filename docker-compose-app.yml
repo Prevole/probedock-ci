@@ -31,7 +31,7 @@ services:
       PROBEDOCK_UNICORN_WORKERS:
       ELASTIC_ADDRESS: ${PROBEDOCK_ENV}_elastic:9200
       ELASTIC_INDEX_PREFIX: probedock
-      ELASTIC_INDEX: ${ELASTIC_INDEX_PREFIX}_test_results
+      ELASTIC_INDEX: probedock_test_results
       ELASTIC_API_VERSION: 2.2
       VIZAPI_CONTEXT_ROOT: vizapi
 
