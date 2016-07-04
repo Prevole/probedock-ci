@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bash
 
-sed "s/KIBANA_ADDRESS/$VIZWEB/" </etc/nginx-serf/sites/probedock.conf.hbs | \
+sed "s/VIZWEB_ADDRESS/$VIZWEB/" </etc/nginx-serf/sites/probedock.conf.hbs | \
     sed "s/VIZAPI_ADDRESS/$VIZAPI/" > /etc/nginx-serf/sites/probedock.conf.hbs.new
 
 mv /etc/nginx-serf/sites/probedock.conf.hbs.new /etc/nginx-serf/sites/probedock.conf.hbs
