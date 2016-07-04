@@ -167,7 +167,7 @@ services:
   vizWeb:
     image: probedock/vizweb
     container_name: ${PROBEDOCK_ENV}_vizweb
-    command: live-server --mount=/vizweb:.
+    command: bin/start.sh
     extends:
       service: _common
     networks:
