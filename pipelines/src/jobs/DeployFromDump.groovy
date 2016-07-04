@@ -31,6 +31,7 @@ def executeJob() {
     sh 'ci/pipelines/scripts/nginx.sh'
     sh 'ci/pipelines/scripts/postgres.sh'
     sh 'ci/pipelines/scripts/redis.sh'
+    sh 'ci/pipelines/scripts/elastic.sh'
 
     /**
      * Build the Probe Dock main image
