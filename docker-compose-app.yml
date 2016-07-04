@@ -177,7 +177,7 @@ services:
       service: _common
     environment:
       CONTEXT_ROOT: vizweb
-      VIZAPI_ADDRESS: ${PROBEDOCK_APP_HOST}:${PROBEDOCK_APP_PORT}
+      VIZAPI_URL: ${PROBEDOCK_APP_PROTOCOL}://${PROBEDOCK_APP_HOST}:${PROBEDOCK_APP_PORT}
     networks:
       - probenet
 
