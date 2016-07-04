@@ -166,12 +166,12 @@ def executeJob() {
         default    : envExists ? envProperties.getProperty('PROBEDOCK_DOCKER_JOB_CONTAINERS') : '3'
     ], [
         name       : 'PROBEDOCK_DOCKER_WEB_CONTAINER_PORT',
-        humanName  : 'Docker kibana container port',
+        humanName  : 'Docker web container port',
         description: 'Host port to expose the web container on. Must be different for each environment. It will be used for port mapping.',
         default    : envExists ? envProperties.getProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT') : rpProperties.getProperty('PROBEDOCK_DOCKER_WEB_CONTAINER_PORT')
     ], [
         name       : 'PROBEDOCK_DOCKER_KIBANA_PORT',
-        humanName  : 'Docker web container port',
+        humanName  : 'Docker kibana container port',
         description: 'Host port to expose the Kibana container on. Must be different for each environment. It will be used for port mapping.',
         default    : envExists ? envProperties.getProperty('PROBEDOCK_DOCKER_KIBANA_PORT') : rpProperties.getProperty('PROBEDOCK_DOCKER_KIBANA_PORT')
     ], [
