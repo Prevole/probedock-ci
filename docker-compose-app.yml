@@ -98,6 +98,8 @@ services:
       service: _common
     volumes:
       - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/elastic:/...
+    ports:
+      - ${PROBEDOCK_DOCKER_ELASTIC_PORT}:9200
     networks:
       - probenet
 
