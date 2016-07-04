@@ -29,10 +29,8 @@ services:
       PROBEDOCK_APP_PORT:
       PROBEDOCK_UNICORN_USER: root
       PROBEDOCK_UNICORN_WORKERS:
-      ELASTIC_ADDRESS: ${PROBEDOCK_ENV}_elastic:9200
-      ELASTIC_INDEX_PREFIX: probedock
-      ELASTIC_INDEX: probedock_test_results
-      ELASTIC_API_VERSION: 2.2
+      PROBEDOCK_ELASTIC_URL: ${PROBEDOCK_ENV}_elastic:9200
+      PROBEDOCK_ELASTIC_PREFIX: probedock
       VIZAPI_CONTEXT_ROOT: vizapi
 
   app:
@@ -165,6 +163,9 @@ services:
     extends:
       service: _common
     environment:
+      ELASTIC_ADDRESS: ${PROBEDOCK_ELASTIC_URL}
+      ELASTIC_INDEX: ${PROBEDOCK_ELASTIC_PREFIX}_test_results
+      ELASTIC_API_VERSION: 2.2
       CONTEXT_ROOT: ${VIZAPI_CONTEXT_ROOT}
     networks:
       - probenet
