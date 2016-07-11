@@ -163,9 +163,8 @@ services:
     extends:
       service: _common
     environment:
-      ELASTIC_ADDRESS: ${PROBEDOCK_ELASTIC_URL}
-      ELASTIC_INDEX: ${PROBEDOCK_ELASTIC_PREFIX}_test_results
-      ELASTIC_API_VERSION: 2.2
+      PROBEDOCK_ELASTIC_INDEX: ${PROBEDOCK_ELASTIC_PREFIX}_test_results
+      PROBEDOCK_ELASTIC_API_VERSION: 2.2
       CONTEXT_ROOT: ${VIZAPI_CONTEXT_ROOT}
     networks:
       - probenet
