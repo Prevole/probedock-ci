@@ -97,7 +97,7 @@ services:
     extends:
       service: _common
     volumes:
-      - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/elastic:/usr/share/elasticsearch
+      - ${PROBEDOCK_DATA_PATH}/${PROBEDOCK_ENV}/elastic/data:/usr/share/elasticsearch/data
     ports:
       - ${PROBEDOCK_DOCKER_ELASTIC_PORT}:9200
     networks:
