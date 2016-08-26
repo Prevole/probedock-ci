@@ -21,6 +21,7 @@ COPY config /usr/share/jenkins/ref
 COPY jobs /usr/share/jenkins/ref/jobs/
 
 COPY scripts/wait-for-it.sh .
+COPY scripts/start.sh .
 
 RUN usermod -u 2000 jenkins \
     && gpasswd -a jenkins users \
@@ -31,4 +32,4 @@ USER jenkins
 
 VOLUME /envs
 
-ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
+ENTRYPOINT ["/bin/tini", "--", "./start.sh"]

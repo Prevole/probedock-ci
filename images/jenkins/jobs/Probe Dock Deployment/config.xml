@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@2.2">
   <actions/>
-  <description></description>
+  <description>Do the magic!</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.model.ParametersDefinitionProperty>
@@ -58,7 +58,7 @@ else if (Action.equalsIgnoreCase(&apos;Choose an existing environment&apos;)) {
   for (int i = 0; i &lt; files.size(); i++) {
     html += &quot;&lt;option value=\&quot;&quot; + files[i] + &quot;\&quot;&gt;&quot; + files[i] + &quot;&lt;/option&gt;&quot;
   }
-  
+
   html += &quot;&lt;/select&gt;&quot;
 }
 else {
@@ -114,36 +114,36 @@ html += &apos;&lt;/tbody&gt;&lt;/table&gt;&apos;</script>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.4">
     <script>node {
     checkout(
-        changelog: false, 
-        poll: false, 
+        changelog: false,
+        poll: false,
         scm: [
-            $class: &apos;GitSCM&apos;, 
+            $class: &apos;GitSCM&apos;,
             branches: [
                 [name: &apos;**&apos;]
-            ], 
-            doGenerateSubmoduleConfigurations: false, 
+            ],
+            doGenerateSubmoduleConfigurations: false,
             extensions: [
                 [$class: &apos;WipeWorkspace&apos;],
                 [$class: &apos;RelativeTargetDirectory&apos;, relativeTargetDir: &apos;baseCi&apos; ]
-            ], 
-            submoduleCfg: [], 
+            ],
+            submoduleCfg: [],
             userRemoteConfigs: [[
                 refspec: env.PROBEDOCK_CI_DEFAULT_VERSION,
                 url: env.REPO_CI
             ]]
         ]
     )
-    
+
     env.PROBEDOCK_ENV = ProbeDockEnv
-    
+
     def repos = load(&apos;baseCi/pipelines/src/utils/Repos.groovy&apos;)
-    
+
     load(&apos;baseCi/pipelines/src/utils/ProbeDockVersion.groovy&apos;).version()
     repos.cloneProbeDock()
-    
+
     load(&apos;baseCi/pipelines/src/utils/PipelineVersion.groovy&apos;).version()
     repos.cloneCi()
-    
+
     load(&apos;ci/pipelines/src/utils/Launcher.groovy&apos;).launch(Task)
 }</script>
     <sandbox>true</sandbox>
